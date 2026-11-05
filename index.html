@@ -420,20 +420,37 @@ nav.links::-webkit-scrollbar{display:none}
 @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 @media (hover:none){.race-opts kbd{display:none}}
 /* hugtök */
-.concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(400px,100%),1fr));gap:18px}
+.concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(400px,100%),1fr));gap:18px;grid-auto-flow:dense}
 .cc{background:var(--surface);border-radius:28px;padding:18px 20px 22px;box-shadow:0 2px 0 var(--line);display:flex;flex-direction:column;gap:12px;min-width:0;cursor:pointer;transition:transform .18s,box-shadow .18s}
 .cc:hover{transform:translateY(-3px);box-shadow:0 6px 0 color-mix(in srgb,var(--accent) 30%,var(--line))}
 .cc:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
-.cc-fig{position:relative;min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--bg);border-radius:20px;padding:16px;overflow-x:auto}
-.cc-fig svg{width:100%;max-width:380px;height:auto;flex:none}
+.cc-fig{position:relative;min-height:170px;overflow-y:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--bg);border-radius:20px;padding:16px;overflow-x:auto}
+.cc-fig svg{width:100%;max-width:380px;height:auto;flex:none;overflow:visible}
 .cc-fig svg+svg{max-width:300px}
 .cc-play{position:absolute;right:10px;top:10px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);font-size:.75rem;opacity:.85;transition:transform .2s}
 .cc:hover .cc-play{transform:scale(1.12)}
+.cc-play.mute{background:var(--tint);color:var(--muted);font-size:.95rem}
+.cc{position:relative}
+.cc.open{box-shadow:0 0 0 3px var(--accent),0 14px 36px -12px color-mix(in srgb,var(--accent) 45%,transparent);cursor:default}
+.cc.open:hover{transform:none}
+.cc.open .cc-fig{min-height:300px;padding:28px}
+.cc.open .cc-fig svg{max-width:600px;max-height:340px}
+.cc.open .cc-fig svg+svg{max-width:560px}
+.cc.open h3{font-size:1.55rem}
+.cc.open p{font-size:1.15rem;max-width:60ch}
+.cc-close{display:none;position:absolute;left:-10px;top:-10px;z-index:2;width:36px;height:36px;border-radius:50%;border:0;background:var(--surface);color:var(--ink);font-size:1rem;box-shadow:0 2px 8px rgba(0,0,0,.18);cursor:pointer}
+.cc.open .cc-close{display:grid;place-items:center}
+.cc-close:hover{background:var(--tint)}
+::view-transition-group(*){animation-duration:.5s;animation-timing-function:cubic-bezier(.2,.85,.25,1)}
+@keyframes ccGlow{0%{opacity:0}15%{opacity:var(--pk,.9)}100%{opacity:0}}
+@keyframes ccGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes ccBeat{0%{transform:scale(1)}30%{transform:scale(1.35)}100%{transform:scale(1)}}
 .cc h3{font-size:1.3rem;font-weight:600}
 .cc p{font-size:1.05rem;line-height:1.55}
 @keyframes ccDraw{to{stroke-dashoffset:0}}
 @keyframes ccPop{0%{opacity:0;transform:scale(.3)}100%{opacity:1;transform:scale(1)}}
 @keyframes ccFade{0%{opacity:0}100%{opacity:1}}
+@keyframes ccHit{0%{fill:var(--accent);stroke:var(--accent);filter:drop-shadow(0 0 5px var(--accent))}100%{}}
 @media (prefers-reduced-motion:reduce){.cc-fig *{animation:none!important;stroke-dashoffset:0!important}}
 /* tónsmíðar */
 .cp-set{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:flex-end}
@@ -851,7 +868,7 @@ button.opt[aria-pressed="true"],.opts-rhythm button[aria-pressed="true"]{backgro
     <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
       <div class="tbl"><table><thead><tr><th>Hraði</th><th>Merking</th><th></th></tr></thead><tbody>
         <tr><td><b>adagio</b></td><td>hægt</td><td><button class="small" data-demo="adagio" aria-label="Spila adagio">▶</button></td></tr>
-        <tr><td><b>andante</b></td><td>gangandi hraði</td><td><button class="small" data-demo="andante" aria-label="Spila andante">▶</button></td></tr>
+        <tr><td><b>andante</b></td><td>gönguhraði</td><td><button class="small" data-demo="andante" aria-label="Spila andante">▶</button></td></tr>
         <tr><td><b>allegro</b></td><td>hratt, fjörlega</td><td><button class="small" data-demo="allegro" aria-label="Spila allegro">▶</button></td></tr>
       </tbody></table></div>
       <div class="tbl"><table><thead><tr><th>Leikmáti</th><th>Merking</th><th></th></tr></thead><tbody>
@@ -1076,11 +1093,14 @@ function tone(m,t,dur=0.6,vol=0.22){
   g.gain.exponentialRampToValueAtTime(0.0001,t+Math.max(0.23,dur)+0.25);
   const end=t+Math.max(0.23,dur)+0.3;o.start(t);o2.start(t);o.stop(end);o2.stop(end);ACTIVE.push(o,o2);
 }
-function knock(t,acc=false,vol=0.5){ // woodblock
-  t=scaleT(t);
-  const c=ac(),o=c.createOscillator(),g=c.createGain();o.type="sine";o.frequency.setValueAtTime(acc?1250:900,t);o.frequency.exponentialRampToValueAtTime(acc?700:520,t+0.05);
-  g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol*(acc?1:0.6),t+0.003);g.gain.exponentialRampToValueAtTime(0.0001,t+0.09);
-  o.connect(g);g.connect(MASTER);o.start(t);o.stop(t+0.1);ACTIVE.push(o);
+function knock(t,acc=false,vol=0.5){ // mjúkt tikk (viðarkubbur, dempaður)
+  t=scaleT(t);const c=ac(),f=acc?740:590,a=vol*(acc?0.55:0.36);
+  const o=c.createOscillator(),o2=c.createOscillator(),g=c.createGain(),g2=c.createGain(),lp=c.createBiquadFilter();
+  o.type="sine";o.frequency.setValueAtTime(f,t);o.frequency.exponentialRampToValueAtTime(f*0.9,t+0.12);
+  o2.type="triangle";o2.frequency.setValueAtTime(f/2,t);lp.type="lowpass";lp.frequency.value=1600;
+  g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(a,t+0.008);g.gain.exponentialRampToValueAtTime(0.0001,t+0.16);
+  g2.gain.setValueAtTime(0.0001,t);g2.gain.exponentialRampToValueAtTime(a*0.45,t+0.01);g2.gain.exponentialRampToValueAtTime(0.0001,t+0.12);
+  o.connect(g);o2.connect(g2);g.connect(lp);g2.connect(lp);lp.connect(MASTER);o.start(t);o2.start(t);o.stop(t+0.18);o2.stop(t+0.18);ACTIVE.push(o,o2);
 }
 function now(){return ac().currentTime+0.06;}
 function playSeq(midis,step=0.45,dur=0.42,vol=0.22){stopAll();let t=now();midis.forEach(m=>{if(Array.isArray(m))m.forEach(x=>tone(x,t,dur,vol*0.8));else if(m!=null)tone(m,t,dur,vol);t+=step;});}
@@ -1412,12 +1432,17 @@ quiz(document.getElementById("exNoteRead"),{kind:"Lestur",title:"Hvaða nóta er
 /* ============ LOTA 2 ============ */
 (function(){const rows=[["w"],["h","h"],["q","q","q","q"],["ee","ee","ee","ee"]];
   document.getElementById("l2tree").innerHTML=`<div style="display:flex;flex-direction:column;gap:2px;overflow-x:auto">`+rows.map(r=>rhythmSVG([r],{syll:false})).join("")+`</div>`;})();
-const VALS=[{g:"𝅝",b:4,n:"heilnóta"},{g:"𝅗𝅥",b:2,n:"hálfnóta"},{g:"𝅗𝅥.",b:3,n:"hálfnóta með punkti"},{g:"♩",b:1,n:"fjórðapartsnóta"},{g:"♩.",b:1.5,n:"fjórðapartsnóta með punkti"},{g:"♪",b:.5,n:"áttundapartsnóta"},{g:"𝅘𝅥𝅯",b:.25,n:"sextándapartsnóta"},{g:"𝄼",b:2,n:"hálfnótuþögn"},{g:"𝄽",b:1,n:"fjórðapartsþögn"},{g:"𝄾",b:.5,n:"áttundapartsþögn"}];
-quiz(document.getElementById("exValues"),{kind:"Reikna",title:"Hve mörg slög?",intro:"Leggðu saman lengdirnar. Ein fjórðapartsnóta er eitt slag.",
-  gen(){const k=2+rnd(2);let items,sum;do{items=Array.from({length:k},()=>pick(VALS));sum=items.reduce((a,v)=>a+v.b,0);}while(sum>6||sum<1);
-    const opts=new Set([sum]);const cand=[sum-1,sum+1,sum+.5,sum-.5,sum*2,sum+2].filter(x=>x>0);for(const c of shuffle(cand)){if(opts.size>=4)break;opts.add(c);}
-    return {html:`<div class="row" style="justify-content:center;font-size:2.2rem;gap:18px">${items.map(v=>`<span class="mus" style="font-size:1.4em" title="${v.n}">${v.g}</span>`).join('<span style="color:var(--muted)">+</span>')}</div>`,htmlClass:"",
-      options:[...opts].sort((a,b)=>a-b).map(v=>({label:fmtNum(v),v})),answer:sum,explain:items.map(v=>`${v.n} = ${fmtNum(v.b)}`).join(", ")+`. Samtals ${fmtNum(sum)} slög.`};}});
+/* lengdargildi talin í heilum fjórðaparts- eða áttundapartsnótum (engar kommutölur) */
+const VALS=[{g:"𝅝",e:8,n:"heilnóta"},{g:"𝅗𝅥",e:4,n:"hálfnóta"},{g:"𝅗𝅥.",e:6,n:"hálfnóta með punkti"},{g:"♩",e:2,n:"fjórðapartsnóta"},{g:"♩.",e:3,n:"fjórðapartsnóta með punkti",only:"e"},{g:"♫",e:2,n:"tvær áttundapartsnótur"},{g:"♪",e:1,n:"áttundapartsnóta",only:"e"},{g:"𝄼",e:4,n:"hálfnótuþögn"},{g:"𝄽",e:2,n:"fjórðapartsþögn"},{g:"𝄾",e:1,n:"áttundapartsþögn",only:"e"}];
+const VUNIT={q:{e:2,g:"♩",n:"fjórðapartsnótur",n1:"fjórðapartsnóta",nn:"fjórðapartsnótum"},e:{e:1,g:"♪",n:"áttundapartsnótur",n1:"áttundapartsnóta",nn:"áttundapartsnótum"}};
+quiz(document.getElementById("exValues"),{kind:"Reikna",title:"Hve margar nótur passa í?",intro:"Teldu hve margar fjórðapartsnótur eða áttundapartsnótur eru jafnlangar og allt dæmið.",
+  gen(){const uk=pick(["q","q","e"]),U=VUNIT[uk],pool=VALS.filter(v=>!v.only||v.only===uk),k=2+rnd(2);let items,sum;
+    do{items=Array.from({length:k},()=>pick(pool));sum=items.reduce((a,v)=>a+v.e,0)/U.e;}while(sum%1||sum<2||sum>(uk==="q"?8:12)||(uk==="e"&&items.every(v=>v.e%2===0)&&Math.random()<0.7));
+    const opts=new Set([sum]);for(const c of shuffle([sum-1,sum+1,sum+2,sum-2,sum*2].filter(x=>x>0))){if(opts.size>=4)break;opts.add(c);}
+    const cnt=v=>{const x=v.e/U.e;return `${x} ${x===1?U.n1:U.n}`;};
+    return {q:`Hve margar <b>${U.n}</b> <span class="mus">${U.g}</span> eru jafnlangar og þetta?`,
+      html:`<div class="row" style="justify-content:center;font-size:2.2rem;gap:18px">${items.map(v=>`<span class="mus" style="font-size:1.4em" title="${v.n}">${v.g}</span>`).join('<span style="color:var(--muted)">+</span>')}</div>`,htmlClass:"",
+      options:[...opts].sort((a,b)=>a-b).map(v=>({label:String(v),v})),answer:sum,explain:items.map(v=>`${v.n} = ${cnt(v)}`).join(", ")+`. Samtals ${sum} ${U.n}.`};}});
 quiz(document.getElementById("exHear2"),{kind:"Tónheyrn",title:"Löng eða stutt?",intro:"Hlustaðu á eina nótu við púlsinn. Hve löng er hún?",
   gen(){const o=pick([{v:"w",b:4,l:"Heilnóta (4)"},{v:"h",b:2,l:"Hálfnóta (2)"},{v:"q",b:1,l:"Fjórðapartsnóta (1)"},{v:"h.",b:3,l:"Hálfnóta með punkti (3)"}]);
     const play=()=>{stopAll();const sp=60/90;let t=now();for(let i=0;i<4;i++)knock(t+i*sp,i===0,0.25);t+=4*sp;for(let i=0;i<4;i++)knock(t+i*sp,i===0,0.18);tone(67,t,o.b*sp*0.92,0.22);};
@@ -1585,7 +1610,7 @@ function demo(kind){stopAll();let t=now();const sp={adagio:0.75,andante:0.5,alle
   PHR.forEach((m,i)=>{let vol={pp:0.035,p:0.07,mp:0.12,mf:0.18,f:0.3,ff:0.45}[kind]||0.18;if(kind==="cresc")vol=0.03+i*0.05;if(kind==="dim")vol=0.45-i*0.05;
     const dur=kind==="stacc"?0.07:kind==="leg"?sp*1.15:sp*0.8;tone(m,t,dur,vol);t+=sp;});}
 document.querySelectorAll("[data-demo]").forEach(b=>b.onclick=()=>demo(b.dataset.demo));
-const TERMS=[["pp","mjög veikt"],["p","veikt"],["mp","hálfveikt"],["mf","hálfsterkt"],["f","sterkt"],["ff","mjög sterkt"],["crescendo","vaxandi styrkur"],["diminuendo","minnkandi styrkur"],["adagio","hægt"],["andante","gangandi hraði"],["allegro","hratt, fjörlega"],["staccato","stutt og aðskilið"],["legato","bundið og samfellt"],["da capo","aftur á byrjun"],["fermata","nótan haldin lengur"],["volta","1. og 2. ending"]];
+const TERMS=[["pp","mjög veikt"],["p","veikt"],["mp","hálfveikt"],["mf","hálfsterkt"],["f","sterkt"],["ff","mjög sterkt"],["crescendo","vaxandi styrkur"],["diminuendo","minnkandi styrkur"],["adagio","hægt"],["andante","gönguhraði"],["allegro","hratt, fjörlega"],["staccato","stutt og aðskilið"],["legato","bundið og samfellt"],["da capo","aftur á byrjun"],["fermata","nótan haldin lengur"],["volta","1. og 2. ending"]];
 quiz(document.getElementById("exTerms"),{kind:"Þekking",title:"Hvað þýðir orðið?",
   gen(){const [w,m]=pick(TERMS);const opts=shuffle([m,...shuffle(TERMS.filter(t=>t[1]!==m)).slice(0,3).map(t=>t[1])]);
     return {q:`<span style="font-family:var(--f-display);font-size:1.8rem;font-style:italic">${w}</span>`,options:opts.map(o=>({v:o,label:o})),answer:m,explain:`${w} = ${m}.`};}});
@@ -2202,43 +2227,46 @@ function hlLine(Y,botD,k,x1,x2){return `<line x1="${x1}" x2="${x2}" y1="${Y(botD
 /* hljómborð */
 function kbSVG(o){
   const whites=[];for(let m=o.from;m<=o.to;m++)if([0,2,4,5,7,9,11].includes(((m%12)+12)%12))whites.push(m);
-  const W=22,H=64,top=o.arcs&&o.arcs.length?30:6,pos={};let s="",bl="";
+  const W=22,H=64,up=(o.arcs||[]).filter(a=>!a[5]),dn=(o.arcs||[]).some(a=>a[5]),lv=Math.max(0,...up.map(a=>a[4]||0)),top=up.length?30+lv*16:6,pos={},TW=whites.length*W+8;let s="",bl="";
   const fillW=c=>c==="p"?PINK:c==="l"?PALE:c==="b"?"color-mix(in srgb,var(--kick) 30%,#fff)":"#fff";
   whites.forEach((m,i)=>{pos[m]=i*W+W/2+4;const c=o.hi&&o.hi[m];s+=`<rect x="${i*W+4}" y="${top}" width="${W}" height="${H}" rx="3" style="fill:${fillW(c)};stroke:#5A6190;stroke-width:1"/>`;
     const lb=o.lab&&o.lab[m]!=null?o.lab[m]:o.names?nm(OFF.indexOf(((m%12)+12)%12),0):"";if(lb)s+=tx(pos[m],top+H-7,lb,{s:10,c:c==="p"?"#fff":"#27306B"});});
   whites.forEach((m,i)=>{const pc=((m%12)+12)%12;if([0,2,5,7,9].includes(pc)&&m+1<=o.to){const bm=m+1,x=(i+1)*W+4-7;pos[bm]=x+7;const c=o.hi&&o.hi[bm];
     bl+=`<rect x="${x}" y="${top}" width="14" height="${H*0.6}" rx="2" style="fill:${c==="p"?PINK:c==="l"?"color-mix(in srgb,var(--accent) 55%,#27306B)":c==="b"?BLUE:"#27306B"}"/>`;
     if(o.lab&&o.lab[bm])bl+=tx(x+7,top+H*0.6-6,o.lab[bm],{s:8,c:"#fff"});}});
-  let ar="";(o.arcs||[]).forEach(([a,b,t,c])=>{const x1=pos[a],x2=pos[b],mx=(x1+x2)/2,hgt=Math.min(22,8+Math.abs(x2-x1)*0.25);ar+=`<path d="M${x1} ${top-2} Q${mx} ${top-2-hgt*1.6} ${x2} ${top-2}" style="fill:none;stroke:${c||PINK};stroke-width:2"/>`+tx(mx,top-hgt-4,t,{s:10,c:c||PINK});});
-  return sv(whites.length*W+8,top+H+4,s+bl+ar,o.sc||1.25);
+  let ar="";(o.arcs||[]).forEach(([a,b,t,c,L,below])=>{if(below){const x1=pos[a],x2=pos[b],mx=(x1+x2)/2,yb=top+H+3;ar+=`<path d="M${x1} ${yb} Q${mx} ${yb+16} ${x2} ${yb}" style="fill:none;stroke:${c||PINK};stroke-width:2"/>`+tx(mx,yb+22,t,{s:9,c:c||PINK});return;}const x1=pos[a],x2=pos[b],mx=(x1+x2)/2,hgt=Math.min(22,8+Math.abs(x2-x1)*0.25)+(L||0)*18,pk=top-2-hgt*0.8,fs=L?9:10,tw=String(t).length*fs*0.56,lx=Math.max(tw/2+2,Math.min(TW-tw/2-2,mx));
+    ar+=`<path d="M${x1} ${top-2} Q${mx} ${top-2-hgt*1.6} ${x2} ${top-2}" style="fill:none;stroke:${c||PINK};stroke-width:2"/>`+tx(lx,pk-5,t,{s:fs,c:c||PINK});});
+  return sv(TW,top+H+4+(dn?24:0),s+bl+ar,o.sc||1.25);
 }
 /* einn nótnastrengur án lykils (hryn-lína) */
 function rowFig(tokens,o={}){
   const y=44;let x=10,P=[];const X=[];
   const head=(cx,f)=>`<ellipse cx="${cx}" cy="${y}" rx="6.4" ry="4.6" transform="rotate(-18 ${cx} ${y})" style="${f?"fill:var(--ink)":"fill:var(--surface);stroke:var(--ink);stroke-width:1.7"}"/>`;
   const stem=cx=>`<line x1="${cx+5.7}" x2="${cx+5.7}" y1="${y-1}" y2="${y-30}" style="stroke:var(--ink);stroke-width:1.5"/>`;
-  tokens.forEach(t=>{const cx=x+10;let w=30;
+  const bw=o.bw;tokens.forEach(t=>{const cx=x+10;let w=bw||30;
     if(t.startsWith("ts:")){P.push(tx(x+9,y-3,t.slice(3),{s:19,c:"var(--ink)",w:800,f:"var(--f-display)"})+tx(x+9,y+15,"4",{s:19,c:"var(--ink)",w:800,f:"var(--f-display)"}));w=26;}
     else if(t==="q")P.push(head(cx,1)+stem(cx));
-    else if(t==="h")P.push(head(cx,0)+stem(cx)),w=40;
+    else if(t==="h")P.push(head(cx,0)+stem(cx)),w=bw?2*bw:40;
     else if(t==="h.")P.push(head(cx,0)+stem(cx)+`<circle cx="${cx+12}" cy="${y-1}" r="2" style="fill:var(--ink)"/>`),w=46;
     else if(t==="w")P.push(head(cx,0)),w=46;
     else if(t==="e")P.push(head(cx,1)+stem(cx)+`<path d="M${cx+5.7} ${y-30} q2 9 10 14 q-3 -5 -10 -6 z" style="fill:var(--ink)"/>`);
-    else if(t==="ee")P.push(head(cx,1)+stem(cx)+head(cx+22,1)+stem(cx+22)+`<rect x="${cx+5}" y="${y-31}" width="23.5" height="4.5" style="fill:var(--ink)"/>`),w=44;
+    else if(t==="ee"){const d=bw?bw/2:22;P.push(head(cx,1)+stem(cx)+head(cx+d,1)+stem(cx+d)+`<rect x="${cx+5}" y="${y-31}" width="${d+1.5}" height="4.5" style="fill:var(--ink)"/>`);w=bw||44;}
     else if(t==="qr")P.push(mus(cx,y+12,"𝄽",30));
     else if(t==="|")P.push(`<line x1="${x+4}" x2="${x+4}" y1="${y-14}" y2="${y+14}" style="stroke:var(--ink);stroke-width:1.4"/>`),w=14;
     else if(t==="||")P.push(`<line x1="${x+3}" x2="${x+3}" y1="${y-14}" y2="${y+14}" style="stroke:var(--ink);stroke-width:1.4"/><rect x="${x+6}" y="${y-14}" width="4" height="28" style="fill:var(--ink)"/>`),w=14;
     X.push(t==="|"||t==="||"?x+4:cx+3);x+=w;});
-  (o.ann||[]).forEach(a=>{P.push(tx(X[a.i]+(a.dx||0),a.y||10,a.t,{c:a.c||PINK,s:a.s||11}));if(a.arrow)P.push(arrow(X[a.i]+(a.dx||0),14,X[a.i]+(a.dx||0),y-(a.lo||34),a.c||PINK));});
+  (o.ann||[]).forEach(a=>{P.push(tx(X[a.i]+(a.dx||0)+(a.tdx||0),a.y||10,a.t,{c:a.c||PINK,s:a.s||11,a:a.ta}));if(a.arrow)P.push(arrow(X[a.i]+(a.dx||0),14,X[a.i]+(a.dx||0),y-(a.lo||34),a.c||PINK));});
   (o.under||[]).forEach(a=>P.push(tx(X[a.i]+(a.dx||0),y+30,a.t,{c:a.c||"var(--muted)",s:a.s||10})));
   return sv(x+8,y+(o.under?36:22),`<line x1="4" x2="${x+4}" y1="${y}" y2="${y}" style="stroke:var(--muted);stroke-width:1.2"/>${P.join("")}`,o.sc||1.2);
 }
+/* staflar mörgum svg-myndum í eina (sama mælikvarði, slög standast á) */
+function stackSVG(list,sc=1.2,gap=4){let y=0,w=0,inner="";list.forEach(s=>{const m=s.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/),body=s.replace(/^<svg[^>]*>/,"").replace(/<\/svg>$/,"");inner+=`<g transform="translate(0 ${y})">${body}</g>`;y+=+m[2]+gap;w=Math.max(w,+m[1]);});return sv(w,y-gap,inner,sc);}
 /* lengdargildi í slögum */
-function beatRows(rows){
-  const cw=34,x0=70;let s="",y=8;
-  rows.forEach(([g,b,lab])=>{s+=mus(28,y+28,g,30);for(let i=0;i<4;i++)s+=`<rect x="${x0+i*cw}" y="${y+6}" width="${cw-4}" height="24" rx="5" style="fill:var(--tint)"/>`;
-    const n=Math.round(b>=1?1:1/b),cnt=b>=1?1:4*n;const unit=b>=1?b*cw-4:(cw/n)-3;
-    for(let k=0;k<(b>=1?1:n);k++)s+=`<rect x="${x0+k*(unit+3)}" y="${y+6}" width="${b>=1?b*cw-4:unit}" height="24" rx="5" style="fill:${PINK};opacity:${b>=1?1:0.85}"/>`;
+function beatRows(rows,o={}){
+  const cw=34,x0=70,slot=o.slot||4;let s="",y=8;
+  rows.forEach(([g,b,lab],r)=>{const r0=r*slot;s+=mus(28,y+28,g,30);for(let i=0;i<4;i++)s+=`<rect x="${x0+i*cw}" y="${y+6}" width="${cw-4}" height="24" rx="5" style="fill:var(--tint)"${i<slot?` data-tk="${r0+i}"`:""}/>`;
+    const n=b>=1?1:Math.round(1/b),unit=b>=1?b*cw-4:(cw/n)-3;
+    for(let k=0;k<n;k++)s+=`<rect x="${x0+k*(unit+3)}" y="${y+6}" width="${b>=1?b*cw-4:unit}" height="24" rx="5" style="fill:${PINK};opacity:${b>=1?1:0.85}" data-bt="${r0+k*b}" data-bl="${b}"/>`;
     s+=tx(x0+4*cw+8,y+23,lab,{a:"start",c:"var(--ink)",s:12});y+=36;});
   return sv(x0+4*cw+80,y+4,s,1.15);
 }
@@ -2258,18 +2286,22 @@ const FIG={
  fclef:()=>staffSVG({clef:"f",items:[{notes:[{d:24,hl:true}],label:"f"}],step:46,minW:150,scale:1.3,extra:(Y)=>hlLine(Y,18,4,4,146)+tx(146,Y(24)-6,"4. lína",{a:"end",c:PINK,s:10})}),
  ledger:()=>staffSVG({clef:"g",items:[{notes:[{d:28,hl:true}],label:"c' (mið-c)",w:70},{notes:[{d:40,hl:true}],label:"a''"}],step:50,minW:200,scale:1.3,extra:(Y,it)=>tx(it[0]._x+28,Y(28)+4,"← aukalína",{a:"start",c:PINK,s:10})}),
  headstem:()=>{let s=`<ellipse cx="70" cy="88" rx="17" ry="12" transform="rotate(-18 70 88)" style="fill:var(--ink)"/><line x1="85" x2="85" y1="86" y2="16" style="stroke:var(--ink);stroke-width:3"/>`;
-   s+=arrow(150,92,94,90,PINK)+tx(154,96,"nótnahaus",{a:"start",c:PINK,s:13})+arrow(150,36,92,40,BLUE)+tx(154,40,"nótnaháls",{a:"start",c:BLUE,s:13})+tx(154,54,"(líka kallaður leggur)",{a:"start",s:10});return sv(270,110,s,1.1);},
+   s+=arrow(150,92,94,90,PINK)+tx(154,96,"nótnahaus",{a:"start",c:PINK,s:13})+arrow(150,36,92,40,BLUE)+tx(154,40,"nótnaháls",{a:"start",c:BLUE,s:13});return sv(270,110,s,1.1);},
  stems:()=>staffSVG({clef:"g",items:[{notes:[{d:30}],dur:"q",label:"upp"},{notes:[{d:32}],dur:"q",label:"upp"},{notes:[{d:34}],dur:"q",label:"niður"},{notes:[{d:37}],dur:"q",label:"niður"}],step:42,minW:260,scale:1.2,extra:(Y)=>`<line x1="4" x2="256" y1="${Y(34)}" y2="${Y(34)}" style="stroke:${PINK};stroke-width:2.5;stroke-dasharray:5 3;opacity:.8"/>`+tx(254,Y(34)-5,"miðlína",{a:"end",c:PINK,s:10})}),
  kbc:()=>kbSVG({from:48,to:71,hi:{48:"p",60:"p",49:"l",51:"l",61:"l",63:"l"},lab:{48:"c",60:"c"},sc:1.05}),
  /* lota 2 */
  pulse4:()=>rowFig(["ts:4","q","q","q","q","||"],{under:[1,2,3,4].map(i=>({i,t:String(i),c:PINK,s:12})),sc:1.3}),
  vals1:()=>beatRows([["𝅝",4,"4 slög"],["𝅗𝅥",2,"2 slög"],["♩",1,"1 slag"]]),
- vals2:()=>beatRows([["♩",1,"1 slag"],["♪",0.5,"½ slag"],["𝅘𝅥𝅯",0.25,"¼ slag"]]),
- rests:()=>{const N=[["𝅝","𝄻","4"],["𝅗𝅥","𝄼","2"],["♩","𝄽","1"],["♪","𝄾","½"],["𝅘𝅥𝅯","𝄿","¼"]];let s="";N.forEach(([n,r,b],i)=>{const x=26+i*46;s+=mus(x,34,n,28)+mus(x,78,r,28,PINK)+tx(x,100,b,{c:"var(--ink)",s:12});});
-   return sv(240,108,tx(4,22,"nóta",{a:"start",s:9})+tx(4,66,"þögn",{a:"start",s:9,c:PINK})+s,1.2);},
- dot:()=>{let s=mus(26,40,"𝅗𝅥",30)+`<circle cx="40" cy="31" r="2.6" style="fill:${PINK}"/>`+tx(62,36,"=",{s:18,c:"var(--ink)"})+mus(90,40,"𝅗𝅥",30)+tx(112,36,"+",{s:18,c:"var(--ink)"})+mus(134,40,"♩",30,PINK);
-   const x0=26,cw=34;for(let i=0;i<4;i++)s+=`<rect x="${x0+i*cw}" y="58" width="${cw-4}" height="20" rx="5" style="fill:var(--tint)"/>`;s+=`<rect x="${x0}" y="58" width="${2*cw-4}" height="20" rx="5" style="fill:var(--ink);opacity:.75"/><rect x="${x0+2*cw}" y="58" width="${cw-4}" height="20" rx="5" style="fill:${PINK}"/>`+tx(x0+4*cw+6,73,"2 + 1 = 3 slög",{a:"start",c:"var(--ink)",s:11});
-   return sv(270,86,s,1.15);},
+ vals2:()=>beatRows([["♩",1,"1 slag"],["♪",0.5,"½ slag"],["𝅘𝅥𝅯",0.25,"¼ slag"]],{slot:2}),
+ rests:()=>{const N=[["𝅝","𝄻","4"],["𝅗𝅥","𝄼","2"],["♩","𝄽","1"],["♪","𝄾","½"],["𝅘𝅥𝅯","𝄿","¼"]],x0=84,dx=46;let s="";
+   for(let k=0;k<5;k++)s+=`<line x1="${x0-22}" x2="${x0+4*dx+22}" y1="${60+k*7.5}" y2="${60+k*7.5}" style="stroke:var(--muted);stroke-width:1;opacity:.55"/>`;
+   N.forEach(([n,r,b],i)=>{const x=x0+i*dx;s+=mus(x,34,n,28)+mus(x,i<2?82:85,r,30,PINK)+tx(x,112,b,{c:"var(--ink)",s:12});});
+   return sv(x0+4*dx+30,120,tx(8,28,"nóta",{a:"start",s:11})+tx(8,80,"þögn",{a:"start",s:11,c:PINK})+tx(8,112,"slög",{a:"start",s:9})+s,1.2);},
+ dot:()=>{const R=[["𝅗𝅥","♩",2,1,"3 slög",0],["♩","♪",1,0.5,"1½ slag",4],["♪","𝅘𝅥𝅯",0.5,0.25,"¾ úr slagi",6]],W=40,bx=176;let s="";
+   R.forEach(([g1,g2,a,b,lab,bt],r)=>{const y=r*44;s+=mus(22,y+38,g1,28)+`<circle cx="${g1==="♪"?36:34}" cy="${y+30}" r="2.6" style="fill:${PINK}"/>`+tx(52,y+33,"=",{s:16,c:"var(--ink)"})+mus(76,y+38,g1,28)+tx(98,y+33,"+",{s:16,c:"var(--ink)"})+mus(120,y+38,g2,28,PINK);
+     const cells=Math.ceil(a+b);for(let i=0;i<cells;i++)s+=`<rect x="${bx+i*W}" y="${y+16}" width="${W-4}" height="20" rx="5" style="fill:var(--tint)" data-tk="${bt+i}"/>`;
+     s+=`<rect x="${bx}" y="${y+16}" width="${a*W-3}" height="20" rx="5" style="fill:color-mix(in srgb,var(--ink) 72%,#fff)" data-bt="${bt}" data-bl="${a}"/><rect x="${bx+a*W}" y="${y+16}" width="${b*W-3}" height="20" rx="5" style="fill:${PINK}" data-bt="${bt+a}" data-bl="${b}"/>`+tx(bx+3*W+6,y+31,lab,{a:"start",c:"var(--ink)",s:12});});
+   return sv(bx+3*W+80,134,s,1.1);},
  flag:()=>{let s=`<ellipse cx="40" cy="60" rx="7" ry="5" transform="rotate(-18 40 60)" style="fill:var(--ink)"/><line x1="46" x2="46" y1="58" y2="24" style="stroke:var(--ink);stroke-width:1.6"/><path d="M46 24 q2 10 11 16 q-3 -6 -11 -7 z" style="fill:${PINK}"/>`+tx(40,88,"fáni",{c:PINK,s:12});
    [110,136,162,188].forEach((x,i)=>{s+=`<ellipse cx="${x}" cy="60" rx="7" ry="5" transform="rotate(-18 ${x} 60)" style="fill:var(--ink)"/><line x1="${x+6}" x2="${x+6}" y1="58" y2="26" style="stroke:var(--ink);stroke-width:1.6"/>`;});
    s+=`<rect x="115" y="24" width="27" height="5" style="fill:${PINK}"/><rect x="167" y="24" width="27" height="5" style="fill:${PINK}"/>`+tx(154,88,"bjálkar",{c:PINK,s:12})+tx(128,14,"1. slag",{s:9})+tx(180,14,"2. slag",{s:9});return sv(220,96,s,1.2);},
@@ -2280,14 +2312,14 @@ const FIG={
    for(let i=0;i<9;i++){const b=i%3===0;s+=`<circle cx="${44+i*23}" cy="58" r="${b?11:6}" style="fill:${b?BLUE:"color-mix(in srgb,var(--kick) 25%,#fff)"}"/>`;}return sv(260,76,s,1.2);},
  tsig:()=>{let s=tx(40,40,"3",{s:34,c:"var(--ink)",w:800,f:"var(--f-display)"})+tx(40,78,"4",{s:34,c:"var(--ink)",w:800,f:"var(--f-display)"})+`<line x1="22" x2="58" y1="47" y2="47" style="stroke:var(--line);stroke-width:1"/>`;
    s+=arrow(110,30,62,30,PINK)+tx(116,34,"3 slög í hverjum takti",{a:"start",c:PINK,s:12})+arrow(110,68,62,68,BLUE)+tx(116,66,"hvert slag er",{a:"start",c:BLUE,s:12})+mus(206,74,"♩",22,BLUE)+tx(224,66,"(4)",{a:"start",c:BLUE,s:11});return sv(260,90,s,1.15);},
- bars:()=>rowFig(["ts:3","q","q","q","|","h","q","|","h.","||"],{ann:[{i:4,t:"taktstrik",arrow:1,lo:16},{i:9,t:"niðurlagsmerki",arrow:1,lo:16,dx:-14}],sc:1.2}),
- laghrynur:()=>rowFig(["q","q","q","q","|","q","q","h","||"],{under:[{i:0,t:"púls",s:10}],sc:1.05})+rowFig(["q","ee","q","q","|","ee","ee","h","||"],{under:[{i:0,t:"laghrynur",c:PINK,s:10}],sc:1.05}),
+ bars:()=>rowFig(["ts:3","q","q","q","|","h","q","|","h.","||"],{ann:[{i:4,t:"taktstrik",arrow:1,lo:16},{i:9,t:"niðurlagsmerki",arrow:1,lo:16,dx:3,ta:"end",tdx:10}],sc:1.2}),
+ laghrynur:()=>stackSVG([rowFig(["q","q","q","q","|","q","q","q","q","||"],{bw:34,under:[{i:0,t:"púls",s:10,dx:12}]}),rowFig(["q","ee","q","q","|","ee","ee","h","||"],{bw:34,under:[{i:0,t:"laghrynur",c:PINK,s:10,dx:20}]})],1.15),
  upbeat:()=>rowFig(["ts:3","q","|","q","q","q","|","h.","|","h","||"],{ann:[{i:1,t:"upptaktur",arrow:1,lo:36}],sc:1.15}),
  beams:()=>rowFig(["ts:4","ee","ee","q","ee","||"],{under:[{i:1,t:"1",c:PINK,s:12},{i:2,t:"2",c:PINK,s:12},{i:3,t:"3",c:PINK,s:12},{i:4,t:"4",c:PINK,s:12}],sc:1.3}),
  cond:()=>window.CONDSVG||"",
  /* lota 4 */
- half:()=>kbSVG({from:60,to:67,names:true,hi:{64:"p",65:"p",60:"l",61:"l"},arcs:[[64,65,"½"],[60,61,"½"]]}),
- whole:()=>kbSVG({from:60,to:67,names:true,hi:{60:"p",62:"p",61:"l"},arcs:[[60,62,"1 heiltónn = 2 hálftónar"]]}),
+ half:()=>kbSVG({from:60,to:67,names:true,hi:{64:"p",65:"p",60:"l",61:"l"},arcs:[[60,61,"½"],[64,65,"½"]]}),
+ whole:()=>kbSVG({from:60,to:69,names:true,hi:{60:"p",62:"p",61:"l"},arcs:[[60,61,"½",null,0,1],[61,62,"½",null,0,1],[60,62,"1 heiltónn = 2 hálftónar"]]}),
  ef:()=>kbSVG({from:60,to:72,names:true,hi:{64:"p",65:"p",71:"p",72:"p"},arcs:[[64,65,"½"],[71,72,"½"]]}),
  sharp:()=>staffSVG({clef:"g",items:[{notes:[{d:31}],label:"f'"},{notes:[{d:31,acc:1,hl:true}],label:"fís'"}],step:46,minW:170,scale:1.2})+kbSVG({from:64,to:69,names:true,hi:{65:"l",66:"p"},lab:{66:"fís"},arcs:[[65,66,"+½"]],sc:1.1}),
  flat:()=>staffSVG({clef:"g",items:[{notes:[{d:29}],label:"d'"},{notes:[{d:29,acc:-1,hl:true}],label:"des'"}],step:46,minW:170,scale:1.2})+kbSVG({from:60,to:64,names:true,hi:{62:"l",61:"p"},lab:{61:"des"},arcs:[[62,61,"−½"]],sc:1.1}),
@@ -2337,7 +2369,7 @@ const FIG={
    s+=`<path d="M92 26 L92 12 L162 12" style="fill:none;stroke:${PINK};stroke-width:2"/>`+tx(104,24,"1.",{c:PINK,s:12})+`<path d="M172 26 L172 12 L250 12" style="fill:none;stroke:${BLUE};stroke-width:2"/>`+tx(184,24,"2.",{c:BLUE,s:12});
    s+=tx(126,t+4*g+20,"fyrst",{c:PINK,s:10})+tx(212,t+4*g+20,"í seinna skiptið",{c:BLUE,s:10});return sv(266,t+4*g+28,s,1.2);},
  dc:()=>formFig(["1","2","3","4"],{w:52})+`<div style="font-size:.85rem;color:var(--muted);text-align:center">Takt 2 endar á <b style="color:var(--accent)">Fine</b>. Eftir takt 4 stendur <b style="color:var(--accent)">D.C. al Fine</b>: farðu aftur í takt 1 og endaðu á Fine.</div>`,
- fermata:()=>staffSVG({clef:"g",items:[{notes:[{d:32}],dur:"q"},{notes:[{d:31}],dur:"q"},{notes:[{d:30,hl:true}],dur:"h"}],step:44,minW:250,scale:1.2,extra:(Y,it)=>mus(it[2]._x,Y(39),"𝄐",40,PINK)+tx(it[2]._x+22,Y(40),"halda lengur",{a:"start",c:PINK,s:10})}),
+ fermata:()=>staffSVG({clef:"g",items:[{notes:[{d:32}],dur:"q"},{notes:[{d:31}],dur:"q"},{notes:[{d:30,hl:true}],dur:"h"}],step:44,scale:1.2,top:58,minW:290,extra:(Y,it)=>{const x=it[2]._x,y=Y(41);return `<path d="M${x-11} ${y} A11 10 0 0 1 ${x+11} ${y}" style="fill:none;stroke:${PINK};stroke-width:3;stroke-linecap:round"/><circle cx="${x}" cy="${y-3}" r="2.6" style="fill:${PINK}"/>`+tx(x+20,y-2,"halda lengur",{a:"start",c:PINK,s:10});}}),
  ties:()=>staffSVG({clef:"g",items:[{notes:[{d:32}],dur:"q"},{notes:[{d:32}],dur:"q"},{bar:1},{notes:[{d:30}],dur:"q"},{notes:[{d:31}],dur:"q"},{notes:[{d:32}],dur:"q"}],step:34,scale:1.25,extra:(Y,it)=>`<path d="M${it[0]._x+4} ${Y(30)} Q${(it[0]._x+it[1]._x)/2} ${Y(27)} ${it[1]._x-4} ${Y(30)}" style="fill:none;stroke:${PINK};stroke-width:2"/>`+tx((it[0]._x+it[1]._x)/2,Y(22),"dráttarbogi",{c:PINK,s:10})+`<path d="M${it[3]._x-4} ${Y(39)} Q${it[4]._x} ${Y(43.5)} ${it[5]._x+4} ${Y(39)}" style="fill:none;stroke:${BLUE};stroke-width:2"/>`+tx(it[4]._x+34,Y(43),"legatobogi",{c:BLUE,s:10})}),
  stacc:()=>staffSVG({clef:"g",items:[{notes:[{d:30}],dur:"q"},{notes:[{d:31}],dur:"q"},{notes:[{d:32}],dur:"q"},{bar:1},{notes:[{d:30}],dur:"q"},{notes:[{d:31}],dur:"q"},{notes:[{d:32}],dur:"q"}],step:32,scale:1.25,extra:(Y,it)=>[0,1,2].map(i=>`<circle cx="${it[i]._x}" cy="${Y(it[i].notes[0].d-3)}" r="2.6" style="fill:${PINK}"/>`).join("")+tx(it[1]._x,Y(22),"staccato",{c:PINK,s:10})+`<path d="M${it[4]._x-4} ${Y(39)} Q${it[5]._x} ${Y(43.5)} ${it[6]._x+4} ${Y(39)}" style="fill:none;stroke:${BLUE};stroke-width:2"/>`+tx(it[5]._x,Y(44.5),"legato",{c:BLUE,s:10})}),
  accentm:()=>staffSVG({clef:"g",items:[{notes:[{d:30}],dur:"q"},{notes:[{d:30}],dur:"q"},{notes:[{d:32}],dur:"q"},{notes:[{d:30}],dur:"q"}],step:36,minW:190,scale:1.3,extra:(Y,it)=>[0,2].map(i=>tx(it[i]._x,Y(26),"&gt;",{s:16,c:PINK,w:800})).join("")+tx(it[1]._x+18,Y(22),"áhersla",{c:PINK,s:10})}),
@@ -2432,7 +2464,7 @@ const CC={
    ["Tilbrigði","Stef er spilað og svo breytt á ýmsa vegu.","variation"],
    ["Lag með viðlagi","Erindi og viðlag skiptast á. Viðlagið er alltaf eins.","chorus"],
    ["Blær","Notaðu þín eigin orð til að lýsa því hvernig tónlistin hljómar.","mood"]]};
-function renderConcepts(){document.querySelectorAll(".concepts[data-cc]").forEach(h=>{const n=+h.dataset.cc;h.innerHTML=(CC[n]||[]).map(([t,txt,f])=>`<article class="cc" data-fig="${f}"><div class="cc-fig">${FIG[f]?FIG[f]():""}<span class="cc-play" aria-hidden="true">▶</span></div><h3>${t}</h3><p>${txt}</p></article>`).join("");});wireConcepts();}
+function renderConcepts(){document.querySelectorAll(".concepts[data-cc]").forEach(h=>{const n=+h.dataset.cc;h.innerHTML=(CC[n]||[]).map(([t,txt,f])=>`<article class="cc" data-fig="${f}"><div class="cc-fig">${FIG[f]?FIG[f]():""}<span class="cc-play${SND[f]?"":" mute"}" aria-hidden="true">${SND[f]?"▶":"↻"}</span></div><h3>${t}</h3><p>${txt}</p></article>`).join("");});wireConcepts();}
 
 /* ============ TÓNSMÍÐAVERKSTÆÐI ============ */
 const CFORMS={ABA:{n:"ABA (2 + 4 + 2 taktar)",lab:["A","","B","","","","A",""],src:[0,1,2,3,4,5,0,7]},AABA:{n:"AABA (2 + 2 + 2 + 2 taktar)",lab:["A","","A","","B","","A",""],src:[0,1,0,1,4,5,0,7]}};
@@ -2848,50 +2880,108 @@ function songGenMode(){const s=pick(SONGS);const end=songFirstBars(s,4);
   return {q:"Hlustaðu á upphaf lagsins. Er það í dúr eða moll?",play:()=>songPlay(s,{toBeat:end}),options:[{v:"maj",label:"Dúr"},{v:"min",label:"Moll"}],answer:s.mode,explain:`„${s.t}“ er í ${songKeyName(s)}.`};}
 
 /* ---- hreyfing og hljóð í hugtakakortum ---- */
-const _sq=(ms,st=0.38,d=0.34,v=0.22)=>{stopAll();const t=now();ms.forEach((m,i)=>{if(Array.isArray(m))m.forEach(x=>tone(x,t+i*st,d*1.6,v*0.7));else if(m!=null)tone(m,t+i*st,d,v);});};
-const _ch=(chs,st=0.9)=>{stopAll();const t=now();chs.forEach((c,i)=>c.forEach(m=>tone(m,t+i*st,st*0.9,0.15)));};
-const _kn=(pat,bpm=96)=>{stopAll();const sp=60/bpm,t=now();let b=0;pat.forEach(x=>{if(x>0)knock(t+b*sp,x===2,0.5);b+=Math.abs(x)===2?1:Math.abs(x);});};
-const _rh=(durs,m=67,bpm=96)=>{stopAll();const sp=60/bpm,t=now();let b=0;durs.forEach(d=>{if(d>0)tone(m,t+b*sp,d*sp*0.85,0.22);b+=Math.abs(d);});};
+/* hvert hljóðfall skilar upphafstímum tónanna (sek.) svo hreyfingin fylgi tónlistinni */
+const _sq=(ms,st=0.38,d=0.34,v=0.22)=>{stopAll();const t=now(),T=[];ms.forEach((m,i)=>{if(Array.isArray(m)){m.forEach(x=>tone(x,t+i*st,d*1.6,v*0.7));T.push(i*st);}else if(m!=null){tone(m,t+i*st,d,v);T.push(i*st);}});return T;};
+const _ch=(chs,st=0.9)=>{stopAll();const t=now();chs.forEach((c,i)=>c.forEach(m=>tone(m,t+i*st,st*0.9,0.15)));return chs.map((_,i)=>i*st);};
+const _kn=(pat,bpm=96)=>{stopAll();const sp=60/bpm,t=now(),T=[];let b=0;pat.forEach(x=>{if(x>0){knock(t+b*sp,x===2,0.5);T.push(b*sp);}b+=Math.abs(x)===2?1:Math.abs(x);});return T;};
+const _rh=(durs,m=67,bpm=96)=>{stopAll();const sp=60/bpm,t=now(),T=[];let b=0;durs.forEach(d=>{if(d>0){tone(m,t+b*sp,d*sp*0.85,0.22);T.push(b*sp);}b+=Math.abs(d);});return T;};
+const _at=(list)=>{stopAll();const t=now();list.forEach(([o,m,d,v])=>tone(m,t+o,d,v));return [...new Set(list.map(x=>+x[0].toFixed(3)))].sort((a,b)=>a-b);};
+/* taktmælir undir + tónar sem byrja á slagi bt og vara len slög; skilar tímum með .sp (sek/slag) */
+const _beats=(sp,nTicks,notes,m=67)=>{stopAll();const t=now();for(let i=0;i<nTicks;i++)knock(t+i*sp,false,0.32);notes.forEach(([bt,len,mm])=>tone(mm||m,t+bt*sp,len*sp*0.92,0.22));const T=notes.map(n=>n[0]*sp);T.sp=sp;return T;};
+/* aðeins þar sem hljóðið segir eitthvað — hin kortin hreyfast hljóðlaust */
 const SND={
- lines:()=>_sq([64,67,71,74,77],0.3),names:()=>_sq([60,62,64,65,67,69,71,72],0.3),hb:()=>_sq([69,70,71,72],0.45),gclef:()=>_sq([67],0.5,0.9),fclef:()=>_sq([53],0.5,0.9),
- ledger:()=>_sq([60,81],0.7,0.6),headstem:()=>_sq([64],0.5,0.6),stems:()=>_sq([64,67,71,74],0.4),kbc:()=>_sq([48,60],0.6,0.6),
- pulse4:()=>_kn([2,1,1,1]),vals1:()=>_rh([4,2,2,1,1,1,1],67,110),vals2:()=>_rh([1,0.5,0.5,0.25,0.25,0.25,0.25],67,90),rests:()=>_rh([1,-1,1,-1],67,96),dot:()=>_rh([3,1],67,100),
- flag:()=>_rh([0.5,-0.5,0.5,0.5,0.5,0.5],67,90),syll:()=>_rh([1,0.5,0.5,2],67,96),
- pulse:()=>_kn([1,1,1,1,1,1,1,1],100),accent:()=>_kn([2,1,2,1,2,1,1,2,1,1,2,1,1],110),tsig:()=>_kn([2,1,1,2,1,1],100),bars:()=>_rh([1,1,1,2,1,3],67,110),
- laghrynur:()=>_rh([1,0.5,0.5,1,1,0.5,0.5,0.5,0.5,2],67,100),upbeat:()=>_rh([1,1,1,1,3,2],67,110),beams:()=>_rh([0.5,0.5,0.5,0.5,1,0.5,0.5],67,96),cond:()=>_kn([2,1,1,2,1,1],80),
- half:()=>_sq([64,65,null,60,61],0.4),whole:()=>_sq([60,62],0.5),ef:()=>_sq([64,65,null,71,72],0.4),sharp:()=>_sq([65,66],0.6,0.5),flat:()=>_sq([62,61],0.6,0.5),
- exc:()=>_sq([64,63,null,69,68,null,71,70],0.32),nat:()=>_sq([66,65],0.6,0.5),loose:()=>_sq([66,66,65],0.5),fixed:()=>_sq([66,67,78],0.5),enh:()=>_sq([61,61],0.6,0.5),
- scale:()=>_sq([60,62,64,65,67,69,71,72],0.3),tonic:()=>_sq([60,64,67,65,62,60],0.35),major:()=>_sq([60,62,64,65,67,69,71,72],0.3),minor:()=>_sq([57,59,60,62,64,66,68,69,67,65,64],0.28),
- penta:()=>_sq([60,62,64,67,69,72],0.3),stepleap:()=>_sq([60,62,64,null,60,67,64],0.34),key:()=>_sq([67,69,71,72,74,76,78,79],0.28),
- sharps:()=>_sq([66,61,68,63,70,65,72],0.3),flats:()=>_sq([70,63,68,61,66,59,64],0.3),sharpRule:()=>_sq([73,74,[62,66,69]],0.55),flatRule:()=>_sq([63,[63,67,70]],0.7),
- circle:()=>_ch([[60,64,67],[55,59,62],[62,66,69],[53,57,60],[58,62,65]],0.7),relative:()=>_ch([[60,64,67],[57,60,64]],1.0),
- interval:()=>_sq([60,67,[60,67]],0.6,0.5),count:()=>_sq([60,62,64,[60,64]],0.45),size:()=>_sq([60,64,[60,64],null,60,63,[60,63]],0.4),abbr:()=>_sq([60,64,null,60,63,null,60,67],0.35),broken:()=>_sq([60,67,null,[60,67]],0.55),
- snow:()=>_ch([[60,64,67],[62,65,69]],0.9),root:()=>_sq([65,[65,69,72]],0.7),majch:()=>_sq([60,64,67,[60,64,67]],0.4),minch:()=>_sq([60,63,67,[60,63,67]],0.4),mid:()=>_ch([[60,64,67],[60,63,67]],1.0),prim:()=>_ch([[60,64,67],[65,69,72],[67,71,74],[60,64,67]],0.8),
- dyn:()=>{stopAll();const t=now();[0.03,0.06,0.11,0.17,0.27,0.42].forEach((v,i)=>tone(67,t+i*0.42,0.38,v));},hairpin:()=>{stopAll();const t=now();for(let i=0;i<6;i++)tone(67,t+i*0.3,0.28,0.04+i*0.07);for(let i=0;i<6;i++)tone(67,t+2+i*0.3,0.28,0.4-i*0.07);},
- stacc:()=>{stopAll();const t=now();[64,65,67].forEach((m,i)=>tone(m,t+i*0.35,0.07,0.24));[64,65,67].forEach((m,i)=>tone(m,t+1.3+i*0.35,0.4,0.24));},
- accentm:()=>{stopAll();const t=now();[64,64,67,64].forEach((m,i)=>tone(m,t+i*0.38,0.3,i%2?0.12:0.36));},fermata:()=>{stopAll();const t=now();tone(67,t,0.35,0.22);tone(65,t+0.4,0.35,0.22);tone(64,t+0.8,2.2,0.22);},
- ties:()=>{stopAll();const t=now();tone(67,t,0.8,0.22);tone(64,t+1.1,0.32,0.22);tone(65,t+1.42,0.32,0.22);tone(67,t+1.74,0.5,0.22);},
- repeat:()=>_sq([64,67,66,69,null,64,67,66,69],0.3),volta:()=>_sq([64,65,67,null,64,65,72],0.32),
- phrase:()=>_sq([60,64,67,65,64,null,62,65,69,67,64],0.28),forms:()=>_sq([60,64,67,null,65,69,72,null,60,64,67],0.25),rondo:()=>_sq([60,64,null,67,71,null,60,64,null,65,69,null,60,64],0.22),
- round:()=>{stopAll();const t=now();const m=[60,62,64,60];[0,1,2].forEach(v=>m.forEach((x,i)=>tone(x+v*0,t+v*0.9+i*0.3,0.28,0.16)));},
- ostinato:()=>{stopAll();const t=now();for(let i=0;i<8;i++){tone(48,t+i*0.3,0.25,0.18);tone(55,t+i*0.3+0.15,0.12,0.1);}[72,74,76,74,72,71,72].forEach((m,i)=>tone(m,t+i*0.34,0.3,0.2));},
- variation:()=>_sq([60,64,67,null,60,62,64,65,67,null,[60,64],67,72],0.24),chorus:()=>_sq([60,62,64,null,67,67,67,null,60,62,64,null,67,67,67],0.22),dc:()=>_sq([60,64,null,62,65,null,64,67,null,65,69,null,60,64,null,62,65,60],0.22),mood:()=>_ch([[60,64,67,72],[57,60,64,69]],1.1),letters:()=>_sq([60,64,67,null,65,69,72,null,60,64,67],0.25)
+ names:()=>_sq([60,62,64,65,67,69,71,72],0.36),
+ pulse4:()=>_kn([2,1,1,1],88),vals1:()=>_beats(0.6,12,[[0,4],[4,2],[8,1]]),vals2:()=>_beats(0.6,6,[[0,1],[2,0.5],[2.5,0.5],[4,0.25],[4.25,0.25],[4.5,0.25],[4.75,0.25]]),dot:()=>_beats(0.7,7,[[0,3],[4,1.5],[6,0.75]]),
+ syll:()=>_rh([1,0.5,0.5,2],67,96),pulse:()=>_kn([1,1,1,1,1,1,1,1],96),accent:()=>_kn([2,1,2,1,2,1,2,1,2,1,1,2,1,1,2,1,1],112),
+ laghrynur:()=>{const sp=0.6,T=_rh([1,0.5,0.5,1,1,0.5,0.5,0.5,0.5,2],67,100),t=now(),P=[0,1,2,3,4,5,6,7].map(b=>b*sp);P.forEach(x=>knock(t+x,false,0.35));return [P,T];},upbeat:()=>_rh([1,1,1,1,3,2],67,110),
+ half:()=>_sq([60,61,null,64,65],0.42),whole:()=>_sq([60,62],0.55),ef:()=>_sq([64,65,null,71,72],0.42),sharp:()=>_sq([65,66],0.6,0.5),flat:()=>_sq([62,61],0.6,0.5),
+ nat:()=>_sq([66,65],0.6,0.5),enh:()=>_sq([61,61],0.6,0.5),
+ scale:()=>_sq([60,62,64,65,67,69,71,72],0.34),tonic:()=>_sq([60,64,67,65,62,60],0.38),major:()=>_sq([60,62,64,65,67,69,71,72],0.34),minor:()=>_sq([57,59,60,62,64,66,68,69,67,65,64],0.3),
+ penta:()=>_sq([60,62,64,67,69,72],0.36),stepleap:()=>_sq([60,62,64,null,60,67,64],0.38),relative:()=>_ch([[60,64,67],[57,60,64]],1.0),
+ interval:()=>_sq([60,67,[60,67]],0.6,0.5),broken:()=>_sq([60,67,null,[60,67]],0.6),
+ majch:()=>_sq([60,64,67,[60,64,67]],0.42),minch:()=>_sq([60,63,67,[60,63,67]],0.42),mid:()=>_ch([[60,64,67],[60,63,67]],1.0),prim:()=>_ch([[60,64,67],[65,69,72],[67,71,74]],0.9),
+ dyn:()=>_at([0.03,0.06,0.11,0.17,0.27,0.42].map((v,i)=>[i*0.42,67,0.38,v])),
+ hairpin:()=>_at([...Array(6)].map((_,i)=>[i*0.3,67,0.28,0.04+i*0.07]).concat([...Array(6)].map((_,i)=>[2+i*0.3,67,0.28,0.4-i*0.07]))),
+ stacc:()=>_at([64,65,67].map((m,i)=>[i*0.35,m,0.07,0.24]).concat([64,65,67].map((m,i)=>[1.3+i*0.35,m,0.4,0.24]))),
+ accentm:()=>_at([64,64,67,64].map((m,i)=>[i*0.38,m,0.3,i%2?0.12:0.36])),
+ fermata:()=>_at([[0,67,0.35,0.22],[0.4,65,0.35,0.22],[0.8,64,2.2,0.22]]),
+ ties:()=>{_at([[0,67,0.8,0.22],[1.1,64,0.32,0.22],[1.42,65,0.32,0.22],[1.74,67,0.5,0.22]]);return [0,0.55,1.1,1.42,1.74];},
+ phrase:()=>_sq([60,64,67,65,64,null,62,65,69,67,64],0.3),
+ round:()=>{const B=1.2,ph=[[60,62,64,60],[64,65,67,null],[67,69,67,65,64,null,60,null]],L=[];
+   [0,1,2].forEach(v=>ph.forEach((p,i)=>{const st=(v+i)*B,d=B/p.length;p.forEach((m,j)=>{if(m!=null)L.push([st+j*d,m,d*0.9,0.15]);});}));
+   _at(L);const T=[];[0,1,2].forEach(v=>[0,1,2].forEach(i=>T.push((v+i)*B)));return T;},
+ ostinato:()=>{stopAll();const t=now();for(let i=0;i<6;i++){tone(48,t+i*0.4,0.3,0.18);tone(55,t+i*0.4+0.2,0.18,0.1);}[72,74,76,74,72,71,72].forEach((m,i)=>tone(m,t+i*0.34,0.3,0.2));return [0,1,2,3,4,5].map(i=>i*0.4);},
+ variation:()=>{const ph=[[60,64,67],[60,62,64,65,67],[[60,64],67,72],[72,67,64,60]],L=[],S=[];let o=0;
+   ph.forEach(p=>{S.push(o);p.forEach((m,j)=>(Array.isArray(m)?m:[m]).forEach(x=>L.push([o+j*0.26,x,0.24,0.2])));o+=p.length*0.26+0.3;});_at(L);return S;}
 };
-function animFig(card){
-  const fig=card.querySelector(".cc-fig");if(!fig)return;card.classList.remove("anim");void card.offsetWidth;
-  const els=[...fig.querySelectorAll("svg *")].filter(e=>{const st=(e.getAttribute("style")||"")+" "+(e.getAttribute("class")||"");return /accent|kick|color-mix|st-hl|--hat|--open|--perc|--tone|--snare|--tint|chip/.test(st)&&!/st-line/.test(st);});
-  const xs=els.map(e=>{try{const b=e.getBBox();return b.x;}catch(_){return 0;}});const mx=Math.max(1,...xs);
-  els.forEach((e,i)=>{e.style.animation="none";void e.getBoundingClientRect();const delay=(xs[i]/mx)*1.7;
-    const isStroke=(e.tagName==="path"||e.tagName==="line")&&/stroke:/.test(e.getAttribute("style")||"")&&!/fill:(?!none)/.test(e.getAttribute("style")||"");
-    if(isStroke){e.setAttribute("pathLength","1");e.style.strokeDasharray="1";e.style.strokeDashoffset="1";e.style.animation=`ccDraw 1.5s ${delay*0.3}s ease-in-out forwards`;}
-    else if(e.hasAttribute("transform")){e.style.animation=`ccFade .45s ${delay}s both ease-out`;}
-    else{e.style.transformBox="fill-box";e.style.transformOrigin="center";e.style.animation=`ccPop .5s ${delay}s both cubic-bezier(.3,1.6,.5,1)`;}});
+function animFig(card,times){
+  const fig=card.querySelector(".cc-fig");if(!fig)return;
+  fig.querySelectorAll(".cc-ov").forEach(o=>o.remove());
+  const sty=e=>(e.getAttribute("style")||"")+" "+(e.getAttribute("class")||"");
+  const all=[...fig.querySelectorAll("svg *")];all.forEach(e=>{e.style.animation="none";});void fig.offsetWidth;
+  const box=e=>{try{return e.getBBox();}catch(_){return {x:0,y:0,width:0,height:0};}};
+  const isStroke=e=>(e.tagName==="path"||e.tagName==="line")&&!!e.style.stroke&&(!e.style.fill||e.style.fill==="none");
+  const isShape=e=>e.tagName==="rect"||e.tagName==="ellipse";
+  /* ljómi: afrit ofan á nótuna sem lýsist og dofnar — nótan sjálf hverfur aldrei */
+  const flash=(e,t,peak=0.9)=>{const o=e.cloneNode(false);o.removeAttribute("data-bt");o.removeAttribute("data-tk");o.setAttribute("class","cc-ov");
+    const own=(e.getAttribute("style")||"").replace(/\s/g,""),pink=/fill:var\(--accent\)/.test(own);
+    o.setAttribute("style",`fill:${pink?"#8E1556":"var(--accent)"};stroke:none;opacity:0;pointer-events:none;--pk:${peak};animation:ccGlow .6s ${t.toFixed(2)}s ease-out`);e.after(o);};
+  const pop=(e,d)=>{if(e.hasAttribute("transform"))e.style.animation=`ccFade .35s ${d.toFixed(2)}s both ease-out`;else{e.style.transformBox="fill-box";e.style.transformOrigin="center";e.style.animation=`ccPop .4s ${d.toFixed(2)}s both cubic-bezier(.3,1.6,.5,1)`;}};
+  const draw=(e,a,dur,ease)=>{e.setAttribute("pathLength","1");e.style.strokeDasharray="1";e.style.strokeDashoffset="1";e.style.animation=`ccDraw ${dur.toFixed(2)}s ${a.toFixed(2)}s ${ease} forwards`;};
+  const els=all.filter(e=>/accent|kick|color-mix|st-hl|--hat|--open|--perc|--tone|--snare|--tint|chip/.test(sty(e))&&!/st-line/.test(sty(e))&&!e.hasAttribute("data-bt")&&!e.hasAttribute("data-tk"));
+  if(!times||!times.length){ /* hljóðlaust: birtist frá vinstri til hægri */
+    const bb=els.map(box),cen=bb.map(b=>b.x+b.width/2),lo=Math.min(...cen),hi=Math.max(...cen),T=x=>hi>lo?Math.max(0,(x-lo)/(hi-lo))*1.2:0;
+    els.forEach((e,i)=>{if(isStroke(e))draw(e,T(bb[i].x),Math.max(0.5,T(bb[i].x+bb[i].width)-T(bb[i].x)+0.5),"ease-in-out");
+      else if(isShape(e)){if(!/--tint/.test(sty(e)))flash(e,T(cen[i]),0.75);}else pop(e,T(cen[i]));});
+  }else{ /* með hljóði: nóturnar lýsast upp um leið og þær hljóma */
+    const sp=SPEED||1,per=Array.isArray(times[0]);
+    if(times.sp){const bs=times.sp/sp; /* stikur vaxa í takt, slagreitir blikka með taktmælinum */
+      fig.querySelectorAll("[data-bt]").forEach(e=>{e.style.transformBox="fill-box";e.style.transformOrigin="left center";e.style.animation=`ccGrow ${(+e.dataset.bl*bs).toFixed(2)}s ${(+e.dataset.bt*bs).toFixed(2)}s linear both`;});
+      fig.querySelectorAll("[data-tk]").forEach(e=>flash(e,+e.dataset.tk*bs,0.35));}
+    [...fig.querySelectorAll("svg")].forEach((svg,si)=>{
+      const raw=per?(times[si]||times[times.length-1]):times;if(!raw||!raw.length)return;
+      const tt=raw.map(x=>x/sp),n=tt.length,srt=tt.slice().sort((a,b)=>a-b);
+      const at=f=>{const k=Math.max(0,Math.min(n-1,f)),i=Math.floor(k),r=k-i;return i>=n-1?srt[n-1]:srt[i]+r*(srt[i+1]-srt[i]);};
+      const sall=[...svg.querySelectorAll("*")].filter(e=>!e.hasAttribute("data-bt")&&!e.hasAttribute("data-tk")&&!e.classList.contains("cc-ov")),sels=els.filter(e=>svg.contains(e)&&!/--tint/.test(sty(e)));
+      const heads=sall.filter(e=>e.tagName==="ellipse"),beats=sall.filter(e=>(e.tagName==="rect"||(!heads.length&&e.tagName==="circle"))&&(/accent|kick|color-mix|--hat/.test(sty(e))||e.tagName==="circle")&&!(/--tint/.test(sty(e))&&e.tagName==="rect"));
+      const hit=new Set(),maps=[];
+      const schedule=(grp,byRow)=>{if(!grp.length)return;const it=grp.map(e=>{const b=box(e);return {e,x:b.x+b.width/2,y:b.y+b.height/2};});
+        let rows=[it];if(byRow){const ys=[...new Set(it.map(o=>Math.round(o.y)))].sort((a,b)=>a-b),bands=[];ys.forEach(y=>{if(!bands.length||y-bands[bands.length-1][1]>8)bands.push([y,y]);else bands[bands.length-1][1]=y;});
+          rows=bands.map(([a,b])=>it.filter(o=>Math.round(o.y)>=a&&Math.round(o.y)<=b));}
+        const cols=[];rows.forEach(r=>{r.sort((a,b)=>a.x-b.x);r.forEach(o=>{const c=cols[cols.length-1];if(c&&c.row===r&&Math.abs(o.x-c.x)<5)c.items.push(o);else cols.push({row:r,x:o.x,items:[o]});});});
+        const m=cols.length;cols.forEach((c,k)=>{c.t=m===n?tt[k]:at(m>1?k*(n-1)/(m-1):0);c.items.forEach(o=>{hit.add(o.e);
+          if(o.e.tagName==="circle"&&!/--tint/.test(sty(o.e))&&!/color-mix/.test(sty(o.e))){o.e.style.transformBox="fill-box";o.e.style.transformOrigin="center";o.e.style.animation=`ccBeat .45s ${c.t.toFixed(2)}s ease-out`;}else flash(o.e,c.t);});});
+        maps.push(cols);};
+      schedule(heads,false);schedule(beats,true);
+      const ref=(maps.find(c=>c.length>1&&c.every(x=>x.row===c[0].row))||[]).slice().sort((a,b)=>a.x-b.x);
+      const xs=sels.map(e=>{const b=box(e);return b.x+b.width/2;}),lo=Math.min(...xs),hi=Math.max(...xs);
+      const T=x=>{if(ref.length>1){if(x<=ref[0].x)return ref[0].t;for(let k=1;k<ref.length;k++)if(x<=ref[k].x){const f=(x-ref[k-1].x)/Math.max(1,ref[k].x-ref[k-1].x);return ref[k-1].t+f*(ref[k].t-ref[k-1].t);}return ref[ref.length-1].t;}
+        return hi>lo?at(Math.max(0,Math.min(1,(x-lo)/(hi-lo)))*(n-1)):srt[0];};
+      sels.forEach(e=>{if(hit.has(e))return;const b=box(e);if(isStroke(e)){const a=T(b.x),z=T(b.x+b.width);draw(e,a,Math.max(0.3,z-a+0.2),"linear");}else if(isShape(e))flash(e,T(b.x+b.width/2),0.75);else pop(e,T(b.x+b.width/2));});
+    });
+  }
   fig.querySelectorAll(".chip").forEach((c,i)=>{c.style.animation="none";void c.offsetWidth;c.style.animation=`ccPop .5s ${i*0.12}s both cubic-bezier(.3,1.6,.5,1)`;});
-  card.classList.add("anim");
 }
-function wireConcepts(){document.querySelectorAll(".concepts .cc").forEach(card=>{if(card._w)return;card._w=1;card.tabIndex=0;card.setAttribute("role","button");
-  const go=()=>{animFig(card);const f=card.dataset.fig;if(SND[f])SND[f]();};
-  card.addEventListener("click",e=>{if(e.target.closest("a,button,input"))return;go();});card.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go();}});});}
+/* spjaldið stækkar með sveiflu (view transition) og svo fer hreyfingin af stað */
+const RMOT=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
+function ccSwap(grid,fn,then){
+  const cards=[...grid.querySelectorAll(".cc")];
+  if(!document.startViewTransition||RMOT()){fn();then&&then();return;}
+  cards.forEach((c,i)=>c.style.viewTransitionName=`cc${i}`);
+  const vt=document.startViewTransition(fn);vt.ready.catch(()=>{});vt.updateCallbackDone.catch(()=>{});
+  vt.finished.finally(()=>{cards.forEach(c=>c.style.viewTransitionName="");then&&then();});
+}
+function ccOpen(card,then){const grid=card.parentElement;
+  ccSwap(grid,()=>{grid.querySelectorAll(".cc.open").forEach(c=>{c.classList.remove("open");c.style.gridColumn="";});
+    const cols=getComputedStyle(grid).gridTemplateColumns.split(" ").filter(Boolean).length;card.classList.add("open");if(cols>=2)card.style.gridColumn="span 2";},
+    ()=>{const r=card.getBoundingClientRect();if(r.top<70||r.bottom>innerHeight)card.scrollIntoView({behavior:RMOT()?"auto":"smooth",block:"nearest"});then&&then();});}
+function ccClose(card){stopAll();ccSwap(card.parentElement,()=>{card.classList.remove("open");card.style.gridColumn="";});}
+function wireConcepts(){document.querySelectorAll(".concepts .cc").forEach(card=>{if(card._w)return;card._w=1;card.tabIndex=0;card.setAttribute("role","button");card.setAttribute("aria-expanded","false");
+  const x=el("button",{class:"cc-close","aria-label":"Loka"},"✕");x.onclick=e=>{e.stopPropagation();ccClose(card);card.setAttribute("aria-expanded","false");};card.prepend(x);
+  const run=()=>{const f=card.dataset.fig;let times=null;if(SND[f]){try{times=SND[f]();}catch(_){}}animFig(card,times);};
+  const go=()=>{if(card.classList.contains("open"))run();else{stopAll();card.setAttribute("aria-expanded","true");ccOpen(card,run);}};
+  card.addEventListener("click",e=>{if(e.target.closest("a,input,.cc-close"))return;go();});
+  card.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go();}else if(e.key==="Escape"&&card.classList.contains("open")){ccClose(card);card.setAttribute("aria-expanded","false");}});});}
 
 /* ============ SÝNIPRÓF ============ */
 const KNOW=[
