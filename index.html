@@ -196,7 +196,7 @@ button[disabled]{opacity:.5;cursor:default}
 .stoc button i{font-style:normal;font-weight:600;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:.75rem;background:var(--c,var(--accent));color:#fff}
 .stoc button.on{background:var(--ink);color:var(--surface)}
 .glosa{font-size:.95rem;background:var(--surface);border-radius:16px;padding:10px 14px;box-shadow:0 2px 0 var(--line);border-left:6px solid var(--tone)}
-.band{--c:var(--accent);border-radius:36px;padding:26px 28px 30px;background:color-mix(in srgb,var(--c) 9%,var(--surface));box-shadow:0 2px 0 var(--line);display:flex;flex-direction:column;gap:18px;scroll-margin-top:130px;position:relative;overflow:hidden}
+.band{--c:var(--accent);border-radius:36px;padding:26px 28px 30px;background:color-mix(in srgb,var(--c) 9%,var(--surface));box-shadow:0 2px 0 var(--line);display:flex;flex-direction:column;gap:18px;scroll-margin-top:130px;position:relative;overflow:hidden;overflow:clip}
 .band::before{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:42% 58% 63% 37%/45% 40% 60% 55%;background:color-mix(in srgb,var(--c) 18%,transparent);pointer-events:none}
 .band-head{display:flex;align-items:center;gap:16px;position:relative}
 .band-num{width:56px;height:56px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--c);color:#fff;font-family:var(--f-display);font-weight:700;font-size:1.6rem;box-shadow:0 3px 0 color-mix(in srgb,var(--c) 60%,#000)}
@@ -245,9 +245,9 @@ td.num{font-variant-numeric:tabular-nums}
 .fb{min-height:1.6em;font-weight:600}
 .fb.ok{color:var(--good)} .fb.no{color:var(--bad)}
 .opts-rhythm{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
-.opts-rhythm button{display:flex;flex-direction:column;align-items:stretch;gap:4px;padding:10px;border-radius:20px;text-align:left}
+.opts-rhythm button{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:4px;padding:10px;border-radius:20px;text-align:left}
 .opts-rhythm button .ex-kind{align-self:flex-start;background:var(--muted)}
-.opts-rhythm button svg{width:100%;height:auto}
+.opts-rhythm button svg{width:auto;max-width:100%;height:auto;align-self:center}
 .opts-rhythm button.ok{background:var(--good-soft);color:var(--ink);box-shadow:inset 0 0 0 3px var(--good)}
 .opts-rhythm button.no{text-decoration:none}
 label.chk{display:inline-flex;gap:6px;align-items:center;font-size:.92rem;border-radius:999px;padding:5px 12px;cursor:pointer;background:var(--bg);box-shadow:inset 0 0 0 1.5px var(--line)}
@@ -402,6 +402,47 @@ nav.links::-webkit-scrollbar{display:none}
 @media (max-width:520px){.wk-bar{display:none}.daily-hero{padding:22px 18px}}
 /* kapphlaup */
 .race-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.crumb{display:inline-block;font-size:.9rem;color:var(--muted);text-decoration:none;margin-bottom:2px}.crumb:hover{color:var(--ink)}
+.hub-g{display:flex;flex-direction:column;gap:12px}.hub-g h2{font-size:1.25rem;margin:0}
+.hub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr));gap:12px}
+.hub-c{--c:var(--accent);position:relative;display:flex;flex-direction:column;gap:4px;padding:18px 20px;border-radius:26px;text-decoration:none;color:var(--ink);min-height:132px;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 18%,var(--surface)),var(--surface));box-shadow:0 2px 0 var(--line);transition:transform .3s cubic-bezier(.2,.9,.3,1.2),box-shadow .3s}
+@media (hover:hover){.hub-c:hover{transform:translateY(-4px) rotate(-.3deg);box-shadow:0 8px 0 -2px color-mix(in srgb,var(--c) 35%,var(--line)),0 16px 26px -18px rgba(0,0,0,.25)}}
+.hub-c b{font-size:1.1rem}.hub-c small{color:var(--muted);font-size:.92rem;line-height:1.45}
+.hub-ic{font-size:1.6rem;line-height:1;margin-bottom:4px}
+.hub-l{position:absolute;right:14px;top:14px;font-size:.72rem;font-weight:600;padding:2px 9px;border-radius:99px;background:color-mix(in srgb,var(--c) 18%,var(--surface));color:var(--muted)}
+.flash-in{animation:flashIn 1.5s ease-out}
+@keyframes flashIn{0%,30%{box-shadow:0 0 0 4px var(--accent)}100%{box-shadow:0 0 0 0 transparent}}
+/* tónbilahlaupið */
+.hl-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.hl-score{font-weight:600}.hl-score b{font-family:var(--f-display);font-size:1.3rem}.hl-hearts{font-size:1.15rem;letter-spacing:2px}
+.hl-top .hl-rep{margin-left:auto}
+.hl-stage{position:relative;container-type:inline-size;aspect-ratio:16/8;min-height:260px;border-radius:30px;overflow:hidden;background:linear-gradient(180deg,color-mix(in srgb,var(--kick) 16%,var(--surface)) 0%,var(--surface) 70%);box-shadow:0 2px 0 var(--line);outline:none;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+@media (max-width:640px){.hl-stage{aspect-ratio:auto;height:min(62vh,460px)}.hl-gate{min-width:88px}.hl-gate b{font-size:1.25rem}}
+.hl-stage:focus-visible{box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 40%,transparent)}
+.hl-sky{position:absolute;inset:0;pointer-events:none}
+.hl-hill{position:absolute;bottom:-30%;width:70%;height:70%;border-radius:50%;background:color-mix(in srgb,var(--accent) 10%,transparent);animation:hlPar 14s linear infinite}
+.hl-hill.h2{left:40%;width:90%;background:color-mix(in srgb,var(--kick) 9%,transparent);animation-duration:22s}
+.hl-hill.h3{left:80%;background:color-mix(in srgb,var(--hat) 10%,transparent);animation-duration:18s}
+@keyframes hlPar{from{transform:translateX(60%)}to{transform:translateX(-160%)}}
+.hl-lanes{position:absolute;inset:0;display:flex;flex-direction:column}
+.hl-lane{flex:1;border-bottom:2px dashed color-mix(in srgb,var(--ink) 12%,transparent);cursor:pointer}.hl-lane:last-child{border-bottom:0}
+.hl-gates{position:absolute;inset:0;pointer-events:none;will-change:transform}
+.hl-gate{position:absolute;left:0;transform:translateY(-50%);pointer-events:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;min-width:104px;height:calc(50cqw / var(--lanes,3) * .74);min-height:76px;padding:10px 14px;border-radius:999px 999px 16px 16px;background:var(--surface);border:3px solid color-mix(in srgb,var(--accent) 45%,var(--line));box-shadow:0 4px 0 color-mix(in srgb,var(--ink) 18%,transparent);color:var(--ink);transition:background .2s,border-color .2s}
+.hl-gate b{font-family:var(--f-display);font-size:1.5rem;line-height:1.1}.hl-gate small{font-size:.72rem;color:var(--muted)}
+.hl-gate.right{background:color-mix(in srgb,var(--good) 22%,var(--surface));border-color:var(--good)}
+.hl-gate.wrong{background:color-mix(in srgb,var(--bad) 18%,var(--surface));border-color:var(--bad)}
+.hl-runner{position:absolute;left:12%;width:clamp(60px,9cqw,92px);height:clamp(64px,9.6cqw,98px);transform:translate(-50%,-50%);transition:top .18s cubic-bezier(.3,1.4,.5,1);pointer-events:none}
+.hl-runner svg{width:100%;height:100%;overflow:visible;animation:hlBob .36s ease-in-out infinite alternate}
+.hl-body{fill:var(--accent)}.hl-stem{stroke:var(--ink);stroke-width:3}.hl-flag{fill:var(--ink)}
+.hl-leg{stroke:var(--ink);stroke-width:4;stroke-linecap:round;transform-origin:50% 62%;animation:hlLeg .36s ease-in-out infinite alternate}.hl-leg.l2{animation-direction:alternate-reverse}
+@keyframes hlBob{from{transform:translateY(-3px)}to{transform:translateY(3px)}}
+@keyframes hlLeg{from{transform:rotate(-18deg)}to{transform:rotate(18deg)}}
+.hl-runner.jump svg{animation:hlJump .5s ease-out}
+.hl-runner.trip svg{animation:hlTrip .6s ease-out}
+@keyframes hlJump{0%{transform:translateY(0)}40%{transform:translateY(-22px) rotate(-8deg)}100%{transform:translateY(0)}}
+@keyframes hlTrip{0%{transform:rotate(0)}30%{transform:rotate(35deg) translateY(6px)}100%{transform:rotate(0)}}
+.hl-msg{position:absolute;left:50%;top:10%;transform:translate(-50%,-10px);padding:6px 16px;border-radius:99px;background:var(--surface);font-weight:600;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;box-shadow:0 4px 14px -8px rgba(0,0,0,.3)}
+.hl-msg.show{opacity:1;transform:translate(-50%,0)}.hl-msg.ok{color:var(--good)}.hl-msg.no{color:var(--bad)}
+@media (prefers-reduced-motion:reduce){.hl-hill,.hl-runner svg,.hl-leg{animation:none}}
 .race-c{--c:var(--accent);display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:16px 18px;border-radius:24px;text-align:left;min-height:120px;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 18%,var(--surface)),var(--surface))}
 .race-c b{font-size:1.08rem}.race-c small{color:var(--muted)}
 .rc-ic{font-size:1.4rem}.rc-best{margin-top:auto;font-size:.88rem;color:var(--muted)}.rc-best b{color:var(--ink)}
@@ -420,9 +461,10 @@ nav.links::-webkit-scrollbar{display:none}
 @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 @media (hover:none){.race-opts kbd{display:none}}
 /* hugtök */
-.concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(400px,100%),1fr));gap:18px;grid-auto-flow:dense}
-.cc{background:var(--surface);border-radius:28px;padding:18px 20px 22px;box-shadow:0 2px 0 var(--line);display:flex;flex-direction:column;gap:12px;min-width:0;cursor:pointer;transition:transform .18s,box-shadow .18s}
-.cc:hover{transform:translateY(-3px);box-shadow:0 6px 0 color-mix(in srgb,var(--accent) 30%,var(--line))}
+.concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(400px,100%),1fr));gap:18px}
+.cc{background:var(--surface);border-radius:28px;padding:18px 20px 22px;box-shadow:0 2px 0 var(--line);display:flex;flex-direction:column;gap:12px;min-width:0;cursor:pointer;transition:transform .35s cubic-bezier(.2,.9,.3,1.2),box-shadow .35s}
+.cc .cc-fig svg{transition:transform .45s cubic-bezier(.2,.9,.3,1.2)}
+@media (hover:hover){.cc:hover{transform:translateY(-5px) rotate(-.35deg);box-shadow:0 10px 0 -2px color-mix(in srgb,var(--accent) 30%,var(--line)),0 18px 30px -18px rgba(0,0,0,.25)}.cc:hover .cc-fig svg{transform:scale(1.025)}}
 .cc:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 .cc-fig{position:relative;min-height:170px;overflow-y:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--bg);border-radius:20px;padding:16px;overflow-x:auto}
 .cc-fig svg{width:100%;max-width:380px;height:auto;flex:none;overflow:visible}
@@ -431,17 +473,7 @@ nav.links::-webkit-scrollbar{display:none}
 .cc:hover .cc-play{transform:scale(1.12)}
 .cc-play.mute{background:var(--tint);color:var(--muted);font-size:.95rem}
 .cc{position:relative}
-.cc.open{box-shadow:0 0 0 3px var(--accent),0 14px 36px -12px color-mix(in srgb,var(--accent) 45%,transparent);cursor:default}
-.cc.open:hover{transform:none}
-.cc.open .cc-fig{min-height:300px;padding:28px}
-.cc.open .cc-fig svg{max-width:600px;max-height:340px}
-.cc.open .cc-fig svg+svg{max-width:560px}
-.cc.open h3{font-size:1.55rem}
-.cc.open p{font-size:1.15rem;max-width:60ch}
-.cc-close{display:none;position:absolute;left:-10px;top:-10px;z-index:2;width:36px;height:36px;border-radius:50%;border:0;background:var(--surface);color:var(--ink);font-size:1rem;box-shadow:0 2px 8px rgba(0,0,0,.18);cursor:pointer}
-.cc.open .cc-close{display:grid;place-items:center}
-.cc-close:hover{background:var(--tint)}
-::view-transition-group(*){animation-duration:.5s;animation-timing-function:cubic-bezier(.2,.85,.25,1)}
+@media (min-width:761px){.concepts .cc-fig{flex:1}.concepts::after{content:"";grid-column:1/-1;height:var(--run,0px)}.concepts .cc{position:sticky;will-change:translate;top:calc(env(safe-area-inset-top,0px) + 132px + var(--r,0)*16px);align-self:start;box-shadow:0 -8px 26px -16px rgba(0,0,0,.22),0 2px 0 var(--line)}}
 @keyframes ccGlow{0%{opacity:0}15%{opacity:var(--pk,.9)}100%{opacity:0}}
 @keyframes ccGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes ccBeat{0%{transform:scale(1)}30%{transform:scale(1.35)}100%{transform:scale(1)}}
@@ -574,6 +606,19 @@ button.opt[aria-pressed="true"],.opts-rhythm button[aria-pressed="true"]{backgro
 .tap-pad{width:120px;height:120px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-size:1.1rem;box-shadow:0 5px 0 var(--deep);touch-action:manipulation;user-select:none;-webkit-user-select:none}
 .tap-pad[disabled]{opacity:.35}
 .tap-pad.hitf{transform:scale(.92);box-shadow:0 1px 0 var(--deep)}
+.tap-pad{position:relative;overflow:visible;transition:transform .08s,box-shadow .08s}
+.tap-ring{position:absolute;inset:-2px;border-radius:50%;border:4px solid var(--accent);pointer-events:none;animation:tapRing .6s cubic-bezier(.2,.7,.3,1) forwards}
+.tap-ring.r2{border-width:2px;animation-delay:.07s;opacity:0}
+@keyframes tapRing{0%{transform:scale(1);opacity:.75}100%{transform:scale(1.9);opacity:0}}
+.tap-bump{animation:tapBump .28s ease-out}
+@keyframes tapBump{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 55%,transparent)}35%{box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 30%,transparent);transform:translateY(1px)}100%{box-shadow:0 0 0 0 transparent;transform:none}}
+.ear-vis{display:flex;gap:6px;flex-wrap:wrap;padding:6px 0}
+.ear-vis i{position:relative;width:46px;height:30px;border-radius:10px;background:var(--tint);transition:background .12s}
+.ear-vis i.down{box-shadow:inset 3px 0 0 color-mix(in srgb,var(--ink) 35%,transparent)}
+.ear-vis i.on{background:color-mix(in srgb,var(--accent) 22%,var(--tint))}
+.ear-vis.count i:first-child{background:color-mix(in srgb,var(--ink) 15%,var(--tint))}
+.ear-vis em{position:absolute;top:50%;width:14px;height:14px;margin:-7px 0 0 4px;border-radius:50%;background:var(--accent);animation:earDot .6s ease-out forwards}
+@keyframes earDot{0%{transform:scale(.4);opacity:1}30%{transform:scale(1.25)}100%{transform:scale(1);opacity:0}}
 .tap-res{display:flex;flex-direction:column;gap:6px}
 .res-hero{--c:var(--accent);display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px;align-items:center;border-radius:36px;padding:28px 30px;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 22%,var(--surface)),color-mix(in srgb,var(--c) 8%,var(--surface)));box-shadow:0 2px 0 var(--line)}
 .res-num{width:120px;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:var(--c);color:#fff;font-family:var(--f-display);font-weight:700;font-size:2.8rem;box-shadow:0 5px 0 color-mix(in srgb,var(--c) 60%,#000)}
@@ -599,11 +644,9 @@ button.opt[aria-pressed="true"],.opts-rhythm button[aria-pressed="true"]{backgro
   <nav class="links" aria-label="Aðalvalmynd">
     <a href="#forsida" data-nav="forsida">Fyrirkomulag</a>
     <a href="#lotur" data-nav="lotur">Loturnar</a>
-    <a href="#dagsins" data-nav="dagsins">Æfa</a>
+    <a href="#aefingar" data-nav="aefingar">Æfingar</a>
     <a href="#glosubok" data-nav="glosubok">Glósubókin</a>
     <a href="#grunnprof" data-nav="grunnprof">Grunnprófið</a>
-    <a href="#songur" data-nav="songur">Söngur</a>
-    <a href="#semja" data-nav="semja">Semja</a>
   </nav>
   <div class="set-wrap"><button type="button" class="gear" id="setGear" aria-haspopup="true" aria-expanded="false" aria-controls="setMenu" aria-label="Stillingar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.6 7.6 0 0 0 0 2l-2.2 1.6 2 3.5 2.5-1c.5.4 1.1.8 1.7 1l.4 2.6h4l.4-2.6c.6-.2 1.2-.6 1.7-1l2.5 1 2-3.5zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg></button>
     <div class="set-menu" id="setMenu" hidden role="dialog" aria-label="Stillingar"></div></div>
@@ -637,9 +680,9 @@ button.opt[aria-pressed="true"],.opts-rhythm button[aria-pressed="true"]{backgro
     <ol class="pop-steps">
       <li style="--c:var(--kick);--k:0"><i>1</i><b>Hugtök</b><span>Samantekt á því sem þú þarft að vita.</span></li>
       <li style="--c:var(--snare);--k:1"><i>2</i><b>Æfingar</b><span>Lestu, hlustaðu og svaraðu.</span></li>
-      <li style="--c:var(--amb);--k:2"><i>3</i><b>Kafað dýpra</b><span>Valfrjálst, fyrir þá sem vilja meira.</span></li>
-      <li style="--c:var(--open);--k:3"><i>4</i><b>Í stílabókina</b><span>Stutt verkefni fyrir glósurnar.</span></li>
-      <li style="--c:var(--perc);--k:4"><i>5</i><b>Hvað kann ég?</b><span>Gátlisti til að meta sjálfan sig.</span></li>
+      <li style="--c:var(--open);--k:2"><i>3</i><b>Í stílabókina</b><span>Stutt verkefni fyrir glósurnar.</span></li>
+      <li style="--c:var(--perc);--k:3"><i>4</i><b>Hvað kann ég?</b><span>Gátlisti til að meta sjálfan sig.</span></li>
+      <li style="--c:var(--amb);--k:4"><i>5</i><b>Kafað dýpra</b><span>Valfrjálst, í sumum lotum, fyrir þá sem vilja meira.</span></li>
     </ol>
     <p class="read">Hver og einn vinnur á sínum hraða. Gerðu æfingarnar oft, stutt í einu. Tónheyrn þjálfast best með því að hlusta svolítið á hverjum degi.</p>
   </section>
@@ -906,7 +949,7 @@ button.opt[aria-pressed="true"],.opts-rhythm button[aria-pressed="true"]{backgro
   </div>
   <div class="block"><h2>Æfingar</h2>
     <div class="ex" id="exForm"></div>
-    <div class="ex" id="exSongName"></div>
+    <div class="ex" id="wSongDict"></div>
     <div class="ex">
       <div class="ex-head"><div><span class="ex-kind">Hlustun</span><h3>Hlustunarlisti</h3></div></div>
       <p>Finndu verkin á netinu (til dæmis á YouTube eða Spotify), hlustaðu og svaraðu spurningunum í stílabókina.</p>
@@ -926,6 +969,25 @@ button.opt[aria-pressed="true"],.opts-rhythm button[aria-pressed="true"]{backgro
     <p class="lead2">Stutt blönduð æfing úr öllu efninu. Tónheyrn þjálfast best með því að æfa svolítið á hverjum degi.</p>
   </div>
   <div id="daily" class="stack-lg"></div>
+</section>
+
+<!-- ================= ÆFINGAR (yfirlit) ================= -->
+<section class="view stack-lg" data-view="aefingar" hidden>
+  <div class="vm-head">
+    <p class="eyebrow">Æfðu þig, syngdu og skapaðu</p>
+    <h1>Æfingar</h1>
+    <p class="lead2">Allt sem þú getur æft utan lotanna á einum stað: daglegar æfingar, leikir, söngur, tónsmíðar og verkfærin úr lotunum.</p>
+  </div>
+  <div id="hub" class="stack-lg"></div>
+</section>
+
+<!-- ================= TÓNBILAHLAUPIÐ ================= -->
+<section class="view stack-lg" data-view="hlaup" hidden>
+  <div class="vm-head">
+    <p class="eyebrow">Leikur · tónheyrn</p>
+    <h1>Tónbilahlaupið</h1>
+  </div>
+  <div id="hlaupBox" class="stack"></div>
 </section>
 
 <!-- ================= LÖGIN ================= -->
@@ -1172,7 +1234,9 @@ function accGlyph(a,x,y,g){
 }
 
 /* ============ RHYTHM RENDERER ============ */
-const RT={w:{b:[4],w:62,s:"ta-a-a-a"},"h.":{b:[3],w:56,s:"ta-a-a"},h:{b:[2],w:46,s:"ta-a"},"q.e":{b:[1.5,.5],w:66,s:"ta-a tí"},q:{b:[1],w:34,s:"ta"},qr:{b:[1],w:34,s:"(þögn)",rest:1},ee:{b:[.5,.5],w:50,s:"tí-tí"},ssss:{b:[.25,.25,.25,.25],w:74,s:"tí-ri-tí-ri"},hr:{b:[2],w:46,s:"(þögn)",rest:1}};
+/* s = atkvæði í heild (texti), sy = [atkvæði, x-hliðrun frá fyrstu nótu] svo hvert atkvæði standi undir sinni nótu */
+const RT={w:{b:[4],w:62,s:"ta-a-a-a",sy:[["ta-a-a-a",0]]},"h.":{b:[3],w:56,s:"ta-a-a",sy:[["ta-a-a",0]]},h:{b:[2],w:46,s:"ta-a",sy:[["ta-a",0]]},"q.e":{b:[1.5,.5],w:66,s:"ta-a tí",sy:[["ta-a",0],["tí",34]]},q:{b:[1],w:34,s:"ta",sy:[["ta",0]]},qr:{b:[1],w:38,s:"(þögn)",sy:[["(þögn)",0]],rest:1},ee:{b:[.5,.5],w:50,s:"tí-tí",sy:[["tí",0],["tí",24]]},ssss:{b:[.25,.25,.25,.25],w:78,s:"tí-ri-tí-ri",sy:[["tí",0],["ri",18],["tí",36],["ri",54]]},hr:{b:[2],w:46,s:"(þögn)",sy:[["(þögn)",0]],rest:1}};
+const FLAG=(sx,top)=>`<path d="M${sx} ${top} C${sx+1} ${top+7} ${sx+11} ${top+10} ${sx+8.5} ${top+21} C${sx+8.5} ${top+13} ${sx+4} ${top+11} ${sx} ${top+9.5} Z" class="st-ink"/>`;
 function rhythmSVG(bars,opt={}){
   const y=44;let x=8;const P=[];
   if(opt.ts){P.push(`<text x="${x+9}" y="${y-3}" text-anchor="middle" font-size="20" font-weight="800" class="st-ink" style="font-family:var(--f-display)">${opt.ts}</text><text x="${x+9}" y="${y+16}" text-anchor="middle" font-size="20" font-weight="800" class="st-ink" style="font-family:var(--f-display)">4</text>`);x+=28;}
@@ -1187,9 +1251,9 @@ function rhythmSVG(bars,opt={}){
       else if(tk==="qr")P.push(`<text class="st-mus" x="${cx}" y="${y+15}" font-size="30" text-anchor="middle">𝄽</text>`);
       else if(tk==="hr")P.push(`<rect x="${cx-7}" y="${y-5}" width="14" height="5" class="st-ink"/>`);
       else if(tk==="ee")P.push(head(cx,true)+stem(cx)+head(cx+24,true)+stem(cx+24)+`<rect x="${cx+5}" y="${y-33}" width="25.5" height="4.5" class="st-ink"/>`);
-      else if(tk==="ssss"){for(let i=0;i<4;i++)P.push(head(cx+i*17,true)+stem(cx+i*17));P.push(`<rect x="${cx+5}" y="${y-33}" width="${51+1.5}" height="4" class="st-ink"/><rect x="${cx+5}" y="${y-26}" width="${52.5}" height="4" class="st-ink"/>`);}
-      else if(tk==="q.e"){P.push(head(cx,true)+stem(cx)+`<circle cx="${cx+12}" cy="${y-1}" r="2" class="st-ink"/>`+head(cx+34,true)+stem(cx+34)+`<path d="M${cx+39.7} ${y-32} q2 9 10 14 q-3 -5 -10 -6 z" class="st-ink"/>`);}
-      if(opt.syll!==false)P.push(`<text x="${cx}" y="${y+28}" class="st-lab" font-size="11">${T.s}</text>`);
+      else if(tk==="ssss"){for(let i=0;i<4;i++)P.push(head(cx+i*18,true)+stem(cx+i*18));P.push(`<rect x="${cx+5}" y="${y-33}" width="${55.5}" height="4" class="st-ink"/><rect x="${cx+5}" y="${y-26}" width="${55.5}" height="4" class="st-ink"/>`);}
+      else if(tk==="q.e"){P.push(head(cx,true)+stem(cx)+`<circle cx="${cx+12}" cy="${y-1}" r="2" class="st-ink"/>`+head(cx+34,true)+stem(cx+34)+FLAG(cx+39.7,y-32));}
+      if(opt.syll!==false)T.sy.forEach(([w,dx])=>P.push(`<text x="${cx+dx+1}" y="${y+28}" text-anchor="middle" class="st-lab" font-size="${T.rest?9.5:11}"${T.rest?' font-style="italic"':""}>${w}</text>`));
       x+=T.w;
     });
     if(bi<bars.length-1){P.push(`<line x1="${x}" x2="${x}" y1="${y-14}" y2="${y+14}" class="st-stroke" stroke-width="1.4"/>`);x+=12;}
@@ -1273,6 +1337,21 @@ const ART={
  form:()=>{const h=[2,3,2,5,2];const L="ABACA";return `<svg viewBox="0 0 206 74">${h.map((v,i)=>`<rect x="${i*42}" y="${74-v*12-14}" width="36" height="${v*12}" rx="8" fill="${L[i]==="A"?"var(--open)":"var(--perc)"}" opacity="${L[i]==="A"?1:.75}"/><text x="${i*42+18}" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor" opacity=".6">${L[i]}</text>`).join("")}</svg>`;}
 };
 const store={get(k){try{return JSON.parse(localStorage.getItem("tfs:"+k));}catch(e){return null;}},set(k,v){try{localStorage.setItem("tfs:"+k,JSON.stringify(v));}catch(e){}}};
+/* ---- nótuheiti: h/b (sjálfgefið) eða B/B♭ — umbreytt við birtingu, innri heiti haldast h og b ---- */
+const HB={on:store.get("names")==="B"};
+const HB_RE=/(?<![\p{L}\p{N}])([hH](?:ísís|ís)?|[bB])(?![\p{L}\p{N}⁠♭])/gu,HB_NOTE=/^[A-Ha-h](?:ísís|ís|es|s)?['’]*$/;
+function hbText(t,nn){if(!HB.on||!t||!/[hHbB]/.test(t))return t;
+  return t.replace(HB_RE,(m,tok,i,str)=>{const aft=str.slice(i+m.length),bef=str.slice(0,i),key=/^-(dúr|moll)/.test(aft);
+    if(tok[0]==="h")return "b"+tok.slice(1)+"\u2060";
+    if(tok==="b")return "b♭";
+    if(tok[0]==="H"){const dash=/[A-Ha-h]['’]*\s*[–-]\s*$/.test(bef)||/^['’]*\s*[–-]\s*[A-Ha-h]/.test(aft);return (key||nn||dash)?"B"+tok.slice(1)+"\u2060":m;}
+    if(tok==="B")return (key||nn)?"B♭":m;return m;});}
+const HB_DONE=new WeakMap();
+function hbNode(n){const p=n.parentElement;if(!p||p.closest("script,style,textarea,.no-hb"))return;if(HB_DONE.get(n)===n.nodeValue)return;
+  const v=n.nodeValue,isNN=!!p.closest(".nn,.cof-maj,.cof-min")||(p.namespaceURI==="http://www.w3.org/2000/svg"&&HB_NOTE.test(v.trim()));
+  const nv=hbText(v,isNN);HB_DONE.set(n,nv);if(nv!==v)n.nodeValue=nv;}
+function hbWalk(root){if(root.nodeType===3){hbNode(root);return;}if(!root.querySelectorAll)return;const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode())hbNode(n);}
+if(HB.on){hbWalk(document.body);new MutationObserver(ms=>ms.forEach(m=>{if(m.type==="characterData")hbNode(m.target);else m.addedNodes.forEach(hbWalk);})).observe(document.body,{childList:true,subtree:true,characterData:true});}
 function getChecks(){return store.get("checks")||{};}
 function lotaProg(n){const ch=getChecks(),L=LOTUR[n-1];const done=L.c.filter((_,i)=>ch[`c${n}_${i}`]).length;return [done,L.c.length];}
 function renderChecklists(){
@@ -1330,7 +1409,8 @@ function renderGlosubok(focusN){
 function fallbackCopy(txt){const t=el("textarea");t.value=txt;document.body.appendChild(t);t.select();try{document.execCommand("copy");}catch(e){}t.remove();}
 
 /* ============ LOTUSÍÐUR: uppröðun í borða ============ */
-const BANDS=[{k:1,c:"--kick",kick:"Það sem þú þarft að vita",h:"Hugtök"},{k:2,c:"--snare",kick:"Lestu, hlustaðu og svaraðu",h:"Æfingar"},{k:3,c:"--amb",kick:"Fyrir þá sem vilja meira",h:"Kafað dýpra"},{k:4,c:"--open",kick:"Glósur",h:"Í stílabókina"},{k:5,c:"--perc",kick:"Sjálfsmat",h:"Hvað kann ég?"}];
+/* röð birtingar: Kafað dýpra aftast; númer birt í röð (engin göt þó hluta vanti) */
+const BANDS=[{k:1,c:"--kick",kick:"Það sem þú þarft að vita",h:"Hugtök"},{k:2,c:"--snare",kick:"Lestu, hlustaðu og svaraðu",h:"Æfingar"},{k:4,c:"--open",kick:"Glósur",h:"Í stílabókina"},{k:5,c:"--perc",kick:"Sjálfsmat",h:"Hvað kann ég?"},{k:3,c:"--amb",kick:"Fyrir þá sem vilja meira",h:"Kafað dýpra"}];
 function decorate(sec){
   const n=+sec.dataset.view.split("-")[1],L=LOTUR[n-1],ph=phaseOf(n);
   const lh=sec.querySelector(".lhead");const lead=lh.querySelector(".lead").textContent;
@@ -1354,9 +1434,9 @@ function decorate(sec){
   const toc=el("nav",{class:"stoc","aria-label":"Hlutar lotunnar"});
   const gl=el("div",{class:"glosa read"},`<b>Glósubókin:</b> byrjaðu á nýrri síðu með dagsetningu og „Lota ${n} · ${L.t}“. Skrifaðu hjá þér það sem þú vilt muna, í stílabók eða <button type="button" class="linkbtn" data-gb-open>í glósubókinni hér á síðunni</button>.`);
   lesson.appendChild(toc);lesson.appendChild(gl);
-  BANDS.forEach(b=>{if(!B[b.k].length)return;const id=`l${n}b${b.k}`;
+  let shown=0;BANDS.forEach(b=>{if(!B[b.k].length)return;const id=`l${n}b${b.k}`,num=++shown;
     const band=el("section",{class:"band",id,style:`--c:var(${b.c})`});
-    band.innerHTML=`<div class="band-head"><span class="band-num">${b.k}</span><div><p class="band-kick">${b.kick}</p><h2>${b.h}</h2></div></div>`;
+    band.innerHTML=`<div class="band-head"><span class="band-num">${num}</span><div><p class="band-kick">${b.kick}</p><h2>${b.h}</h2></div></div>`;
     const inn=el("div",{class:"band-in"});
     B[b.k].forEach(x=>{
       if(b.k===4){const p=x.querySelector("p");inn.appendChild(el("p",{},p.innerHTML));
@@ -1365,7 +1445,7 @@ function decorate(sec){
       if(b.k===3){const h=x.querySelector("h3");if(h&&h.textContent.trim()==="Kafað dýpra")h.remove();}
       inn.appendChild(x);});
     band.appendChild(inn);lesson.appendChild(band);
-    const tb=el("button",{type:"button","data-go":id,style:`--c:var(${b.c})`},`<i>${b.k}</i>${b.h}`);tb.onclick=()=>document.getElementById(id).scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});toc.appendChild(tb);});
+    const tb=el("button",{type:"button","data-go":id,style:`--c:var(${b.c})`},`<i>${num}</i>${b.h}`);tb.onclick=()=>document.getElementById(id).scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});toc.appendChild(tb);});
   const nx=LOTUR[n],nph=nx?phaseOf(nx.n):null;
   const foot=el("section",{class:"stack lfoot read"});
   foot.innerHTML=(nx?`<a class="next-card" href="#lota-${n+1}" style="--c:var(${nph.c})"><span class="nc-num">${n+1}</span><span class="nc-t"><small>Næsta lota${nph!==ph?` · nýr hluti: ${nph.name}`:""}</small><b>${nx.t}</b><span>${nx.d}</span></span><span class="nc-go" aria-hidden="true">→</span></a>`
@@ -1379,10 +1459,11 @@ function decorate(sec){
 /* ============ ROUTING ============ */
 let CUR_LOTA=0;
 function route(){let h=(location.hash||"#forsida").slice(1);if(h==="heim")h="forsida";
+  if(h.startsWith("t~")&&typeof toolJump==="function"&&toolJump(h.slice(2)))return;
   let v=document.querySelector(`section.view[data-view="${h}"]`);if(!v){h="forsida";v=document.querySelector('[data-view="forsida"]');}
   document.querySelectorAll("section.view").forEach(s=>{s.hidden=s!==v;});
   v.classList.remove("enter");void v.offsetWidth;v.classList.add("enter");
-  const navKey=h.startsWith("lota-")?"lotur":h==="syniprof"?"grunnprof":h==="kapphlaup"?"dagsins":h==="log"?"songur":h;
+  const navKey=h.startsWith("lota-")?"lotur":h==="syniprof"?"grunnprof":["dagsins","kapphlaup","log","songur","semja","hlaup","aefingar"].includes(h)?"aefingar":h;
   document.querySelectorAll("nav.links a").forEach(a=>a.dataset.nav===navKey?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"));
   CUR_LOTA=h.startsWith("lota-")?+h.split("-")[1]:0;
   const fab=document.getElementById("gbFab"),dr=document.getElementById("gbDrawer");fab.hidden=!CUR_LOTA;dr.hidden=true;fab.setAttribute("aria-expanded","false");
@@ -1392,6 +1473,10 @@ function route(){let h=(location.hash||"#forsida").slice(1);if(h==="heim")h="for
   if(h==="dagsins"&&typeof dailyHome==="function")dailyHome();
   if(typeof RC!=="undefined")clearInterval(RC.timer);
   if(h==="kapphlaup"&&typeof raceHome==="function")raceHome();
+  if(typeof HL!=="undefined"){HL.run=false;cancelAnimationFrame(HL.raf);}
+  if(h==="aefingar"&&typeof hubRender==="function")hubRender();
+  if(h==="hlaup"&&typeof hlaupHome==="function")hlaupHome();
+  if(typeof hubCrumbs==="function")hubCrumbs();
   if(h==="semja"&&typeof compInit==="function")compInit();
   if(h==="log"&&typeof songsHome==="function"&&!SONG_CUR)songsHome();
   if(h==="kennari"&&typeof teachRender==="function")teachRender();
@@ -1836,12 +1921,12 @@ function saveSing(){store.set("sing",{oct:SING.oct,tol:SING.tol,clap:SING.clap,i
 function renderSettings(){
   const m=document.getElementById("setMenu"),g=document.getElementById("setGear");
   const seg=(id,label,opts,cur)=>`<div class="set-row"><span class="set-l">${label}</span><div class="seg" id="${id}">${opts.map(([v,t])=>`<button type="button" data-v="${v}" aria-pressed="${String(v)===String(cur)}">${t}</button>`).join("")}</div></div>`;
-  m.innerHTML=`<h3>Stillingar</h3>${seg("stOct","Röddin mín",[[0,"Há (barna- og kvenrödd)"],[-12,"Djúp (áttund neðar)"]],SING.oct)}${seg("stTol","Skekkjumörk",[[80,"Rúm"],[50,"Venjuleg"],[30,"Strangar"]],SING.tol)}${seg("stClap","Klapp",[["btn","Hnappur eða bilslá"],["mic","Hljóðnemi"]],SING.clap)}
+  m.innerHTML=`<h3>Stillingar</h3>${seg("stOct","Röddin mín",[[0,"Há (barna- og kvenrödd)"],[-12,"Djúp (áttund neðar)"]],SING.oct)}${seg("stTol","Skekkjumörk",[[80,"Rúm"],[50,"Venjuleg"],[30,"Strangar"]],SING.tol)}${seg("stClap","Klapp",[["btn","Hnappur eða bilslá"],["mic","Hljóðnemi"]],SING.clap)}${seg("stNames","Nótuheiti",[["h","<span class=\"no-hb\">h og b</span>"],["B","<span class=\"no-hb\">B og B♭</span>"]],HB.on?"B":"h")}
     <div class="set-row"><span class="set-l">Hraði tóndæma</span><div class="set-spd"></div></div>
     <p class="set-note">Gildir í öllum æfingum og vistast í þessum vafra.</p>`;
   m.querySelector(".set-spd").appendChild(speedCtl());
   const wire=(id,fn)=>m.querySelectorAll(`#${id} button`).forEach(b=>b.onclick=()=>{m.querySelectorAll(`#${id} button`).forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");fn(b.dataset.v);saveSing();});
-  wire("stOct",v=>SING.oct=+v);wire("stTol",v=>SING.tol=+v);
+  wire("stOct",v=>SING.oct=+v);wire("stNames",v=>{store.set("names",v);if((v==="B")!==HB.on)location.reload();});wire("stTol",v=>SING.tol=+v);
   wire("stClap",v=>{SING.clap=v;document.querySelectorAll("[data-tap]").forEach(c=>mountTap(c,{mode:c.dataset.tap,pool:c.dataset.pool.split(","),title:c.dataset.title}));});
   const open=v=>{m.hidden=!v;g.setAttribute("aria-expanded",v?"true":"false");g.classList.toggle("on",v);};
   g.onclick=e=>{e.stopPropagation();open(m.hidden);};
@@ -1855,7 +1940,7 @@ function mountTap(card,{mode,pool,title}){
   const build=()=>{const n=pick([2,3,4]);let bars;do{bars=[genBar(n,pool),genBar(n,pool)];}while(rhythmEvents(bars).ev.filter(e=>!e.rest).length<4);
     const Q={tap:mode,bars,n,pts:5,plays:0,score:null};
     card.innerHTML=`<div class="ex-head"><div><span class="ex-kind">Hrynur</span><h3>${title}</h3></div><span class="score">Nótur á réttum stað <b>${S.h}</b> af ${S.t}</span></div><div class="tbody" style="display:flex;flex-direction:column;gap:12px"></div><div class="row"><button class="next primary">Ný æfing</button></div>`;
-    renderTap(card.querySelector(".tbody"),Q,{mic:SING.clap==="mic",onDone:q=>{if(q._p){S.h-=q._p[0];S.t-=q._p[1];}q._p=[q.hits,q.exp];S.h+=q.hits;S.t+=q.exp;card.querySelector(".score").innerHTML=`Nótur á réttum stað <b>${S.h}</b> af ${S.t}`;}});
+    renderTap(card.querySelector(".tbody"),Q,{practice:true,mic:SING.clap==="mic",onDone:q=>{if(q._p){S.h-=q._p[0];S.t-=q._p[1];}q._p=[q.hits,q.exp];S.h+=q.hits;S.t+=q.exp;card.querySelector(".score").innerHTML=`Nótur á réttum stað <b>${S.h}</b> af ${S.t}`;}});
     card.querySelector(".next").onclick=build;};
   build();
 }
@@ -1904,7 +1989,7 @@ function writer(host,o){
   function syncKs(){if(kr)kr.querySelectorAll("button").forEach(b=>{const k=KSOPTS[+b.dataset.i];b.setAttribute("aria-pressed",k.t===(st.ks.t||"")&&k.n===(st.ks.n||0)?"true":"false");});}
   syncKs();
   const box=el("div",{class:"staffbox wr-box"});host.appendChild(box);
-  if(!o.readonly)host.appendChild(el("p",{class:"wr-hint muted"},"Smelltu á nótnastrenginn til að setja nótu og aftur á hana til að taka hana burt. ▲ og ▼ færa síðustu nótuna um eitt þrep. Veldu ♯, ♭ eða ♮ og smelltu á nótu til að setja formerki. Lyklaborð: örvar færa nótu, # og b setja formerki, Delete eyðir."));
+  if(!o.readonly)host.appendChild(el("p",{class:"wr-hint muted no-hb"},"Smelltu á nótnastrenginn til að setja nótu og aftur á hana til að taka hana burt. ▲ og ▼ færa síðustu nótuna um eitt þrep. Veldu ♯, ♭ eða ♮ og smelltu á nótu til að setja formerki. Lyklaborð: örvar færa nótu, # og b setja formerki, Delete eyðir."));
 
   function layout(){
     let x=10+g*3.6;const ksx=x;const ksn=Math.max(st.ks.n||0,o.ksPick?2:0);x+=ksn?ksn*g*0.95+g*0.6:0;
@@ -2074,7 +2159,7 @@ const DMETA={exNoteRead:[1,"Nótnalestur"],wNote:[1,"Að skrifa nótur"],exValue
  exScaleHear:[5,"Tónstigar eftir heyrn"],exStepLeap:[5,"Skref og stökk"],wMel:[5,"Laglína skrifuð eftir heyrn"],
  exKeys:[6,"Tóntegundir"],wScale:[6,"Að skrifa tónstiga"],exIntHear:[7,"Tónbil eftir heyrn"],exIntRead:[7,"Tónbil á blaði"],wInt:[7,"Að skrifa tónbil"],
  exChordHear:[8,"Dúr eða moll eftir heyrn"],exChordRead:[8,"Hljómar á blaði"],exPrimary:[8,"Grunnhljómar"],wChord:[8,"Að skrifa hljóma"],
- exTerms:[9,"Orð og tákn"],exTermHear:[9,"Styrkur, hraði og leikmáti"],exForm:[10,"Form"],exSongMeter:[3,"Takttegund í þekktum lögum"],exSongMode:[5,"Dúr eða moll í þekktum lögum"],exSongName:[10,"Þekktu lagið"]};
+ exTerms:[9,"Orð og tákn"],exTermHear:[9,"Styrkur, hraði og leikmáti"],exForm:[10,"Form"],exSongMeter:[3,"Takttegund í þekktum lögum"],exSongMode:[5,"Dúr eða moll í þekktum lögum"],wSongDict:[10,"Laglína úr lagi skrifuð eftir heyrn"]};
 const DAILY_N=8;
 const dayKey=(t=Date.now())=>{const x=new Date(t);return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`;};
 function dailyDays(){return new Set(store.get("days")||[]);}
@@ -2163,8 +2248,7 @@ const RACES=[
  {id:"cR",n:"Hljómar á blaði",key:"exChordRead",sec:60,c:"--hat"},
  {id:"term",n:"Orð og tákn",key:"exTerms",sec:60,c:"--open"},
  {id:"iH",n:"Tónbil eftir heyrn",key:"exIntHear",sec:90,c:"--hat",ear:true},
- {id:"cH",n:"Dúr eða moll",key:"exChordHear",sec:90,c:"--hat",ear:true},
- {id:"song",n:"Þekktu lagið",key:"exSongName",sec:90,c:"--perc",ear:true}];
+ {id:"cH",n:"Dúr eða moll",key:"exChordHear",sec:90,c:"--hat",ear:true}];
 const RC={r:null,score:0,left:0,t0:0,timer:null,miss:[],q:null,lock:false,streak:0,best:0};
 function raceBest(id){return (store.get("race")||{})[id]||0;}
 function raceHome(){
@@ -2220,23 +2304,30 @@ document.addEventListener("keydown",e=>{if(!document.getElementById("rcQ")||RC.l
 /* ============ HUGTÖK MEÐ SKÝRINGARMYNDUM ============ */
 const PINK="var(--accent)",PALE="color-mix(in srgb,var(--accent) 22%,#fff)",BLUE="var(--kick)";
 const sv=(w,h,inner,sc=1.3)=>`<svg viewBox="0 0 ${w} ${h}" width="${Math.round(w*sc)}" role="img" aria-hidden="true">${inner}</svg>`;
-const tx=(x,y,t,o={})=>`<text x="${x}" y="${y}" text-anchor="${o.a||"middle"}" font-size="${o.s||11}" font-weight="${o.w||700}" style="fill:${o.c||"var(--muted)"};${o.f?`font-family:${o.f};`:""}">${t}</text>`;
+const tx=(x,y,t,o={})=>`<text x="${x}" y="${y}"${o.cls?` class="${o.cls}"`:""} text-anchor="${o.a||"middle"}" font-size="${o.s||11}" font-weight="${o.w||700}" style="fill:${o.c||"var(--muted)"};${o.f?`font-family:${o.f};`:""}">${t}</text>`;
 const mus=(x,y,t,s=28,c="var(--ink)")=>`<text x="${x}" y="${y}" text-anchor="middle" font-size="${s}" style="font-family:var(--f-music);fill:${c}">${t}</text>`;
 function arrow(x1,y1,x2,y2,c="var(--muted)"){const a=Math.atan2(y2-y1,x2-x1),h=6;return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:${c};stroke-width:1.6"/><path d="M${x2} ${y2} L${x2-h*Math.cos(a-0.45)} ${y2-h*Math.sin(a-0.45)} L${x2-h*Math.cos(a+0.45)} ${y2-h*Math.sin(a+0.45)} Z" style="fill:${c}"/>`;}
 function hlLine(Y,botD,k,x1,x2){return `<line x1="${x1}" x2="${x2}" y1="${Y(botD+2*(k-1))}" y2="${Y(botD+2*(k-1))}" style="stroke:${PINK};stroke-width:3;opacity:.75"/>`;}
 /* hljómborð */
+let KBN=0;
 function kbSVG(o){
   const whites=[];for(let m=o.from;m<=o.to;m++)if([0,2,4,5,7,9,11].includes(((m%12)+12)%12))whites.push(m);
-  const W=22,H=64,up=(o.arcs||[]).filter(a=>!a[5]),dn=(o.arcs||[]).some(a=>a[5]),lv=Math.max(0,...up.map(a=>a[4]||0)),top=up.length?30+lv*16:6,pos={},TW=whites.length*W+8;let s="",bl="";
+  const W=22,H=64,up=(o.arcs||[]).filter(a=>!a[5]),dn=(o.arcs||[]).some(a=>a[5]),lv=Math.max(0,...up.map(a=>a[4]||0)),top=up.length?34+lv*16:9,pos={},TW=whites.length*W+8,id="kb"+(++KBN),BODY="#2A3166";
+  let s=`<defs><linearGradient id="${id}s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".22"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>`+
+    `<linearGradient id="${id}b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1C2152"/><stop offset=".85" stop-color="#3A437F"/><stop offset="1" stop-color="#2A3166"/></linearGradient></defs>`+
+    `<rect x="1.5" y="${top-6}" width="${TW-3}" height="${H+9}" rx="8" style="fill:${BODY}"/>`,bl="";
   const fillW=c=>c==="p"?PINK:c==="l"?PALE:c==="b"?"color-mix(in srgb,var(--kick) 30%,#fff)":"#fff";
-  whites.forEach((m,i)=>{pos[m]=i*W+W/2+4;const c=o.hi&&o.hi[m];s+=`<rect x="${i*W+4}" y="${top}" width="${W}" height="${H}" rx="3" style="fill:${fillW(c)};stroke:#5A6190;stroke-width:1"/>`;
-    const lb=o.lab&&o.lab[m]!=null?o.lab[m]:o.names?nm(OFF.indexOf(((m%12)+12)%12),0):"";if(lb)s+=tx(pos[m],top+H-7,lb,{s:10,c:c==="p"?"#fff":"#27306B"});});
-  whites.forEach((m,i)=>{const pc=((m%12)+12)%12;if([0,2,5,7,9].includes(pc)&&m+1<=o.to){const bm=m+1,x=(i+1)*W+4-7;pos[bm]=x+7;const c=o.hi&&o.hi[bm];
-    bl+=`<rect x="${x}" y="${top}" width="14" height="${H*0.6}" rx="2" style="fill:${c==="p"?PINK:c==="l"?"color-mix(in srgb,var(--accent) 55%,#27306B)":c==="b"?BLUE:"#27306B"}"/>`;
-    if(o.lab&&o.lab[bm])bl+=tx(x+7,top+H*0.6-6,o.lab[bm],{s:8,c:"#fff"});}});
-  let ar="";(o.arcs||[]).forEach(([a,b,t,c,L,below])=>{if(below){const x1=pos[a],x2=pos[b],mx=(x1+x2)/2,yb=top+H+3;ar+=`<path d="M${x1} ${yb} Q${mx} ${yb+16} ${x2} ${yb}" style="fill:none;stroke:${c||PINK};stroke-width:2"/>`+tx(mx,yb+22,t,{s:9,c:c||PINK});return;}const x1=pos[a],x2=pos[b],mx=(x1+x2)/2,hgt=Math.min(22,8+Math.abs(x2-x1)*0.25)+(L||0)*18,pk=top-2-hgt*0.8,fs=L?9:10,tw=String(t).length*fs*0.56,lx=Math.max(tw/2+2,Math.min(TW-tw/2-2,mx));
-    ar+=`<path d="M${x1} ${top-2} Q${mx} ${top-2-hgt*1.6} ${x2} ${top-2}" style="fill:none;stroke:${c||PINK};stroke-width:2"/>`+tx(lx,pk-5,t,{s:fs,c:c||PINK});});
-  return sv(TW,top+H+4+(dn?24:0),s+bl+ar,o.sc||1.25);
+  whites.forEach((m,i)=>{pos[m]=i*W+W/2+4;const c=o.hi&&o.hi[m];s+=`<rect x="${i*W+4.8}" y="${top-5}" width="${W-1.6}" height="${H+5}" rx="4.5" style="fill:${fillW(c)}"/><rect x="${i*W+4.8}" y="${top+H-4}" width="${W-1.6}" height="4" rx="2" style="fill:#000;opacity:.07"/>`;
+    const lb=o.lab&&o.lab[m]!=null?o.lab[m]:o.names?nm(OFF.indexOf(((m%12)+12)%12),0):"";if(lb)s+=tx(pos[m],top+H-9,lb,{s:10,c:c==="p"?"#fff":"#27306B"});});
+  s+=`<rect x="1.5" y="${top-6}" width="${TW-3}" height="6" rx="3" style="fill:${BODY}"/><rect x="4" y="${top}" width="${TW-8}" height="7" style="fill:url(#${id}s)"/>`;
+  whites.forEach((m,i)=>{const pc=((m%12)+12)%12;if([0,2,5,7,9].includes(pc)&&m+1<=o.to){const bm=m+1,x=(i+1)*W+4-7,bh=H*0.6;pos[bm]=x+7;const c=o.hi&&o.hi[bm];
+    bl+=`<rect x="${x}" y="${top-3}" width="14" height="${bh+3}" rx="3" style="fill:${c==="p"?PINK:c==="l"?"color-mix(in srgb,var(--accent) 55%,#27306B)":c==="b"?BLUE:`url(#${id}b)`}"/>`+
+      `<rect x="${x+2.5}" y="${top+bh-6}" width="9" height="3.5" rx="1.5" style="fill:#fff;opacity:.16;pointer-events:none"/>`;
+    if(o.lab&&o.lab[bm])bl+=tx(x+7,top+bh-10,o.lab[bm],{s:8,c:"#fff"});}});
+  let ar="";const base=top-8;(o.arcs||[]).forEach(([a,b,t,c,L,below])=>{if(below){const x1=pos[a],x2=pos[b],mx=(x1+x2)/2,yb=top+H+6;ar+=`<path d="M${x1} ${yb} Q${mx} ${yb+16} ${x2} ${yb}" style="fill:none;stroke:${c||PINK};stroke-width:2;stroke-linecap:round"/>`+tx(mx,yb+22,t,{s:9,c:c||PINK,cls:"no-hb"});return;}
+    const x1=pos[a],x2=pos[b],mx=(x1+x2)/2,hgt=Math.min(22,8+Math.abs(x2-x1)*0.25)+(L||0)*18,pk=base-hgt*0.8,fs=L?9:10,tw=String(t).length*fs*0.56,lx=Math.max(tw/2+2,Math.min(TW-tw/2-2,mx));
+    ar+=`<path d="M${x1} ${base} Q${mx} ${base-hgt*1.6} ${x2} ${base}" style="fill:none;stroke:${c||PINK};stroke-width:2;stroke-linecap:round"/>`+tx(lx,pk-5,t,{s:fs,c:c||PINK,cls:"no-hb"});});
+  return sv(TW,top+H+6+(dn?26:0),s+bl+ar,o.sc||1.25);
 }
 /* einn nótnastrengur án lykils (hryn-lína) */
 function rowFig(tokens,o={}){
@@ -2249,7 +2340,7 @@ function rowFig(tokens,o={}){
     else if(t==="h")P.push(head(cx,0)+stem(cx)),w=bw?2*bw:40;
     else if(t==="h.")P.push(head(cx,0)+stem(cx)+`<circle cx="${cx+12}" cy="${y-1}" r="2" style="fill:var(--ink)"/>`),w=46;
     else if(t==="w")P.push(head(cx,0)),w=46;
-    else if(t==="e")P.push(head(cx,1)+stem(cx)+`<path d="M${cx+5.7} ${y-30} q2 9 10 14 q-3 -5 -10 -6 z" style="fill:var(--ink)"/>`);
+    else if(t==="e")P.push(head(cx,1)+stem(cx)+FLAG(cx+5.7,y-30).replace('class="st-ink"','style="fill:var(--ink)"'));
     else if(t==="ee"){const d=bw?bw/2:22;P.push(head(cx,1)+stem(cx)+head(cx+d,1)+stem(cx+d)+`<rect x="${cx+5}" y="${y-31}" width="${d+1.5}" height="4.5" style="fill:var(--ink)"/>`);w=bw||44;}
     else if(t==="qr")P.push(mus(cx,y+12,"𝄽",30));
     else if(t==="|")P.push(`<line x1="${x+4}" x2="${x+4}" y1="${y-14}" y2="${y+14}" style="stroke:var(--ink);stroke-width:1.4"/>`),w=14;
@@ -2350,7 +2441,7 @@ const FIG={
  interval:()=>staffSVG({clef:"g",items:[{notes:[{d:28,hl:true}],label:"c'"},{notes:[{d:32,hl:true}],label:"g'"}],step:56,minW:170,scale:1.3,extra:(Y,it)=>`<path d="M${it[0]._x} ${Y(43)} L${it[0]._x} ${Y(44)} L${it[1]._x} ${Y(44)} L${it[1]._x} ${Y(43)}" style="fill:none;stroke:${PINK};stroke-width:2"/>`+tx((it[0]._x+it[1]._x)/2,Y(45),"fjarlægðin",{c:PINK,s:10})}),
  count:()=>staffSVG({clef:"g",items:[{notes:[{d:28,hl:true}],over:"1"},{notes:[{d:29}],over:"2"},{notes:[{d:30,hl:true}],over:"3"}],step:42,minW:170,scale:1.35,extra:(Y,it)=>tx(it[1]._x,Y(22),"c – d – e = þríund",{c:PINK,s:11})}),
  size:()=>kbSVG({from:57,to:67,names:true,hi:{60:"p",64:"p"},arcs:[[60,64,"S3 = 4 hálftónar"]],sc:1.1})+kbSVG({from:57,to:67,names:true,hi:{60:"b",63:"b"},lab:{63:"es"},arcs:[[60,63,"L3 = 3 hálftónar",BLUE]],sc:1.1}),
- abbr:()=>{const C=[["S","stór",PINK],["L","lítil",BLUE],["H","hrein","var(--hat)"]];let s="";C.forEach(([a,b,c],i)=>{const x=10+i*82;s+=`<rect x="${x}" y="8" width="74" height="34" rx="10" style="fill:${c}"/>`+tx(x+20,31,a,{s:18,c:"#fff",f:"var(--f-display)"})+tx(x+50,30,b,{s:11,c:"#fff"});});s+=tx(128,64,"S3 = stór þríund · H5 = hrein fimmund",{s:11,c:"var(--ink)"});return sv(256,74,s,1.15);},
+ abbr:()=>{const C=[["S","stór",PINK],["L","lítil",BLUE],["H","hrein","var(--hat)"]];let s="";C.forEach(([a,b,c],i)=>{const x=10+i*82;s+=`<rect x="${x}" y="8" width="74" height="34" rx="10" style="fill:${c}"/>`+tx(x+20,31,a,{s:18,c:"#fff",f:"var(--f-display)",cls:"no-hb"})+tx(x+50,30,b,{s:11,c:"#fff"});});s+=tx(128,64,"S3 = stór þríund · H5 = hrein fimmund",{s:11,c:"var(--ink)"});return sv(256,74,s,1.15);},
  broken:()=>staffSVG({clef:"g",items:[{notes:[{d:28}],label:"brotið"},{notes:[{d:32}]},{bar:1},{notes:[{d:28},{d:32}],label:"samhljómur"}],step:46,scale:1.3}),
  /* lota 8 */
  snow:()=>staffSVG({clef:"g",items:[{notes:[{d:28,hl:true},{d:30,hl:true},{d:32,hl:true}],label:"á línum"},{notes:[{d:29},{d:31},{d:33}],label:"í bilum"}],step:56,minW:180,scale:1.3}),
@@ -2741,7 +2832,7 @@ function songSpell(m,s){
   return {d:oct*7+c.li,acc:c.acc};
 }
 function chordSym(ns,s){const P=[...new Set(ns.map(n=>n%12))];const T=[[[0,4,7,10],"7"],[[0,3,7,10],"m7"],[[0,4,7],""],[[0,3,7],"m"],[[0,3,6],"°"]];
-  for(const [tp,suf] of T)for(const r of P){if(tp.every(i=>P.includes((r+i)%12))&&P.every(p=>tp.includes((p-r+12)%12))){const sp=songSpell(60+r,s);return cap(nm(sp.li??((sp.d%7+7)%7),sp.acc))+suf;}}
+  for(const [tp,suf] of T)for(const r of P){if(tp.every(i=>P.includes((r+i)%12))&&P.every(p=>tp.includes((p-r+12)%12))){const sp=songSpell(60+r,s);let rt=cap(nm(sp.li??((sp.d%7+7)%7),sp.acc));if(HB.on)rt=rt==="H"?"B":rt==="B"?"B♭":rt==="His"||rt==="Hís"?"Bís":rt;return rt+suf;}}
   return "";}
 const NOTEVALS=[4,3,2,1.5,1,0.75,0.5,0.25];
 function songTokens(s){
@@ -2770,7 +2861,7 @@ function songStaff(s,o={}){
     x+=g*0.4;const heads=[];
     L.forEach((b,bi)=>{const accState={};const xs=[];
       b.t.forEach(t=>{const nx=x+8+tw(t)*0.35;xs.push(nx);x+=tw(t);});
-      C.filter(c=>c[0]>=b.s-1e-6&&c[0]<b.s+b.len-1e-6&&o.chords!==false).forEach(c=>{const j=b.t.findIndex(t=>t.s>=c[0]-1e-6);const cx=j>=0?xs[j]:xs[0];const sy=chordSym(c[2],s);if(sy)P.push(tx(cx-4,16,sy,{a:"start",s:12,c:BLUE,f:"var(--f-display)"}));});
+      C.filter(c=>c[0]>=b.s-1e-6&&c[0]<b.s+b.len-1e-6&&o.chords!==false).forEach(c=>{const j=b.t.findIndex(t=>t.s>=c[0]-1e-6);const cx=j>=0?xs[j]:xs[0];const sy=chordSym(c[2],s);if(sy)P.push(tx(cx-4,16,sy,{a:"start",s:12,c:BLUE,f:"var(--f-display)",cls:"no-hb"}));});
       // beaming groups
       const grp=[];let curG=[];b.t.forEach((t,i)=>{const gi=Math.floor((t.s-b.s+1e-6)/beatGrp);if(t.m!=null&&t.dur<1&&(!curG.length||curG.gi===gi)){if(!curG.length)curG.gi=gi;curG.push(i);}else{if(curG.length)grp.push(curG);curG=[];if(t.m!=null&&t.dur<1){curG.gi=gi;curG.push(i);}}});if(curG.length)grp.push(curG);
       const inBeam={};grp.filter(G=>G.length>1).forEach(G=>G.forEach(i=>inBeam[i]=G));
@@ -2831,7 +2922,7 @@ function songOpen(id){
    <div class="song-head"><h2>${s.t}</h2><div class="chips"><span class="chip">${songKeyName(s)}</span><span class="chip">${s.ts[0]}/${s.ts[1]}-taktur</span>${s.pu>0?`<span class="chip">byrjar á upptakti</span>`:""}<span class="chip">tónsvið ${nameD(sl.d,sl.acc)} – ${nameD(sh.d,sh.acc)}</span></div></div>
    <div class="row"><button class="primary" id="sgPlay">▶ Spila lagið</button><label class="chk" for="sgCh"><input type="checkbox" id="sgCh" checked> með hljómum</label><label class="spd" for="sgBpm"><span class="spd-l">Hraði</span><input type="range" id="sgBpm" min="50" max="180" value="${s.bpm}"><span class="spd-v">${s.bpm}</span></label></div>
    <div class="song-score staffbox" id="sgScore">${songStaff(s)}</div>
-   <div class="seg" id="sgTabs" role="group"><button data-v="sing" aria-pressed="true">🎤 Syngja lagið</button><button data-v="quiz" aria-pressed="false">Spurningar um lagið</button></div>
+   <div class="seg" id="sgTabs" role="group"><button data-v="sing" aria-pressed="true">🎤 Syngja lagið</button><button data-v="dict" aria-pressed="false">✏️ Skrifa eftir heyrn</button><button data-v="quiz" aria-pressed="false">Spurningar um lagið</button></div>
    <div class="ex" id="sgWork" style="--c:var(--accent)"></div>`;
   h.querySelector("#sgBack").onclick=songsHome;
   const bpm=h.querySelector("#sgBpm");bpm.oninput=()=>{bpm.nextElementSibling.textContent=bpm.value;};
@@ -2840,7 +2931,7 @@ function songOpen(id){
   pb.onclick=()=>{if(playing){stopAll();playing=false;pb.textContent="▶ Spila lagið";clear();return;}playing=true;pb.textContent="■ Stöðva";
     songPlay(s,{bpm:+bpm.value,chords:h.querySelector("#sgCh").checked,onNote:i=>{if(!playing||SONG_CUR!==s)return;clear();h.querySelectorAll(`#sgScore .sn[data-ni="${i}"]`).forEach(e=>e.classList.add("play"));},onEnd:()=>{if(SONG_CUR!==s)return;playing=false;pb.textContent="▶ Spila lagið";clear();}});};
   const work=h.querySelector("#sgWork");
-  const tabs=v=>{h.querySelectorAll("#sgTabs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===v?"true":"false"));STOPPERS.forEach(f=>f());if(v==="sing")songSing(s,work,ph,0);else songQuiz(s,work);};
+  const tabs=v=>{h.querySelectorAll("#sgTabs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===v?"true":"false"));STOPPERS.forEach(f=>f());if(v==="sing")songSing(s,work,ph,0);else if(v==="dict"){let k=0;wex(work,{key:"wSongPage",kind:"Tónheyrn",title:`Skrifaðu lagið eftir heyrn, hendingu fyrir hendingu`,intro:"Hlustaðu á frumhljóminn og hendinguna eins oft og þú vilt. „Næsta“ fer í næstu hendingu.",gen:()=>{const T=songDictTask(s,k);k=(k+1)%T.np;return T;}});}else songQuiz(s,work);};
   h.querySelectorAll("#sgTabs button").forEach(b=>b.onclick=()=>tabs(b.dataset.v));tabs("sing");
 }
 function songSing(s,work,ph,pi){
@@ -2870,10 +2961,19 @@ function songQuiz(s,work){
     work.querySelector("#sqN").onclick=()=>{if(i<qs.length-1)i++;else{i=0;ok=0;}draw();};};
   draw();
 }
+/* ---- laglínuritun úr lögunum ---- */
+function songDictTask(s,pi){
+  if(!s){let tries=0;do{s=pick(SONGS);const P=songPhrases(s);pi=rnd(Math.min(P.length,3));tries++;const n=P[pi]?P[pi].idx.length:0;if(n>=4&&n<=9)break;}while(tries<60);}
+  const P=songPhrases(s),ph=P[Math.min(pi||0,P.length-1)],notes=ph.idx.map(i=>s.n[i]),n=notes.length,sp=notes.map(x=>songSpell(x[2],s)),ks=songKS(s);
+  const durs=notes.map(x=>x[1]>=2?"h":"q"),bars=[];notes.forEach((x,i)=>{const nx=notes[i+1];if(nx&&Math.abs(((nx[0]-s.pu)%s.bar+s.bar)%s.bar)<1e-6)bars.push(i);});
+  const play=()=>{stopAll();const t=now(),r=s.tonic+48+(s.tonic<5?12:0);(s.mode==="maj"?[0,4,7]:[0,3,7]).forEach(i=>tone(r+i,t,1.0,0.1));const tm=setTimeout(()=>songPlay(s,{fromBeat:ph.fb,toBeat:ph.tb,bpm:s.bpm*0.85}),1300/SPEED);STOPPERS.add(()=>clearTimeout(tm));};
+  return {prompt:`Hending ${P.indexOf(ph)+1} úr laginu <b>„${s.t}“</b> (${songKeyName(s)}). Skrifaðu nóturnar sem þú heyrir. Fyrsta nótan er gefin; hér skiptir tónhæðin máli, ekki hrynurinn.`,
+    opts:{clef:"g",slots:n,durs,bars,ts:s.ts[1]===4?s.ts[0]:null,ks:ks.n?ks:null,given:[{slot:0,notes:[{d:sp[0].d,acc:sp[0].acc===ksAccOf(sp[0].d,ks)?null:sp[0].acc}]}],range:[23,42],slotW:34},play,
+    check(st){let ok=0;const marks=st.notes.map((sl,i)=>i===0?[]:sl.map(x=>sl.length===1&&x.d===sp[i].d&&effAcc(x,st.ks)===sp[i].acc));marks.forEach((m,i)=>{if(i&&m.length===1&&m[0])ok++;});
+      return {score:ok/Math.max(1,n-1),marks,explain:`Hendingin: ${sp.map(x=>nameD(x.d,x.acc)).join(" ")}.`};},
+    solution:()=>songStaff(s,{from:ph.from,to:ph.to,ts:false,final:false,maxW:760,scale:1.1}),song:s,pi:P.indexOf(ph),np:P.length};}
 /* ---- generatorar fyrir æfingar ---- */
 function songFirstBars(s,n){const bars=songTokens(s);const k0=s.pu>0?1:0;const to=bars[Math.min(bars.length-1,k0+n)];return to?to.s:s.len;}
-function songGenName(){const s=pick(SONGS);const others=shuffle(SONGS.filter(x=>x!==s)).slice(0,3);const end=songFirstBars(s,s.bar<=2?4:2);
-  return {q:"Hvaða lag er þetta?",play:()=>songPlay(s,{toBeat:end}),options:shuffle([s,...others]).map(x=>({v:x.id,label:x.t})),answer:s.id,explain:`Þetta var upphafið á „${s.t}“.`};}
 function songGenMeter(){const s=pick(SONGS);const end=songFirstBars(s,4);const a=`${s.ts[0]}/${s.ts[1]}`;
   return {q:"Hlustaðu á upphaf lagsins. Í hvaða takttegund er það?",play:()=>songPlay(s,{toBeat:end}),options:["2/4","3/4","4/4","6/8"].map(v=>({v,label:v})),answer:a,explain:`„${s.t}“ er í ${a}-takti.`};}
 function songGenMode(){const s=pick(SONGS);const end=songFirstBars(s,4);
@@ -2962,26 +3062,122 @@ function animFig(card,times){
   }
   fig.querySelectorAll(".chip").forEach((c,i)=>{c.style.animation="none";void c.offsetWidth;c.style.animation=`ccPop .5s ${i*0.12}s both cubic-bezier(.3,1.6,.5,1)`;});
 }
-/* spjaldið stækkar með sveiflu (view transition) og svo fer hreyfingin af stað */
-const RMOT=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
-function ccSwap(grid,fn,then){
-  const cards=[...grid.querySelectorAll(".cc")];
-  if(!document.startViewTransition||RMOT()){fn();then&&then();return;}
-  cards.forEach((c,i)=>c.style.viewTransitionName=`cc${i}`);
-  const vt=document.startViewTransition(fn);vt.ready.catch(()=>{});vt.updateCallbackDone.catch(()=>{});
-  vt.finished.finally(()=>{cards.forEach(c=>c.style.viewTransitionName="");then&&then();});
+/* veski-stöflun: hvert spjald veit í hvaða röð það er */
+function ccEq(g){const cols=Math.max(1,getComputedStyle(g).gridTemplateColumns.split(" ").filter(Boolean).length),cards=[...g.children],rows=Math.ceil(cards.length/cols);
+  cards.forEach((c,i)=>{c.style.setProperty("--r",Math.floor(i/cols));c.style.minHeight="";c.querySelectorAll(".cc-fig svg").forEach(v=>v.style.maxHeight="");});
+  g._eqW=g.clientWidth;g._eqH=innerHeight;
+  if(innerWidth<761)return;
+  /* ekkert spjald hærra en skjárinn leyfir; of háar myndir minnkaðar */
+  const top0=parseFloat(getComputedStyle(cards[0]).top)||132,avail=Math.max(300,innerHeight-top0-16*(rows-1)-18);
+  cards.forEach(c=>{if(c.offsetHeight<=avail)return;const fig=c.querySelector(".cc-fig");if(!fig)return;const sv=[...fig.querySelectorAll("svg")],rest=c.offsetHeight-fig.offsetHeight,gaps=(sv.length-1)*10+32,inner=Math.max(110,avail-rest-gaps);
+    sv.forEach(v=>v.style.maxHeight=Math.floor(inner/sv.length)+"px");});
+  const h=Math.min(avail,Math.max(...cards.map(c=>c.offsetHeight)));cards.forEach(c=>c.style.minHeight=h+"px");}
+function ccRows(){document.querySelectorAll(".concepts").forEach(g=>{if(g.offsetParent)ccEq(g);});}
+addEventListener("resize",()=>{clearTimeout(ccRows._t);ccRows._t=setTimeout(()=>{ccRows();ccShuffle();},150);});
+/* spilastokkur: í lok stöflunar renna dálkarnir tveir saman (DOM-röðin vinstri/hægri víxlast eins og í stokkun) */
+const CC_RUN=260;
+function ccShuffle(){
+  const on=innerWidth>=761&&!RMOT2();
+  document.querySelectorAll("section:not([hidden]) .concepts").forEach(g=>{if(g.offsetParent&&(g._eqW!==g.clientWidth||g._eqH!==innerHeight))ccEq(g);
+    const cards=[...g.children];const cols=Math.max(1,getComputedStyle(g).gridTemplateColumns.split(" ").filter(Boolean).length);
+    if(!on||cols!==2||cards.length<3){g.style.setProperty("--run","0px");cards.forEach(c=>{c.style.translate="";c.style.rotate="";});return;}
+    g.style.setProperty("--run",CC_RUN+"px");
+    const gr=g.getBoundingClientRect(),rows=Math.ceil(cards.length/2),last=cards.filter((c,i)=>Math.floor(i/2)===rows-1);
+    const tl=parseFloat(getComputedStyle(last[0]).top)||132,h=Math.max(...last.map(c=>c.offsetHeight)),gap=parseFloat(getComputedStyle(g).rowGap)||18;
+    const b0=tl+h+gap+CC_RUN,b1=tl+h+gap*0.2,p=Math.max(0,Math.min(1,(b0-gr.bottom)/(b0-b1)));
+    const D=(cards[0].offsetWidth+gap)/2,stg=0.45/rows,ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
+    cards.forEach((c,i)=>{const r=Math.floor(i/2),sgn=i%2===0?1:-1,q=Math.max(0,Math.min(1,(p-r*stg)/0.55)),e=ease(q),arc=Math.sin(Math.PI*q);
+      if(q<=0){c.style.translate="";c.style.rotate="";return;}
+      c.style.translate=`${(sgn*D*e).toFixed(1)}px ${(-14*arc).toFixed(1)}px`;c.style.rotate=`${(sgn*4*arc+(e>.98?sgn*(r%3-1)*0.6:0)).toFixed(2)}deg`;});
+  });
 }
-function ccOpen(card,then){const grid=card.parentElement;
-  ccSwap(grid,()=>{grid.querySelectorAll(".cc.open").forEach(c=>{c.classList.remove("open");c.style.gridColumn="";});
-    const cols=getComputedStyle(grid).gridTemplateColumns.split(" ").filter(Boolean).length;card.classList.add("open");if(cols>=2)card.style.gridColumn="span 2";},
-    ()=>{const r=card.getBoundingClientRect();if(r.top<70||r.bottom>innerHeight)card.scrollIntoView({behavior:RMOT()?"auto":"smooth",block:"nearest"});then&&then();});}
-function ccClose(card){stopAll();ccSwap(card.parentElement,()=>{card.classList.remove("open");card.style.gridColumn="";});}
-function wireConcepts(){document.querySelectorAll(".concepts .cc").forEach(card=>{if(card._w)return;card._w=1;card.tabIndex=0;card.setAttribute("role","button");card.setAttribute("aria-expanded","false");
-  const x=el("button",{class:"cc-close","aria-label":"Loka"},"✕");x.onclick=e=>{e.stopPropagation();ccClose(card);card.setAttribute("aria-expanded","false");};card.prepend(x);
-  const run=()=>{const f=card.dataset.fig;let times=null;if(SND[f]){try{times=SND[f]();}catch(_){}}animFig(card,times);};
-  const go=()=>{if(card.classList.contains("open"))run();else{stopAll();card.setAttribute("aria-expanded","true");ccOpen(card,run);}};
-  card.addEventListener("click",e=>{if(e.target.closest("a,input,.cc-close"))return;go();});
-  card.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go();}else if(e.key==="Escape"&&card.classList.contains("open")){ccClose(card);card.setAttribute("aria-expanded","false");}});});}
+const RMOT2=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
+let _ccS=0;addEventListener("scroll",()=>{if(_ccS)return;_ccS=requestAnimationFrame(()=>{_ccS=0;ccShuffle();});},{passive:true});
+addEventListener("hashchange",()=>setTimeout(()=>{ccRows();ccShuffle();},60));
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{ccRows();ccShuffle();});
+function wireConcepts(){document.querySelectorAll(".concepts .cc").forEach(card=>{if(card._w)return;card._w=1;card.tabIndex=0;card.setAttribute("role","button");
+  const run=()=>{const f=card.dataset.fig;let times=null;stopAll();if(SND[f]){try{times=SND[f]();}catch(_){}}animFig(card,times);};
+  card.addEventListener("click",e=>{if(e.target.closest("a,input"))return;run();});
+  card.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();run();}});});requestAnimationFrame(()=>{ccRows();ccShuffle();});}
+
+/* ============ ÆFINGAR (yfirlit) ============ */
+const HUB=[
+ {g:"Daglega",items:[
+  {h:"#dagsins",ic:"☀️",n:"Æfing dagsins",d:"Stutt blönduð æfing úr öllu efninu.",c:"--perc"},
+  {h:"#kapphlaup",ic:"⏱️",n:"Kapphlaup",d:"Eins mörg svör og þú getur á móti klukkunni.",c:"--snare"},
+  {h:"#hlaup",ic:"🏃",n:"Tónbilahlaupið",d:"Heyrðu tónbilið og hlauptu í gegnum réttu hurðina.",c:"--accent"}]},
+ {g:"Söngur og hlustun",items:[
+  {h:"#songur",ic:"🎤",n:"Söngæfingar",d:"Syngdu af blaði og eftir heyrn, tónbil og frjáls söngur.",c:"--hat"},
+  {h:"#log",ic:"🎵",n:"Lögin",d:"Þekkt lög í nótum: syngdu með, skrifaðu eftir heyrn og greindu.",c:"--open"}]},
+ {g:"Skapa",items:[
+  {h:"#semja",ic:"✏️",n:"Tónsmíðaverkstæði",d:"Semdu 8 takta lag í ABA- eða AABA-formi.",c:"--amb"}]},
+ {g:"Verkfæri úr lotunum",items:[
+  {h:"#t~kb1",ic:"🎹",n:"Hljómborðið",d:"Smelltu á nótu og sjáðu hana á nótnastrengnum.",c:"--kick",l:4},
+  {h:"#t~exMetro",ic:"🥁",n:"Taktmælir",d:"Veldu takttegund og hraða.",c:"--kick",l:3},
+  {h:"#t~exScaleBuild",ic:"🪜",n:"Tónstigar",d:"Byggðu dúr- og molltónstiga og hlustaðu.",c:"--kick",l:5},
+  {h:"#t~cofSvg",ic:"⭕",n:"Fimmundahringurinn",d:"Tóntegundir, formerki og samhliða moll.",c:"--kick",l:6},
+  {h:"#t~exIntHear",ic:"👂",n:"Tónbilaæfingar",d:"Þekktu tónbil eftir heyrn.",c:"--kick",l:7},
+  {h:"#t~exIntRead",ic:"📏",n:"Tónbil á blaði",d:"Lestu tónbil á nótnastreng.",c:"--kick",l:7}]}];
+function hubRender(){const h=document.getElementById("hub");if(!h||h._r)return;h._r=1;
+  h.innerHTML=HUB.map(G=>`<section class="hub-g"><h2>${G.g}</h2><div class="hub-grid">${G.items.map(it=>`<a class="hub-c" href="${it.h}" style="--c:var(${it.c})"><span class="hub-ic" aria-hidden="true">${it.ic}</span><b>${it.n}</b><small>${it.d}</small>${it.l?`<span class="hub-l">Lota ${it.l}</span>`:""}</a>`).join("")}</div></section>`).join("");}
+/* krækja beint í tól í lotu: #t~elementId */
+function toolJump(id){const t=document.getElementById(id);if(!t)return false;const v=t.closest("section.view");if(!v)return false;
+  history.replaceState(null,"","#"+v.dataset.view);route();const box=t.closest(".ex,.block,figure")||t;
+  setTimeout(()=>{box.scrollIntoView({behavior:"smooth",block:"start"});box.classList.add("flash-in");setTimeout(()=>box.classList.remove("flash-in"),1600);},120);return true;}
+function hubCrumbs(){["dagsins","kapphlaup","songur","log","semja","hlaup"].forEach(v=>{const s=document.querySelector(`section.view[data-view="${v}"] .vm-head`);if(s&&!s.querySelector(".crumb"))s.prepend(el("a",{class:"crumb",href:"#aefingar"},"← Æfingar"));});}
+
+/* ============ TÓNBILAHLAUPIÐ ============ */
+const HL={lv:[{n:"Byrjandi",k:["S2","S3","H5","H8"],opts:2},{n:"Áfram",k:["S2","L3","S3","H4","H5","H8"],opts:3},{n:"Meistari",k:["S2","L3","S3","H4","H5","S6","S7","H8"],opts:3}],raf:0};
+function hlaupHome(){const h=document.getElementById("hlaupBox");if(!h)return;cancelAnimationFrame(HL.raf);HL.run=false;
+  const best=store.get("hlaup")||{};
+  h.innerHTML=`<p class="lead2">Þú heyrir tónbil um leið og hurðirnar birtast. Veldu brautina með réttu tónbili áður en þú hleypur í gegn: smelltu á hurðina eða notaðu ↑ ↓ örvarnar. Bilsláin spilar tónbilið aftur.</p>
+   <div class="race-grid">${HL.lv.map((L,i)=>`<button class="race-c hl-lv" data-i="${i}" style="--c:var(${["--hat","--accent","--snare"][i]})"><span class="rc-ic" aria-hidden="true">${"🏃🏃‍♀️🏆".split(/(?=🏃|🏆)/u)[i]||"🏃"}</span><b>${L.n}</b><small>${L.k.join(" · ")}</small><span class="rc-best">${best[i]?`Met: <b>${best[i]}</b>`:"Ekkert met enn"}</span></button>`).join("")}</div>`;
+  h.querySelectorAll(".hl-lv").forEach(b=>b.onclick=()=>hlaupStart(+b.dataset.i));}
+function hlaupStart(li){
+  const h=document.getElementById("hlaupBox"),L=HL.lv[li];ac();cancelAnimationFrame(HL.raf);
+  const lanes=L.opts;
+  h.innerHTML=`<div class="hl-top"><span class="hl-hearts" aria-label="Líf"></span><span class="hl-score">Stig <b>0</b></span><button class="small hl-rep">🔁 Heyra aftur</button><button class="small hl-quit">Hætta</button></div>
+   <div class="hl-stage" style="--lanes:${lanes}" tabindex="0" aria-label="Tónbilahlaupið. Notaðu örvarnar upp og niður til að velja braut.">
+     <div class="hl-sky"><i class="hl-hill h1"></i><i class="hl-hill h2"></i><i class="hl-hill h3"></i></div>
+     <div class="hl-lanes">${Array.from({length:lanes},(_,i)=>`<div class="hl-lane" data-l="${i}"></div>`).join("")}</div>
+     <div class="hl-gates"></div>
+     <div class="hl-runner"><svg viewBox="0 0 60 64" aria-hidden="true"><ellipse class="hl-body" cx="30" cy="30" rx="17" ry="13" transform="rotate(-18 30 30)"/><line x1="45" y1="27" x2="45" y2="-6" class="hl-stem"/><path d="M45 -6 C46 2 56 5 53 16 C53 9 49 7 45 6 Z" class="hl-flag"/><circle cx="25" cy="27" r="3" fill="#fff"/><circle cx="26" cy="27" r="1.6" fill="#27306B"/><circle cx="34" cy="25" r="3" fill="#fff"/><circle cx="35" cy="25" r="1.6" fill="#27306B"/><line class="hl-leg l1" x1="24" y1="40" x2="20" y2="56"/><line class="hl-leg l2" x1="34" y1="40" x2="38" y2="56"/></svg></div>
+     <div class="hl-msg" aria-live="polite"></div>
+   </div>`;
+  const stage=h.querySelector(".hl-stage"),gatesEl=h.querySelector(".hl-gates"),runner=h.querySelector(".hl-runner"),msg=h.querySelector(".hl-msg");
+  const S={lane:Math.floor(lanes/2),score:0,lives:3,speed:0.16,gate:null,over:false,t0:performance.now(),streak:0};HL.run=true;
+  const hearts=()=>h.querySelector(".hl-hearts").innerHTML="❤️".repeat(S.lives)+"<span style=\"opacity:.25\">"+"❤️".repeat(3-S.lives)+"</span>";hearts();
+  const laneY=i=>(i+0.5)/lanes*100;
+  const place=()=>{runner.style.top=laneY(S.lane)+"%";};place();
+  const setLane=i=>{if(S.over)return;S.lane=Math.max(0,Math.min(lanes-1,i));place();};
+  const playInt=()=>{if(!S.gate)return;stopAll();const t=now();tone(S.gate.root,t,0.55,0.24);tone(S.gate.root+S.gate.iv.s,t+0.6,0.8,0.24);};
+  const spawn=()=>{const pool=L.k.map(k=>INTS.find(x=>x.k===k));const iv=pick(pool);const others=shuffle(pool.filter(x=>x!==iv)).slice(0,lanes-1);const labs=shuffle([iv,...others]);
+    const root=55+rnd(10);S.gate={iv,root,labs,x:110,ok:labs.indexOf(iv),passed:false};
+    gatesEl.innerHTML=labs.map((x,i)=>`<button class="hl-gate" data-l="${i}" style="top:${laneY(i)}%"><b>${x.k}</b><small>${x.n}</small></button>`).join("");
+    gatesEl.querySelectorAll(".hl-gate").forEach(b=>b.onpointerdown=e=>{e.preventDefault();setLane(+b.dataset.l);});
+    setTimeout(playInt,120);};
+  const key=e=>{if(!document.body.contains(stage)){document.removeEventListener("keydown",key);return;}
+    if(e.key==="ArrowUp"||e.key==="w"){e.preventDefault();setLane(S.lane-1);}else if(e.key==="ArrowDown"||e.key==="s"){e.preventDefault();setLane(S.lane+1);}else if(e.code==="Space"){e.preventDefault();playInt();}};
+  document.addEventListener("keydown",key);
+  h.querySelectorAll(".hl-lane").forEach(d=>d.onpointerdown=()=>setLane(+d.dataset.l));
+  h.querySelector(".hl-rep").onclick=playInt;h.querySelector(".hl-quit").onclick=()=>{finish(true);};
+  const say=(t,cls)=>{msg.textContent=t;msg.className="hl-msg show "+(cls||"");clearTimeout(say._t);say._t=setTimeout(()=>msg.className="hl-msg",900);};
+  function finish(quit){if(S.over)return;S.over=true;HL.run=false;cancelAnimationFrame(HL.raf);stopAll();document.removeEventListener("keydown",key);
+    const best=store.get("hlaup")||{};const rec=S.score>(best[li]||0);if(rec){best[li]=S.score;store.set("hlaup",best);}
+    h.innerHTML=`<div class="race-cd" style="--c:var(--accent)"><span>${S.score}</span><p>${rec&&S.score?"Nýtt met!":quit?"Hlaupi hætt":"Leik lokið"} · ${L.n}</p></div><div class="row" style="justify-content:center"><button class="primary hl-again">Hlaupa aftur</button><button class="hl-home">Velja stig</button></div>`;
+    h.querySelector(".hl-again").onclick=()=>hlaupStart(li);h.querySelector(".hl-home").onclick=hlaupHome;}
+  let last=performance.now();spawn();stage.focus({preventScroll:true});
+  const RX=18;/* x hlauparans í % */
+  function frame(t){if(!HL.run)return;const dt=Math.min(50,t-last);last=t;
+    const G=S.gate;if(G){G.x-=S.speed*dt*0.13;gatesEl.style.transform=`translateX(${(G.x/100*stage.clientWidth).toFixed(1)}px)`;
+      if(!G.passed&&G.x<=RX+2){G.passed=true;const ok=S.lane===G.ok;const gs=gatesEl.querySelectorAll(".hl-gate");gs[G.ok].classList.add("right");
+        if(ok){S.score++;S.streak++;S.speed=Math.min(0.32,S.speed+0.01);say(S.streak>2?`${G.iv.n}! 🔥 ${S.streak} í röð`:`${G.iv.n}!`,"ok");runner.classList.remove("jump");void runner.offsetWidth;runner.classList.add("jump");rawKnock(ac().currentTime+0.01,true,0.25);}
+        else{S.lives--;S.streak=0;hearts();gs[S.lane]&&gs[S.lane].classList.add("wrong");say(`Þetta var ${G.iv.n.toLowerCase()}`,"no");runner.classList.remove("trip");void runner.offsetWidth;runner.classList.add("trip");}
+        h.querySelector(".hl-score b").textContent=S.score;if(S.lives<=0){setTimeout(()=>finish(false),700);}}
+      if(G.x<-30&&S.lives>0)spawn();}
+    HL.raf=requestAnimationFrame(frame);}
+  HL.raf=requestAnimationFrame(frame);
+}
 
 /* ============ SÝNIPRÓF ============ */
 const KNOW=[
@@ -3103,26 +3299,45 @@ function renderSingQ(body,Q){
 function renderTap(body,Q,opt={}){
   const wantMic=opt.mic!=null?opt.mic:EX.mic;const how=wantMic?"í hljóðnemann":"á klapphnappinn eða með bilslánni";
   let sp=60/80;const len=Q.bars.flat().reduce((a,tk)=>a+RT[tk].b.reduce((x,y)=>x+y,0),0);
-  body.appendChild(el("p",{class:"muted"},Q.tap==="ear"?`Hlustaðu á hryndæmið (${Q.n}/4). Ýttu svo á „Byrja“: fyrst heyrir þú einn takt til að telja inn, síðan klappar þú hryndæmið ${how}.`:`Lestu hryndæmið. Ýttu á „Byrja“: fyrst heyrir þú einn takt til að telja inn, síðan klappar þú hryndæmið ${how}.`));
+  body.appendChild(el("p",{class:"muted"},Q.tap==="ear"?`Hlustaðu á hryndæmið (${Q.n}/4), eins oft og þú vilt. Ýttu svo á „Klappa með“: fyrst heyrir þú einn takt til að telja inn, síðan klappar þú hryndæmið ${how}.`:`Lestu hryndæmið. Ýttu á „Klappa með“: fyrst heyrir þú einn takt til að telja inn, síðan klappar þú hryndæmið ${how}.`));
   const notation=el("div",{class:"staffbox"},rhythmSVG(Q.bars,{ts:Q.n,syll:false}));
   if(Q.tap==="read")body.appendChild(notation);
-  if(Q.tap==="ear")playBtn(body,Q,()=>playRhythm(Q.bars,Q.n,80,true));
+  let go=null;
+  if(Q.tap==="ear"){
+    /* sjónræn hlustun: slagreitir með leikhaus og ljósdepli á hverri nótu (sýnir ekki mynstrið fyrirfram) */
+    const vis=el("div",{class:"ear-vis","aria-hidden":"true"});const beatsN=len;vis.innerHTML=Array.from({length:beatsN},(_,i)=>`<i class="${i%Q.n===0?"down":""}"><b></b></i>`).join("");
+    const show=el("button",{type:"button",class:"linkbtn"},"Sýna nóturnar");const shBox=el("div",{class:"staffbox",hidden:""});shBox.appendChild(notation);
+    show.onclick=()=>{shBox.hidden=!shBox.hidden;show.textContent=shBox.hidden?"Sýna nóturnar":"Fela nóturnar";};
+    const listen=()=>{playRhythm(Q.bars,Q.n,80,true);const spq=60/(80*SPEED),t0=now()-ac().currentTime,cells=[...vis.children];cells.forEach(c=>c.className=c.className.replace(/ ?(on|hit)/g,""));
+      const at=(sec,fn)=>setTimeout(fn,Math.max(0,(t0+sec)*1000));
+      for(let i=0;i<Q.n;i++)at(i*spq,()=>vis.classList.add("count"));
+      const st0=Q.n*spq;for(let b=0;b<beatsN;b++)at(st0+b*spq,()=>{vis.classList.remove("count");cells.forEach((c,j)=>c.classList.toggle("on",j===b));});
+      rhythmEvents(Q.bars).ev.forEach(e=>{if(e.rest)return;at(st0+e.t*spq,()=>{const c=cells[Math.floor(e.t+1e-6)];if(!c)return;const d=document.createElement("em");d.style.left=((e.t%1)*100)+"%";c.appendChild(d);setTimeout(()=>d.remove(),650);});});
+      at(st0+beatsN*spq+0.2,()=>cells.forEach(c=>c.classList.remove("on")));
+      if(go){go.disabled=false;}};
+    playBtn(body,Q,listen);body.appendChild(vis);if(opt.practice){const sr=el("div",{class:"row"});sr.appendChild(show);body.appendChild(sr);body.appendChild(shBox);}
+  }
   const r=el("div",{class:"tap-row"});
-  const go=el("button",{class:"primary"},Q.score==null?"Byrja":"Reyna aftur");const pad=el("button",{class:"tap-pad",disabled:"disabled"},"Klappa");const st=el("span",{class:"muted"},"");
+  go=el("button",{class:"primary"},Q.score==null?"Klappa með":"Reyna aftur");if(Q.tap==="ear"&&!Q.plays){go.disabled=true;go.title="Hlustaðu fyrst";}const pad=el("button",{class:"tap-pad",disabled:"disabled"},"Klappa");const st=el("span",{class:"muted"},"");
   r.appendChild(go);r.appendChild(pad);r.appendChild(st);body.appendChild(r);
   const res=el("div",{class:"tap-res"});body.appendChild(res);
   if(Q.score!=null)res.innerHTML=tapResultHTML(Q);
   let taps=[],rec=false,start=0;
-  const hit=e=>{if(!rec)return;if(e)e.preventDefault();taps.push(ac().currentTime);pad.classList.add("hitf");setTimeout(()=>pad.classList.remove("hitf"),90);};
+  const hit=e=>{if(!rec)return;if(e)e.preventDefault();taps.push(ac().currentTime);tapFx(pad);};
   pad.addEventListener("pointerdown",hit);
   const key=e=>{if(!body.isConnected){document.removeEventListener("keydown",key);return;}if(e.code==="Space"&&rec){hit(e);}};document.addEventListener("keydown",key);
   go.onclick=async()=>{stopAll();taps=[];res.innerHTML="";let useMic=false;if(wantMic){useMic=await micStart();if(!useMic)res.innerHTML=`<p class="warnline">${micMsg()} Klappaðu á hnappinn í staðinn.</p>`;}sp=60/(80*SPEED);const t0=now();for(let i=0;i<Q.n;i++)rawKnock(t0+i*sp,i===0,0.5);start=t0+Q.n*sp;if(!useMic)for(let i=0;i<len;i++)rawKnock(start+i*sp,i%Q.n===0,0.12);
-    let offMic=null;if(useMic)offMic=micOnsets(t=>{if(rec){taps.push(t);pad.classList.add("hitf");setTimeout(()=>pad.classList.remove("hitf"),90);}});
+    let offMic=null;if(useMic)offMic=micOnsets(t=>{if(rec){taps.push(t);tapFx(pad);}});
     go.disabled=true;pad.disabled=false;st.textContent="Teldu inn…";pad.focus({preventScroll:true});
     setTimeout(()=>{rec=true;st.textContent="Klappaðu núna!";},Math.max(0,(start-ac().currentTime-sp*0.5)*1000));
     setTimeout(()=>{rec=false;if(offMic)offMic();pad.disabled=true;go.disabled=false;go.textContent="Reyna aftur";st.textContent="";
-      scoreTap(Q,taps,start,sp);res.innerHTML=tapResultHTML(Q);if(Q.tap==="ear"&&!body.contains(notation))res.prepend(notation);if(opt.onDone)opt.onDone(Q);},(start-ac().currentTime+len*sp+0.7)*1000);};
+      scoreTap(Q,taps,start,sp);res.innerHTML=tapResultHTML(Q);if(Q.tap==="ear"){const nb=el("div",{class:"staffbox"},rhythmSVG(Q.bars,{ts:Q.n,syll:false}));res.prepend(nb);}if(opt.onDone)opt.onDone(Q);},(start-ac().currentTime+len*sp+0.7)*1000);};
 }
+/* geislun frá klapphnappi + smá högg á ramma æfingarinnar */
+function tapFx(pad){pad.classList.add("hitf");setTimeout(()=>pad.classList.remove("hitf"),110);
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  [0,1].forEach(k=>{const r=document.createElement("span");r.className="tap-ring"+(k?" r2":"");pad.appendChild(r);setTimeout(()=>r.remove(),700);});
+  const card=pad.closest(".ex,.card,.sing-card")||pad.parentElement;if(card){card.classList.remove("tap-bump");void card.offsetWidth;card.classList.add("tap-bump");}}
 function scoreTap(Q,taps,start,sp){
   const exp=rhythmEvents(Q.bars).ev.filter(e=>!e.rest).map(e=>start+e.t*sp);
   const lat=(AC.outputLatency||0)+(AC.baseLatency||0);let tp=taps.map(t=>t-lat);
@@ -3202,7 +3417,7 @@ wex(document.getElementById("wInt"),{key:"wInt",title:"Skrifaðu tónbilið",int
 wex(document.getElementById("wChord"),{key:"wChord",title:"Skrifaðu þríhljóminn",intro:"Smelltu á þrjá staði á sama stað á strengnum: grunntón, þríund og fimmund. Smelltu aftur á nótu til að taka hana burt.",gen:()=>WT.chord()});
 quiz(document.getElementById("exSongMeter"),{kind:"Hlustun",title:"Takttegund í þekktum lögum",intro:"Hlustaðu á upphaf lagsins og finndu þunga slagið. Hve mörg slög eru í hverjum takti?",gen:songGenMeter});
 quiz(document.getElementById("exSongMode"),{kind:"Hlustun",title:"Dúr eða moll í þekktum lögum",intro:"Hljómar lagið bjart eða dimmt?",gen:songGenMode});
-quiz(document.getElementById("exSongName"),{kind:"Hlustun",title:"Þekktu lagið",intro:"Hlustaðu á upphafið. Hvaða lag er þetta? Þú finnur öll lögin undir Söngur → Lögin.",gen:songGenName});
+wex(document.getElementById("wSongDict"),{key:"wSongDict",kind:"Tónheyrn",title:"Skrifaðu hendingu úr lagi eftir heyrn",intro:"Þú heyrir fyrst frumhljóm tóntegundarinnar og svo eina hendingu. Föstu formerkin og fyrsta nótan eru gefin. Hlustaðu eins oft og þú vilt.",gen:()=>songDictTask()});
 renderConcepts();
 renderDailyCard();
 renderSongur();
