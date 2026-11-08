@@ -894,7 +894,7 @@ button.opt[aria-pressed="true"],.opts-rhythm button[aria-pressed="true"]{backgro
     <div class="ex" data-tap="ear" data-pool="w,h.,h,h,q,q,q,qr,ee,ee,ssss,q.e" data-title="Endurtaktu hryndæmið eftir heyrn"></div>
     <div class="ex" data-tap="read" data-pool="w,h.,h,h,q,q,q,qr,ee,ee,ssss,q.e" data-title="Klappaðu hryndæmið af blaði"></div>
   </div>
-  <div class="note-book"><h3>Í stílabókina</h3><p>Skrifaðu niður þrjú lög sem þú kannt og hvort þau eru í tvískiptum eða þrískiptum takti. Búðu svo til þinn eigin tveggja takta hryn í 3/4 og klappaðu hann.</p></div>
+  <div class="note-book"><h3>Í stílabókina</h3><p>Skrifaðu niður þrjú lög sem þú kannt og hvort þau eru í tvískiptum eða þrískiptum takti. Búðu svo til þitt tveggja takta hryndæmi í 3/4 og klappaðu það.</p></div>
   <div class="block"><h2>Gátlisti</h2><ul class="checklist" data-lota="3"></ul></div>
 </section>
 
@@ -1431,9 +1431,9 @@ function quiz(host,{kind="Æfing",title,intro,gen,controls}){
 const LOTUR=[
  {n:1,t:"Nótnastrengurinn og nótnanöfnin",s:"Nótnalestur",d:"G-lykill, F-lykill, aukalínur og hljómborðið.",c:["Ég kann nótnanöfnin c d e f g a h í réttri röð.","Ég get lesið nótur í G-lykli, líka á aukalínum (c' og upp í a'').","Ég get lesið helstu nótur í F-lykli.","Ég veit hvernig nótnahálsar snúa.","Ég finn nóturnar á hljómborði."]},
  {n:2,t:"Lengdargildi og þagnir",s:"Lengdargildi",d:"Heilnóta niður í sextándapartsnótu, punktur og þagnir.",c:["Ég þekki heil-, hálf-, fjórðaparts-, áttundaparts- og sextándapartsnótur.","Ég þekki þagnirnar sem passa við hverja nótu.","Ég veit hvað punktur á eftir nótu gerir.","Ég veit hvenær notaður er fáni og hvenær bjálki."]},
- {n:3,t:"Púls, taktur og hrynur",s:"Taktur og hrynur",d:"Taktvísar, taktstrik, upptaktur og taktsláttur.",c:["Ég get klappað púls og laghryn við lag sem ég kann.","Ég heyri hvort lag er í tvískiptum eða þrískiptum takti.","Ég skil taktvísana 2/4, 3/4 og 4/4.","Ég veit hvað upptaktur er.","Ég get slegið takt í 2/4, 3/4 og 4/4.","Ég get endurtekið og skrifað stutt hryndæmi eftir heyrn."]},
+ {n:3,t:"Púls, taktur og hrynur",s:"Taktur og hrynur",d:"Taktvísar, taktstrik, upptaktur og taktsláttur.",c:["Ég get klappað púlsinn og hryn við lag sem ég kann.","Ég heyri hvort lag er í tvískiptum eða þrískiptum takti.","Ég skil taktvísana 2/4, 3/4 og 4/4.","Ég veit hvað upptaktur er.","Ég get slegið takt í 2/4, 3/4 og 4/4.","Ég get endurtekið og skrifað stutt hryndæmi eftir heyrn."]},
  {n:4,t:"Hálftónar, heiltónar og formerki",s:"Formerki",d:"Kross, bé, afturköllun, laus og föst formerki.",c:["Ég veit hvað hálftónn og heiltónn eru.","Ég kann að nefna hækkaða og lækkaða tóna (cís, es, b ...).","Ég veit hvað afturköllunarmerki gerir.","Ég veit muninn á lausum og föstum formerkjum."]},
- {n:5,t:"Tónstigar",s:"Tónstigar",d:"Dúr, laghæfur moll og pentatónískur tónstigi.",c:["Ég kann formúlu dúrtónstigans.","Ég veit hvað frumtónn er.","Ég heyri muninn á dúr, laghæfum moll og pentatónískum tónstiga.","Ég heyri hvort laglína er í dúr eða moll.","Ég heyri muninn á skrefum og stökkum."]},
+ {n:5,t:"Tónstigar",s:"Tónstigar",d:"Dúr, hreinn moll og pentatónískur tónstigi.",c:["Ég kann formúlu dúrtónstigans.","Ég veit hvað frumtónn er.","Ég heyri muninn á dúr, hreinum moll og pentatónískum tónstiga.","Ég heyri hvort laglína er í dúr eða moll.","Ég heyri muninn á skrefum og stökkum."]},
  {n:6,t:"Tóntegundir og fimmundahringurinn",s:"Fimmundahringurinn",d:"Föst formerki, sammarka moll og hringurinn allur.",c:["Ég get skrifað C-, G-, D-, F- og B-dúr tónstiga með lausum og föstum formerkjum.","Ég get fundið tóntegund lags í dúr út frá föstu formerkjunum (til og með tveimur).","Ég kann röð krossa og béa.","Ég skil hvernig fimmundahringurinn virkar.","Ég get fundið sammarka moll."]},
  {n:7,t:"Tónbil",s:"Tónbil",d:"Frá stórri tvíund upp í hreina áttund.",c:["Ég veit hvernig tónbil eru talin.","Ég heyri S2, L3, S3, H4, H5 og H8 þegar þau eru leikin upp frá sama tóni.","Ég get sungið þessi tónbil.","Ég get greint skrifuð tónbil upp frá c, d, f og g."]},
  {n:8,t:"Þríhljómar",s:"Þríhljómar",d:"Dúr og moll í grunnstöðu, grunnhljómarnir I, IV og V.",c:["Ég veit hvernig dúr- og mollþríhljómar eru byggðir.","Ég heyri muninn á dúr- og mollhljómi.","Ég get sungið brotinn dúr- og mollhljóm.","Ég get skrifað grunnhljóma I, IV og V í dúr til og með tveimur formerkjum."]},
@@ -1727,9 +1727,9 @@ const SCALES={dur:{n:"Dúr",up:[0,2,4,5,7,9,11,12]},moll:{n:"Laghæfur moll",up:
     h.querySelector("#sbOut").innerHTML=`<b>${cap(SH[root%12])}: ${SCALES[type].n}</b> · tónar: ${s.map(m=>SH[m%12]).join(" – ")} · bil: ${SCALES[type].up.slice(1).map((v,i)=>v-SCALES[type].up[i]===1?"½":v-SCALES[type].up[i]===2?"H":"1½").join(" ")}`;}
   h.querySelector("#sbPlay").onclick=()=>{const S=SCALES[type];playSeq(S.up.map(i=>root+i).concat((S.down||S.up.slice().reverse()).slice(1).map(i=>root+i)),0.36,0.34);};upd();})();
 quiz(document.getElementById("exScaleHear"),{kind:"Tónheyrn",title:"Hvaða tónstigi er þetta?",intro:"Tónstiginn er spilaður upp og niður.",
-  gen(){const k=pick(["dur","moll","penta"]),root=55+rnd(10),S=SCALES[k];const seq=S.up.map(i=>root+i).concat((S.down||S.up.slice().reverse()).slice(1).map(i=>root+i));
-    return {play:()=>playSeq(seq,0.34,0.32),options:[{v:"dur",label:"Dúr"},{v:"moll",label:"Laghæfur moll"},{v:"penta",label:"Pentatónískur"}],answer:k,
-      explain:{dur:"Dúr hljómar bjart, hálftónn er efst rétt áður en komið er á frumtóninn.",moll:"Laghæfur moll: dimmur í byrjun, en upp á við er 6. og 7. tónn hækkaður. Niður á við breytist hann.",penta:"Pentatónískur tónstigi hefur aðeins fimm tóna og enga hálftóna."}[k]};}});
+  gen(){const k=pick(["dur","hmoll","penta"]),root=55+rnd(10),S=SCALES[k];const seq=S.up.map(i=>root+i).concat((S.down||S.up.slice().reverse()).slice(1).map(i=>root+i));
+    return {play:()=>playSeq(seq,0.34,0.32),options:[{v:"dur",label:"Dúr"},{v:"hmoll",label:"Hreinn moll"},{v:"penta",label:"Pentatónískur"}],answer:k,
+      explain:{dur:"Dúr hljómar bjart, hálftónn er efst rétt áður en komið er á frumtóninn.",hmoll:"Hreinn moll hljómar dimmur. Hálftónarnir eru á milli 2.–3. og 5.–6. tóns.",penta:"Pentatónískur tónstigi hefur aðeins fimm tóna og enga hálftóna."}[k]};}});
 quiz(document.getElementById("exStepLeap"),{kind:"Tónheyrn",title:"Skref eða stökk?",intro:"Tveir tónar úr C-dúr. Fer laglínan í næstu nótu eða hoppar hún?",
   gen(){const deg=[0,2,4,5,7,9,11,12,14,16];const i=1+rnd(6);const step=Math.random()<.5;const dir=Math.random()<.5?1:-1;const j=step?i+dir:i+dir*(2+rnd(3));const jj=Math.max(0,Math.min(9,j));
     const a=60+deg[i],b=60+deg[jj];const isStep=Math.abs(jj-i)===1;
@@ -2560,7 +2560,7 @@ const FIG={
  scale:()=>staffSVG({clef:"g",items:[28,29,30,31,32,33,34,35].map((d,i)=>({notes:[{d,hl:i===0||i===7}],label:LET[d%7]})),step:26,final:true,scale:1.2}),
  tonic:()=>staffSVG({clef:"g",items:[{notes:[{d:28,hl:true}],dur:"q",label:"frumtónn"},{notes:[{d:30}],dur:"q"},{notes:[{d:32}],dur:"q"},{notes:[{d:31}],dur:"q"},{notes:[{d:29}],dur:"q"},{notes:[{d:28,hl:true}],dur:"h",label:"heim!"}],step:34,final:true,scale:1.2}),
  major:()=>kbSVG({from:60,to:72,hi:{60:"p",62:"l",64:"l",65:"l",67:"l",69:"l",71:"l",72:"p"},names:true,arcs:[[60,62,"H"],[62,64,"H"],[64,65,"½"],[65,67,"H"],[67,69,"H"],[69,71,"H"],[71,72,"½"]]}),
- minor:()=>staffSVG({clef:"g",items:[{notes:[{d:26,hl:true}],label:"a"},{notes:[{d:27}],label:"h"},{notes:[{d:28}],label:"c"},{notes:[{d:29}],label:"d"},{notes:[{d:30}],label:"e"},{notes:[{d:31,acc:1,hl:true}],label:"fís"},{notes:[{d:32,acc:1,hl:true}],label:"gís"},{notes:[{d:33,hl:true}],label:"a"},{bar:1},{notes:[{d:32,nat:1}],label:"g"},{notes:[{d:31,nat:1}],label:"f"},{notes:[{d:30}],label:"e"}],step:20,minW:320,scale:1.1,extra:(Y,it)=>tx((it[5]._x+it[6]._x)/2,Y(42),"↑ hækkaðir",{c:PINK,s:9})+tx((it[9]._x+it[11]._x)/2,Y(45),"↓ eins og hreinn moll",{s:9})}),
+ minor:()=>staffSVG({clef:"g",items:[{notes:[{d:26,hl:true}],label:"a"},{notes:[{d:27}],label:"h"},{notes:[{d:28}],label:"c"},{notes:[{d:29}],label:"d"},{notes:[{d:30}],label:"e"},{notes:[{d:31}],label:"f"},{notes:[{d:32}],label:"g"},{notes:[{d:33,hl:true}],label:"a"}],step:24,minW:300,scale:1.1}),
  penta:()=>kbSVG({from:60,to:72,names:true,hi:{60:"p",62:"l",64:"l",67:"l",69:"l",72:"p"},arcs:[[64,67,"bil"],[69,72,"bil"]]}),
  stepleap:()=>staffSVG({clef:"g",items:[{notes:[{d:28}],dur:"q"},{notes:[{d:29}],dur:"q"},{notes:[{d:30}],dur:"q"},{bar:1},{notes:[{d:28}],dur:"q"},{notes:[{d:32}],dur:"q"},{notes:[{d:30}],dur:"q"}],step:32,scale:1.25,extra:(Y,it)=>tx(it[1]._x,Y(41),"skref",{c:BLUE,s:11})+tx(it[5]._x,Y(41),"stökk",{c:PINK,s:11})+`<path d="M${it[4]._x} ${Y(30)} Q${(it[4]._x+it[5]._x)/2} ${Y(38)} ${it[5]._x} ${Y(34)}" style="fill:none;stroke:${PINK};stroke-width:1.6"/>`}),
  /* lota 6 */
@@ -2653,7 +2653,7 @@ const CC={
 5:[["Tónstigi","Röð tóna sem gengur upp í skrefum, frá frumtóni upp í næsta frumtón.","scale"],
    ["Frumtónn","Fyrsti tónninn, „heimili“ lagsins. Flest lög enda á frumtóninum.","tonic"],
    ["Dúrtónstigi","Heiltónn, heiltónn, hálftónn, heiltónn, heiltónn, heiltónn, hálftónn. C-dúr notar bara hvítu nóturnar.","major"],
-   ["Laghæfur molltónstigi","Hljómar dimmari. Á leiðinni upp eru 6. og 7. tónn hækkaðir. Á leiðinni niður eru þeir það ekki.","minor"],
+   ["Hreinn molltónstigi","Hljómar dimmari. Heiltónn, hálftónn, heiltónn, heiltónn, hálftónn, heiltónn, heiltónn. A-moll notar bara hvítu nóturnar.","minor"],
    ["Pentatónískur tónstigi","Bara fimm tónar og engir hálftónar: c, d, e, g, a.","penta"],
    ["Skref og stökk","Skref fer í næstu nótu. Stökk hoppar yfir eina eða fleiri nótur.","stepleap"]],
 6:[["Tóntegund","Segir hvaða tónstigi er notaður og hver frumtónninn er. Föstu formerkin sýna tóntegundina.","key"],
@@ -3140,7 +3140,7 @@ const SND={
  laghrynur:()=>{const sp=0.6,T=_rh([1,0.5,0.5,1,1,0.5,0.5,0.5,0.5,2],67,100),t=now(),P=[0,1,2,3,4,5,6,7].map(b=>b*sp);P.forEach(x=>knock(t+x,false,0.35));return [P,T];},upbeat:()=>_rh([1,1,1,1,3,2],67,110),
  half:()=>_sq([60,61,null,64,65],0.42),whole:()=>_sq([60,62],0.55),ef:()=>_sq([64,65,null,71,72],0.42),sharp:()=>_sq([65,66],0.6,0.5),flat:()=>_sq([62,61],0.6,0.5),
  nat:()=>_sq([66,65],0.6,0.5),enh:()=>_sq([61,61],0.6,0.5),
- scale:()=>_sq([60,62,64,65,67,69,71,72],0.34),tonic:()=>_sq([60,64,67,65,62,60],0.38),major:()=>_sq([60,62,64,65,67,69,71,72],0.34),minor:()=>_sq([57,59,60,62,64,66,68,69,67,65,64],0.3),
+ scale:()=>_sq([60,62,64,65,67,69,71,72],0.34),tonic:()=>_sq([60,64,67,65,62,60],0.38),major:()=>_sq([60,62,64,65,67,69,71,72],0.34),minor:()=>_sq([57,59,60,62,64,65,67,69],0.3),
  penta:()=>_sq([60,62,64,67,69,72],0.36),stepleap:()=>_sq([60,62,64,null,60,67,64],0.38),relative:()=>_ch([[60,64,67],[57,60,64]],1.0),
  interval:()=>_sq([60,67,[60,67]],0.6,0.5),broken:()=>_sq([60,67,null,[60,67]],0.6),
  majch:()=>_sq([60,64,67,[60,64,67]],0.42),minch:()=>_sq([60,63,67,[60,63,67]],0.42),mid:()=>_ch([[60,64,67],[60,63,67]],1.0),prim:()=>_ch([[60,64,67],[65,69,72],[67,71,74]],0.9),
@@ -3639,11 +3639,11 @@ const LVGEN={
    const ns=Array.from({length:8},(_,i)=>({d:K.d+i,acc:null}));if(f!=="hreinn"){ns[6].acc=1;}if(f==="laghæfur"){if(K.t==="d"){ns[5].acc=0;ns[5].nat=true;}else ns[5].acc=1;}
    const st={t:K.ks?K.ks.t:"",n:K.ks?K.ks.n:0};const ms=ns.map(n=>dMidi(n.d,n.acc!=null?n.acc:ksAccOf(n.d,st)));
    return {html:seqSvg(ns,{ks:K.ks,step:34,minW:330}),options:["hreinn","hljómhæfur","laghæfur"].map(x=>({label:cap(x)+" moll",v:x})),answer:f,explain:`${K.t}-moll, ${f} moll.`,play:()=>playSeq(ms,0.32,0.3)};}},
- mScaleEar:{kind:"Tónheyrn",title:"Tónstigar eftir heyrn",intro:"Dúr, hreinn moll, hljómhæfur moll, fimmtóna, heiltóna eða krómatískur?",
-  gen(){const S={"Dúr":[0,2,4,5,7,9,11,12],"Hreinn moll":[0,2,3,5,7,8,10,12],"Hljómhæfur moll":[0,2,3,5,7,8,11,12],"Fimmtóna":[0,2,4,7,9,12],"Heiltóna":[0,2,4,6,8,10,12],"Krómatískur":[0,1,2,3,4,5,6,7,8,9,10,11,12]};
+ mScaleEar:{kind:"Tónheyrn",title:"Tónstigar eftir heyrn",intro:"Dúr, hreinn moll, hljómhæfur moll, pentatónískur, heiltóna eða krómatískur?",
+  gen(){const S={"Dúr":[0,2,4,5,7,9,11,12],"Hreinn moll":[0,2,3,5,7,8,10,12],"Hljómhæfur moll":[0,2,3,5,7,8,11,12],"Pentatónískur":[0,2,4,7,9,12],"Heiltóna":[0,2,4,6,8,10,12],"Krómatískur":[0,1,2,3,4,5,6,7,8,9,10,11,12]};
    const k=pick(Object.keys(S)),r=57+rnd(7);return {q:"Hvaða tónstiga heyrir þú?",options:opts4(k,Object.keys(S)),answer:k,explain:"",play:()=>playSeq(S[k].map(x=>r+x),k==="Krómatískur"?0.2:0.3,0.28)};}},
- mMode:{kind:"Tónfræði",title:"Kirkjutóntegundir",intro:"Kirkjutóntegundirnar nota bara hvítu nóturnar. Það er byrjunartónninn sem ræður heitinu: d dórísk, e frýgísk, f lýdísk, g mixólýdísk, a eólísk, c jónísk.",
-  gen(){const M=[["Dórísk",29],["Frýgísk",30],["Lýdísk",31],["Mixólýdísk",32],["Eólísk",26],["Jónísk",28]];const [n,d]=pick(M);const ns=Array.from({length:8},(_,i)=>({d:d+i,acc:null}));
+ mMode:{kind:"Tónfræði",title:"Kirkjutóntegundir",intro:"Kirkjutóntegundirnar nota bara hvítu nóturnar. Það er byrjunartónninn sem ræður heitinu: d dórísk, e frýgísk, f lýdísk, g mixólýdísk, a eólísk, h lókrísk, c jónísk.",
+  gen(){const M=[["Dórísk",29],["Frýgísk",30],["Lýdísk",31],["Mixólýdísk",32],["Eólísk",26],["Lókrísk",27],["Jónísk",28]];const [n,d]=pick(M);const ns=Array.from({length:8},(_,i)=>({d:d+i,acc:null}));
    return {html:seqSvg(ns,{step:32,minW:310}),options:opts4(n,M.map(x=>x[0])),answer:n,explain:`Byrjar á ${nameD(d,0)}: ${n.toLowerCase()} tóntegund.`,play:()=>playSeq(ns.map(x=>dMidi(x.d,0)),0.3,0.3)};}},
  mDegree:{kind:"Tónfræði",title:"Heiti tónstigasæta",intro:"Frumtónn (I), undirfortónn (IV), fortónn (V) og leiðsögutónn (VII, hálftón undir frumtóni).",
   gen(){const K=pick(KEYS.slice(0,6).concat(KEYS.slice(8))),deg=pick([[0,"frumtónn"],[3,"undirfortónn"],[4,"fortónn"],[6,"leiðsögutónn"]]);
@@ -3704,11 +3704,11 @@ const LVL_LOTUR={
    ex:["mMinor","mScaleEar",{w:"mWMinor"}],
    sb:["Skrifaðu e-moll og d-moll í öllum þremur útgáfunum."],
    ck:["Ég veit hvernig hreinn, hljómhæfur og laghæfur moll eru byggðir.","Ég þekki þá í sundur á blaði og eftir heyrn."]},
-  {t:"Fleiri tónstigar",d:"Kirkjutóntegundir · fimmtóna · heiltóna · krómatískur",c:"--snare",lead:"Kirkjutóntegundir, fimmtóna, heiltóna og krómatískur tónstigi.",
-   cc:[["Kirkjutóntegundir","Hvítu nóturnar frá ólíkum byrjunartóni: dórísk (d), frýgísk (e), lýdísk (f), mixólýdísk (g), eólísk (a) og jónísk (c)."],["Fimmtóna","Fimm tónar, engir hálftónar: c d e g a."],["Heiltóna og krómatískur","Heiltóna: bara heiltónar (c d e fís gís aís). Krómatískur: allir tólf hálftónarnir."]],
+  {t:"Fleiri tónstigar",d:"Kirkjutóntegundir · pentatónískur · heiltóna · krómatískur",c:"--snare",lead:"Kirkjutóntegundir, pentatónískur, heiltóna og krómatískur tónstigi.",
+   cc:[["Kirkjutóntegundir","Hvítu nóturnar frá ólíkum byrjunartóni: dórísk (d), frýgísk (e), lýdísk (f), mixólýdísk (g), eólísk (a), lókrísk (h) og jónísk (c)."],["Pentatónískur","Fimm tónar, engir hálftónar: c d e g a."],["Heiltóna og krómatískur","Heiltóna: bara heiltónar (c d e fís gís aís). Krómatískur: allir tólf hálftónarnir."]],
    ex:["mMode","mScaleEar"],
    sb:["Skrifaðu dóríska tóntegund frá d og lýdíska frá f. Merktu hálftónana."],
-   ck:["Ég þekki dóríska og lýdíska tóntegund og veit hvernig kirkjutóntegundir eru byggðar.","Ég þekki fimmtóna, heiltóna og krómatískan tónstiga á blaði og eftir heyrn."]},
+   ck:["Ég þekki dóríska og lýdíska tóntegund og veit hvernig kirkjutóntegundir eru byggðar.","Ég þekki pentatónískan, heiltóna og krómatískan tónstiga á blaði og eftir heyrn."]},
   {t:"Öll tónbil innan áttundar",d:"Hrein · stór · lítil · stækkuð · minnkuð",c:"--hat",lead:"Þú þekkir nú öll tónbil innan áttundar, á blaði og eftir heyrn, og getur sungið þau.",
    cc:[["Tvö skref","1) Teldu nótnaheitin: c–e er þríund. 2) Teldu hálftónana: 4 = stór, 3 = lítil."],["Hrein tónbil","Príma, ferund, fimmund og áttund eru hrein. Hálftón stærra = stækkað, hálftón minna = minnkað."],["Tónskratti","Stækkuð ferund (f–h) og minnkuð fimmund (h–f) eru báðar sex hálftónar."]],
    ex:["mInt","mIntEar",{w:"mWInt"},{sing:"up",t:"Syngdu tónbilið upp"}],
