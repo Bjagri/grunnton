@@ -894,7 +894,7 @@ button.opt[aria-pressed="true"],.opts-rhythm button[aria-pressed="true"]{backgro
     <div class="ex" data-tap="ear" data-pool="w,h.,h,h,q,q,q,qr,ee,ee,ssss,q.e" data-title="Endurtaktu hryndæmið eftir heyrn"></div>
     <div class="ex" data-tap="read" data-pool="w,h.,h,h,q,q,q,qr,ee,ee,ssss,q.e" data-title="Klappaðu hryndæmið af blaði"></div>
   </div>
-  <div class="note-book"><h3>Í stílabókina</h3><p>Skrifaðu niður þrjú lög sem þú kannt og hvort þau eru í tvískiptum eða þrískiptum takti. Búðu svo til þinn eigin tveggja takta hrynur í 3/4 og klappaðu hann.</p></div>
+  <div class="note-book"><h3>Í stílabókina</h3><p>Skrifaðu niður þrjú lög sem þú kannt og hvort þau eru í tvískiptum eða þrískiptum takti. Búðu svo til þinn eigin tveggja takta hryn í 3/4 og klappaðu hann.</p></div>
   <div class="block"><h2>Gátlisti</h2><ul class="checklist" data-lota="3"></ul></div>
 </section>
 
@@ -1431,7 +1431,7 @@ function quiz(host,{kind="Æfing",title,intro,gen,controls}){
 const LOTUR=[
  {n:1,t:"Nótnastrengurinn og nótnanöfnin",s:"Nótnalestur",d:"G-lykill, F-lykill, aukalínur og hljómborðið.",c:["Ég kann nótnanöfnin c d e f g a h í réttri röð.","Ég get lesið nótur í G-lykli, líka á aukalínum (c' og upp í a'').","Ég get lesið helstu nótur í F-lykli.","Ég veit hvernig nótnahálsar snúa.","Ég finn nóturnar á hljómborði."]},
  {n:2,t:"Lengdargildi og þagnir",s:"Lengdargildi",d:"Heilnóta niður í sextándapartsnótu, punktur og þagnir.",c:["Ég þekki heil-, hálf-, fjórðaparts-, áttundaparts- og sextándapartsnótur.","Ég þekki þagnirnar sem passa við hverja nótu.","Ég veit hvað punktur á eftir nótu gerir.","Ég veit hvenær notaður er fáni og hvenær bjálki."]},
- {n:3,t:"Púls, taktur og hrynur",s:"Taktur og hrynur",d:"Taktvísar, taktstrik, upptaktur og taktsláttur.",c:["Ég get klappað púls og laghrynur við lag sem ég kann.","Ég heyri hvort lag er í tvískiptum eða þrískiptum takti.","Ég skil taktvísana 2/4, 3/4 og 4/4.","Ég veit hvað upptaktur er.","Ég get slegið takt í 2/4, 3/4 og 4/4.","Ég get endurtekið og skrifað stutt hryndæmi eftir heyrn."]},
+ {n:3,t:"Púls, taktur og hrynur",s:"Taktur og hrynur",d:"Taktvísar, taktstrik, upptaktur og taktsláttur.",c:["Ég get klappað púls og laghryn við lag sem ég kann.","Ég heyri hvort lag er í tvískiptum eða þrískiptum takti.","Ég skil taktvísana 2/4, 3/4 og 4/4.","Ég veit hvað upptaktur er.","Ég get slegið takt í 2/4, 3/4 og 4/4.","Ég get endurtekið og skrifað stutt hryndæmi eftir heyrn."]},
  {n:4,t:"Hálftónar, heiltónar og formerki",s:"Formerki",d:"Kross, bé, afturköllun, laus og föst formerki.",c:["Ég veit hvað hálftónn og heiltónn eru.","Ég kann að nefna hækkaða og lækkaða tóna (cís, es, b ...).","Ég veit hvað afturköllunarmerki gerir.","Ég veit muninn á lausum og föstum formerkjum."]},
  {n:5,t:"Tónstigar",s:"Tónstigar",d:"Dúr, laghæfur moll og pentatónískur tónstigi.",c:["Ég kann formúlu dúrtónstigans.","Ég veit hvað frumtónn er.","Ég heyri muninn á dúr, laghæfum moll og pentatónískum tónstiga.","Ég heyri hvort laglína er í dúr eða moll.","Ég heyri muninn á skrefum og stökkum."]},
  {n:6,t:"Tóntegundir og fimmundahringurinn",s:"Fimmundahringurinn",d:"Föst formerki, sammarka moll og hringurinn allur.",c:["Ég get skrifað C-, G-, D-, F- og B-dúr tónstiga með lausum og föstum formerkjum.","Ég get fundið tóntegund lags í dúr út frá föstu formerkjunum (til og með tveimur).","Ég kann röð krossa og béa.","Ég skil hvernig fimmundahringurinn virkar.","Ég get fundið sammarka moll."]},
@@ -3299,7 +3299,7 @@ function toolJump(id){const t=document.getElementById(id);if(!t)return false;con
 function hubCrumbs(){["dagsins","kapphlaup","songur","log","semja","hlaup","bingo","grunnprof","syniprof"].forEach(v=>{const s=document.querySelector(`section.view[data-view="${v}"] .vm-head`);if(s&&!s.querySelector(".crumb"))s.prepend(el("a",{class:"crumb",href:"#aefingar"},"← Æfingar"));});}
 
 /* ============ TÓNFRÆÐI-BINGÓ ============ */
-const BG_IV=[["L2",2,1,"Lítil tvíund"],["S2",2,2,"Stór tvíund"],["L3",3,3,"Lítil þríund"],["S3",3,4,"Stór þríund"],["H4",4,5,"Hrein ferund"],["St4",4,6,"Tritónus"],["H5",5,7,"Hrein fimmund"],["L6",6,8,"Lítil sexund"],["S6",6,9,"Stór sexund"],["L7",7,10,"Lítil sjöund"],["S7",7,11,"Stór sjöund"],["H8",8,12,"Hrein áttund"]];
+const BG_IV=[["L2",2,1,"Lítil tvíund"],["S2",2,2,"Stór tvíund"],["L3",3,3,"Lítil þríund"],["S3",3,4,"Stór þríund"],["H4",4,5,"Hrein ferund"],["St4",4,6,"Stækkuð ferund"],["H5",5,7,"Hrein fimmund"],["L6",6,8,"Lítil sexund"],["S6",6,9,"Stór sexund"],["L7",7,10,"Lítil sjöund"],["S7",7,11,"Stór sjöund"],["H8",8,12,"Hrein áttund"]];
 const BG_PAL=["var(--kick)","var(--snare)","var(--tone)","var(--hat)","var(--perc)","var(--open)"];
 const BG={sel:new Set(store.get("bgSel")||["L2","S2","L3","S3","H4","H5","S6","H8"]),size:store.get("bgSize")||4,n:store.get("bgN")||6,show:store.get("bgShow")||"both",seed:store.get("bgSeed")||(1+Math.floor(Math.random()*9e5)),calls:[],cur:null,reveal:false};
 /* endurtakanleg slembitala svo hægt sé að athuga spjald eftir númeri */
@@ -3569,7 +3569,7 @@ const LVGEN={
    const tooLong=pick([["ee","ee","q"],["q","ee","q"],["h","q"]]),noEnd=pick([["q","ee"],["ee","ee"],["q"]]);
    const list=shuffle([good,tooLong,noEnd]);const a=list.indexOf(good);
    return {html:rhythmSVG(bars,{ts:2,syll:false}),q:"Hvaða taktur botnar hendinguna best?",options:rhOpts(list.map(b=>[b])),optClass:"opts-rhythm",answer:a,explain:"Rétti endirinn er tvö slög að lengd og endar á fjórðaparts- eða hálfnótu á slagi.",play:()=>playRhythm([...bars,list[a]],2,84,true)};}},
- mKeyRead:{kind:"Tóntegundir",title:"Í hvaða tóntegund er laglínan?",intro:"Formerkin gefa tvo möguleika: dúr eða samhljóða moll. Skoðaðu svo hvar laglínan endar og hvort leiðsögutónninn er hækkaður.",
+ mKeyRead:{kind:"Tóntegundir",title:"Í hvaða tóntegund er laglínan?",intro:"Formerkin gefa tvo möguleika: dúr eða sammarka moll. Skoðaðu svo hvar laglínan endar og hvort leiðsögutónninn er hækkaður.",
   gen(){const K=pick(KEYS.filter(k=>k.n<=5)),mi=Math.random()<0.5,st={t:K.t,n:K.n};let td=28+(mi?(K.l+5)%7:K.l);if(td>32)td-=7;
    const degs=[0];while(degs.length<7){const p=degs[degs.length-1];let n=p+pick([-1,1,1,-1,2,-2]);if(n<-1||n>5)n=p+(n<p?1:-1);degs.push(n);}degs.push(mi?-1:pick([1,-1]),0);
    const ns=degs.map(g=>{const d=td+g;let a=ksAccOf(d,st)||0;if(mi&&g===-1)a+=1;return {d,acc:mi&&g===-1?a:null,a};});
@@ -3611,7 +3611,7 @@ const LVGEN={
    return {q:"Hvaða hljómur er númer 2?",options:Object.keys(P).map(x=>({label:x,v:x})),answer:k,explain:`i – ${P[k]} – V – i.`,play:()=>{stopAll();const t=now();["i",P[k],"V","i"].forEach((h,i)=>C[h].forEach(m=>tone(m,t+i*1.0,i===3?1.6:0.9,0.15)));}};}},
  fModEar:{kind:"Tónheyrn",title:"Tóntegundaskipti eftir heyrn",intro:"Hljómagangurinn byrjar í C-dúr. Í hvaða tóntegund endar hann?",
   gen(){const P={"G-dúr (fortóntegund)":[[48,64,67,72],[45,64,69,72],[50,66,69,72],[43,62,67,71],[55,62,67,71]],"F-dúr (undirfortóntegund)":[[48,64,67,72],[48,64,67,70],[41,65,69,72],[46,62,65,70],[41,60,65,69]],
-    "a-moll (samhljóða moll)":[[48,64,67,72],[50,62,65,69],[40,62,68,71],[45,60,64,69],[45,57,64,69]],"d-moll":[[48,64,67,72],[45,61,64,67],[50,62,65,69],[45,61,64,67],[50,57,62,65]]};const k=pick(Object.keys(P));
+    "a-moll (sammarka moll)":[[48,64,67,72],[50,62,65,69],[40,62,68,71],[45,60,64,69],[45,57,64,69]],"d-moll":[[48,64,67,72],[45,61,64,67],[50,62,65,69],[45,61,64,67],[50,57,62,65]]};const k=pick(Object.keys(P));
    return {q:"Hvert fer tónlistin?",options:Object.keys(P).map(x=>({label:x,v:x})),answer:k,explain:`Endar í ${k}.`,play:()=>{stopAll();const t=now();P[k].forEach((c,i)=>c.forEach(m=>tone(m,t+i*0.95,i===4?1.7:0.85,0.15)));}};}},
  fNonChord:{kind:"Hljómfræði",title:"Hljómframandi tónar",intro:"Hljómtónn tilheyrir hljómnum. Tengitónn tengir tvo hljómtóna í skrefum. Skiptitónn fer skref frá hljómtóni og aftur til baka.",
   gen(){const CH={C:[0,2,4],F:[3,5,0],G:[4,6,1]};const cn=pick(Object.keys(CH)),T=CH[cn],inT=d=>T.includes(((d%7)+7)%7);const kind=pick(["Hljómtónn","Tengitónn","Skiptitónn"]);let ns,g=0;
@@ -3625,8 +3625,8 @@ const LVGEN={
   gen(){const I=mkInterval(IV_ALL.concat([[4,6],[5,6]]));const pool=[...new Set(IV_ALL.map(([n,s])=>ivName(n,s)).concat(["Stækkuð ferund","Minnkuð fimmund","Stækkuð tvíund","Minnkuð sjöund"]).filter(Boolean))];
    return {html:seqSvg([I.lo,I.hi],{dur:"w",step:70}),options:opts4(I.name,pool),answer:I.name,explain:`${I.num}. stig (${IVN[I.num-1]}), ${I.semis} hálftónar: ${I.name.toLowerCase()}.`,play:()=>playSeq([I.m1,I.m2,[I.m1,I.m2]],0.7,0.65)};}},
  mIntEar:{kind:"Tónheyrn",title:"Tónbil eftir heyrn",intro:"Öll tónbil innan áttundar, fyrst brotin upp og svo saman.",
-  gen(){const [num,semis]=pick(IV_ALL.concat([[4,6]]));const name=num===4&&semis===6?"Tritónus (stækkuð ferund)":ivName(num,semis);const r=55+rnd(10);
-   const pool=IV_ALL.map(([n,s])=>n===4&&s===6?"Tritónus (stækkuð ferund)":ivName(n,s)).filter((x,i,a)=>x&&a.indexOf(x)===i).filter(x=>!/Minnkuð fimmund/.test(x));
+  gen(){const [num,semis]=pick(IV_ALL.concat([[4,6]]));const name=num===4&&semis===6?"Stækkuð ferund (tónskratti)":ivName(num,semis);const r=55+rnd(10);
+   const pool=IV_ALL.map(([n,s])=>n===4&&s===6?"Stækkuð ferund (tónskratti)":ivName(n,s)).filter((x,i,a)=>x&&a.indexOf(x)===i).filter(x=>!/Minnkuð fimmund/.test(x));
    return {q:"Hvaða tónbil heyrir þú?",options:opts4(name,pool),answer:name,explain:`${semis} hálftónar.`,play:()=>playSeq([r,r+semis,[r,r+semis]],0.65,0.6)};}},
  mTriad:{kind:"Tónfræði",title:"Hvaða þríhljómur?",intro:"Skoðaðu þríundirnar: stór+lítil = dúr, lítil+stór = moll, lítil+lítil = minnkaður, stór+stór = stækkaður.",
   gen(){const t=pick(Object.keys(TRI)),c=mkTriad(t);return {html:chordSvg([c.notes]),options:Object.keys(TRI).map(k=>({label:TRI_N[k],v:k})),answer:t,explain:`${TRI_N[t]}: ${TRI[t][0]===4?"stór":"lítil"} þríund neðst, ${TRI[t][1]-TRI[t][0]===4?"stór":"lítil"} þríund ofan á.`,play:()=>playSeq([...c.ms,c.ms],0.4,0.4)};}},
@@ -3649,10 +3649,10 @@ const LVGEN={
   gen(){const K=pick(KEYS.slice(0,6).concat(KEYS.slice(8))),deg=pick([[0,"frumtónn"],[3,"undirfortónn"],[4,"fortónn"],[6,"leiðsögutónn"]]);
    const st={t:K.t,n:K.n},sc=Array.from({length:7},(_,i)=>{const li=(K.l+i)%7,d=28+li;return nm(li,ksAccOf(d,st)||0);});const right=sc[deg[0]];
    return {q:`Hver er <b>${deg[1]}</b> í ${K.maj}-dúr?`,options:opts4(right,sc),answer:right,explain:`${K.maj}-dúr: ${sc.join(" ")}. ${cap(deg[1])} er ${["1.","","","4.","5.","","7."][deg[0]]} tónninn.`};}},
- mRel:{kind:"Tónfræði",title:"Skyldar tóntegundir",intro:"Samhljóða tóntegundir hafa sömu formerki (C-dúr og a-moll). Samnefndar tóntegundir hafa sama frumtón (C-dúr og c-moll).",
-  gen(){const K=pick(KEYS.slice(0,6).concat(KEYS.slice(7))),kind=pick(["samhljóða","samnefnd"]);const right=kind==="samhljóða"?K.min+"-moll":K.maj.toLowerCase()+"-moll";
+ mRel:{kind:"Tónfræði",title:"Skyldar tóntegundir",intro:"Sammarka tóntegundir hafa sömu formerki (C-dúr og a-moll). Samnefndar tóntegundir hafa sama frumtón (C-dúr og c-moll).",
+  gen(){const K=pick(KEYS.slice(0,6).concat(KEYS.slice(7))),kind=pick(["sammarka","samnefnd"]);const right=kind==="sammarka"?K.min+"-moll":K.maj.toLowerCase()+"-moll";
    const pool=[...new Set(KEYS.map(x=>x.min+"-moll").concat(KEYS.map(x=>x.maj.toLowerCase()+"-moll")))];
-   return {q:`Hver er <b>${kind}</b> molltóntegund ${K.maj}-dúrs?`,options:opts4(right,pool),answer:right,explain:kind==="samhljóða"?`Sömu formerki og ${K.maj}-dúr: ${right}.`:`Sami frumtónn: ${right}.`};}},
+   return {q:`Hver er <b>${kind}</b> molltóntegund ${K.maj}-dúrs?`,options:opts4(right,pool),answer:right,explain:kind==="sammarka"?`Sömu formerki og ${K.maj}-dúr: ${right}.`:`Sami frumtónn: ${right}.`};}},
  mCad:{kind:"Tónheyrn",title:"Niðurlög eftir heyrn",intro:"Hlustaðu á endinn. Aðalendi: V → I. Hálfendi: endar á V. Kirkjuendi: IV → I. Gabbendi: V → VI.",
   gen(){const C={I:[48,64,67,72],IV:[53,65,69,72],V:[55,62,67,71],VI:[57,64,69,72],II:[50,65,69,74]};
    const E={"Aðalendi":["I","IV","V","I"],"Hálfendi":["I","II","IV","V"],"Kirkjuendi":["I","V","IV","I"],"Gabbendi":["I","IV","V","VI"]};const k=pick(Object.keys(E));
@@ -3694,11 +3694,11 @@ const LVL_LOTUR={
    ex:[{tap:"read",t:"Klappaðu synkópurnar af blaði"},{tap:"ear",t:"Endurtaktu hryndæmið eftir heyrn"},"mSyncEar","mBotna"],
    sb:["Semdu fjögurra takta hrynhendingu: tveir taktar spurning, tveir taktar svar."],
    ck:["Ég les, klappa og skrifa hryndæmi með synkópum og bindingum yfir taktstrik.","Ég get botnað hrynhendingar."]},
-  {t:"Allar tóntegundir",d:"Fimmundahringurinn allur · samhljóða og samnefndar",c:"--snare",lead:"Allur fimmundahringurinn, allar dúr- og molltóntegundir og heiti tónstigasætanna.",
-   cc:[["Samhljóða tóntegundir","Sömu formerki, ólíkur frumtónn: C-dúr og a-moll, G-dúr og e-moll."],["Samnefndar tóntegundir","Sami frumtónn, ólík formerki: C-dúr og c-moll."],["Heiti tónstigasæta","I frumtónn, IV undirfortónn, V fortónn og VII leiðsögutónn (hálftón undir frumtóninum)."]],
+  {t:"Allar tóntegundir",d:"Fimmundahringurinn allur · sammarka og samnefndar",c:"--snare",lead:"Allur fimmundahringurinn, allar dúr- og molltóntegundir og heiti tónstigasætanna.",
+   cc:[["Sammarka tóntegundir","Sömu formerki, ólíkur frumtónn: C-dúr og a-moll, G-dúr og e-moll."],["Samnefndar tóntegundir","Sami frumtónn, ólík formerki: C-dúr og c-moll."],["Heiti tónstigasæta","I frumtónn, IV undirfortónn, V fortónn og VII leiðsögutónn (hálftón undir frumtóninum)."]],
    ex:["mKeyRead","mRel","mDegree",{w:"mWScale"}],
    sb:["Teiknaðu fimmundahringinn með öllum dúr- og molltóntegundum.","Skrifaðu frumtón, undirfortón, fortón og leiðsögutón í D-dúr og B-dúr."],
-   ck:["Ég kann fimmundahringinn og allar dúr- og molltóntegundir.","Ég veit hvað samhljóða og samnefndar tóntegundir eru.","Ég kann heitin frumtónn, undirfortónn, fortónn og leiðsögutónn."]},
+   ck:["Ég kann fimmundahringinn og allar dúr- og molltóntegundir.","Ég veit hvað sammarka og samnefndar tóntegundir eru.","Ég kann heitin frumtónn, undirfortónn, fortónn og leiðsögutónn."]},
   {t:"Þrenns konar moll",d:"Hreinn · hljómhæfur · laghæfur",c:"--snare",lead:"Moll er til í þremur útgáfum. Munurinn liggur í 6. og 7. tóni.",
    cc:[["Hreinn moll","Fylgir formerkjunum alla leið, t.d. a h c d e f g a."],["Hljómhæfur moll","7. tónn hækkaður um hálftón (gís í a-moll). Þá verður til leiðsögutónn."],["Laghæfur moll","6. og 7. tónn hækkaðir á leiðinni upp (fís, gís), en á leiðinni niður er hann eins og hreinn moll."]],
    ex:["mMinor","mScaleEar",{w:"mWMinor"}],
@@ -3710,7 +3710,7 @@ const LVL_LOTUR={
    sb:["Skrifaðu dóríska tóntegund frá d og lýdíska frá f. Merktu hálftónana."],
    ck:["Ég þekki dóríska og lýdíska tóntegund og veit hvernig kirkjutóntegundir eru byggðar.","Ég þekki fimmtóna, heiltóna og krómatískan tónstiga á blaði og eftir heyrn."]},
   {t:"Öll tónbil innan áttundar",d:"Hrein · stór · lítil · stækkuð · minnkuð",c:"--hat",lead:"Þú þekkir nú öll tónbil innan áttundar, á blaði og eftir heyrn, og getur sungið þau.",
-   cc:[["Tvö skref","1) Teldu nótnaheitin: c–e er þríund. 2) Teldu hálftónana: 4 = stór, 3 = lítil."],["Hrein tónbil","Príma, ferund, fimmund og áttund eru hrein. Hálftón stærra = stækkað, hálftón minna = minnkað."],["Tritónus","Stækkuð ferund (f–h) og minnkuð fimmund (h–f) eru báðar sex hálftónar."]],
+   cc:[["Tvö skref","1) Teldu nótnaheitin: c–e er þríund. 2) Teldu hálftónana: 4 = stór, 3 = lítil."],["Hrein tónbil","Príma, ferund, fimmund og áttund eru hrein. Hálftón stærra = stækkað, hálftón minna = minnkað."],["Tónskratti","Stækkuð ferund (f–h) og minnkuð fimmund (h–f) eru báðar sex hálftónar."]],
    ex:["mInt","mIntEar",{w:"mWInt"},{sing:"up",t:"Syngdu tónbilið upp"}],
    sb:["Skrifaðu öll tónbil upp frá d' og nefndu þau."],
    ck:["Ég þekki og skrifa öll tónbil innan áttundar.","Ég greini öll tónbil innan áttundar eftir heyrn.","Ég get sungið öll tónbil upp frá gefnum tóni."]},
