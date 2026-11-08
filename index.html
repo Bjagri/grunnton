@@ -680,6 +680,53 @@ button.opt[aria-pressed="true"],.opts-rhythm button[aria-pressed="true"]{backgro
 .rv-mark{width:34px;height:34px;flex:none;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;background:var(--good)}
 .rv-item.no .rv-mark{background:var(--bad)}.rv-item.part .rv-mark{background:var(--open)}
 
+/* bingó */
+.bg-setup{background:var(--surface);border-radius:28px;padding:22px 24px;display:flex;flex-direction:column;gap:14px;box-shadow:0 1px 0 var(--line)}
+.bg-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.bg-lab{font-weight:600;font-size:.92rem;color:var(--muted)}
+.bg-chips{display:flex;flex-wrap:wrap;gap:6px}
+.bg-chip{min-height:36px;padding:4px 14px;border-radius:999px;box-shadow:none;background:var(--tint);color:var(--muted);font-weight:600}
+.bg-chip[aria-pressed="true"]{background:var(--snare);color:#fff}
+.bg-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
+.bg-card{--s:4;background:var(--surface);border-radius:30px;padding:18px 18px 14px;display:flex;flex-direction:column;gap:12px;box-shadow:0 1px 0 var(--line),0 10px 30px -18px color-mix(in srgb,var(--ink) 40%,transparent);position:relative;overflow:hidden;color:var(--ink)}
+.bg-card::before{content:"";position:absolute;right:-50px;top:-60px;width:170px;height:170px;border-radius:44% 56% 61% 39%/42% 44% 56% 58%;background:color-mix(in srgb,var(--tone) 30%,transparent)}
+.bg-ch{display:flex;align-items:center;gap:10px;position:relative}
+.bg-deco{width:46px;flex:none}
+.bg-ch div{display:flex;flex-direction:column;line-height:1.1;flex:1}
+.bg-ch b{font-size:1.2rem;letter-spacing:-.01em;white-space:nowrap}.bg-ch small{color:var(--muted);font-size:.8rem}
+.bg-no{background:var(--ink);color:var(--surface);border-radius:999px;padding:4px 12px;font-weight:600;font-size:.82rem;white-space:nowrap}
+.bg-grid{display:grid;grid-template-columns:repeat(var(--s),1fr);gap:7px;position:relative}
+.bg-cell{aspect-ratio:1;border-radius:16px;background:color-mix(in srgb,var(--cc,var(--tone)) 16%,var(--surface));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:4px;text-align:center;min-width:0}
+.bg-cell .bg-st{width:96%;height:auto;color:var(--ink);flex:1 1 auto;min-height:0}
+.bg-cell b{font-size:1.05rem;line-height:1}
+.bg-cell small{font-size:.66rem;color:var(--muted);line-height:1.1}
+.bg-card[style*="--s:5"] .bg-cell b{font-size:.92rem}.bg-card[style*="--s:3"] .bg-cell b{font-size:1.35rem}
+.bg-cell.free{background:color-mix(in srgb,var(--tone) 40%,var(--surface))}
+.bg-cell.free svg{width:44%}
+.bg-cf{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);gap:8px;flex-wrap:wrap}
+.bg-caller{background:var(--surface);border-radius:28px;padding:22px 24px;display:flex;flex-direction:column;gap:16px;box-shadow:0 1px 0 var(--line)}
+.bg-cl-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px}.bg-cl-head h2{margin:0}
+.bg-cl-main{display:flex;flex-wrap:wrap;align-items:center;gap:18px}
+.bg-now{display:flex;align-items:center;gap:14px;min-height:96px}
+.bg-big{--cc:var(--snare);width:96px;height:96px;border-radius:30px;background:var(--cc);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:2rem;font-weight:700;line-height:1;animation:bgPop .45s cubic-bezier(.3,1.6,.5,1)}
+.bg-big small{font-size:.62rem;font-weight:500;margin-top:4px;text-align:center;padding:0 6px}
+@keyframes bgPop{from{transform:scale(.6) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
+.bg-hist{display:flex;flex-wrap:wrap;gap:6px;min-height:0}
+.bg-hi{background:color-mix(in srgb,var(--cc) 22%,var(--surface));border-radius:12px;padding:4px 10px;font-weight:600;font-size:.88rem}
+.bg-check{display:flex;flex-direction:column;gap:10px}
+.bg-grid.mini{max-width:320px}.bg-grid.mini .bg-cell{border-radius:12px;background:var(--tint);font-size:.85rem}
+.bg-grid.mini .bg-cell.hit{background:color-mix(in srgb,var(--snare) 35%,var(--surface))}
+.bg-grid.mini .bg-cell.win{background:var(--snare);color:#fff}
+@media (max-width:560px){.bg-cards{grid-template-columns:1fr}.bg-setup,.bg-caller{padding:18px}}
+@media print{
+  body.print-bingo *{visibility:hidden}
+  body.print-bingo #bingoPrint,body.print-bingo #bingoPrint *{visibility:visible}
+  body.print-bingo #bingoPrint{position:absolute;left:0;top:0;width:100%;display:grid;grid-template-columns:1fr;gap:0}
+  body.print-bingo .bg-card{-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:none;border:1.5px solid #ddd;break-inside:avoid;height:132mm;margin:0 auto 5mm;width:140mm;justify-content:space-between;overflow:hidden}
+  body.print-bingo .bg-card:nth-child(2n){break-after:page}
+  body.print-bingo .bg-grid{width:100mm;margin:0 auto}
+  body.print-bingo .bg-card[style*="--s:5"] .bg-grid{width:104mm}
+}
 </style>
 
 </head>
@@ -1038,6 +1085,16 @@ button.opt[aria-pressed="true"],.opts-rhythm button[aria-pressed="true"]{backgro
   <div id="hlaupBox" class="stack"></div>
 </section>
 
+<!-- ================= BINGÓ ================= -->
+<section class="view stack-lg" data-view="bingo" hidden>
+  <div class="vm-head">
+    <p class="eyebrow">Hópleikur · tónbil</p>
+    <h1>Tónfræði-bingó</h1>
+    <p class="lede">Prentaðu bingóspjöld, kennarinn spilar tónbil og nemendur merkja við þau sem þeir heyra. Fyrst til að fylla röð lárétt, lóðrétt eða á ská hrópar „Bingó!“</p>
+  </div>
+  <div id="bingoBox" class="stack-lg"></div>
+</section>
+
 <!-- ================= LÖGIN ================= -->
 <section class="view stack-lg" data-view="log" hidden>
   <div class="vm-head">
@@ -1287,7 +1344,7 @@ const RT={w:{b:[4],w:62,s:"ta-a-a-a",sy:[["ta-a-a-a",0]]},"h.":{b:[3],w:56,s:"ta
   "q~":{b:[1],w:34,s:"ta",sy:[["ta",0]],tie:1},"h~":{b:[2],w:46,s:"ta-a",sy:[["ta-a",0]],tie:1},
   eqe:{b:[.5,1,.5],w:66,s:"tí ta tí",sy:[["tí",0],["ta",22],["tí",44]]},
   "q.":{b:[1.5],w:40,s:"ta",sy:[["ta-a",0]]},eee:{b:[.5,.5,.5],w:56,s:"tí-tí-tí",sy:[["tí",0],["tí",18],["tí",36]]},
-  qe:{b:[1,.5],w:50,s:"ta tí",sy:[["ta",0],["tí",26]]},eq:{b:[.5,1],w:50,s:"tí ta",sy:[["tí",0],["ta",22]]}};
+  qe:{b:[1,.5],w:50,s:"ta tí",sy:[["ta",0],["tí",26]]},tri:{b:[1/3,1/3,1/3],w:58,s:"trí-ó-la",sy:[["trí",0],["ó",18],["la",36]]},eq:{b:[.5,1],w:50,s:"tí ta",sy:[["tí",0],["ta",22]]}};
 const FLAG=(sx,top)=>`<path d="M${sx} ${top} C${sx+1} ${top+7} ${sx+11} ${top+10} ${sx+8.5} ${top+21} C${sx+8.5} ${top+13} ${sx+4} ${top+11} ${sx} ${top+9.5} Z" class="st-ink"/>`;
 function rhythmSVG(bars,opt={}){
   const y=44;let x=8;const P=[];
@@ -1300,6 +1357,7 @@ function rhythmSVG(bars,opt={}){
       const T=RT[tk],cx=x+10;if(!T.rest)tieTo(cx);
       if(tk==="q~"||tk==="h~"){P.push(head(cx,tk==="q~")+stem(cx));tieFrom=cx;}
       else if(tk==="eqe")P.push(head(cx,true)+stem(cx)+FLAG(cx+5.7,y-32)+head(cx+22,true)+stem(cx+22)+head(cx+44,true)+stem(cx+44)+FLAG(cx+49.7,y-32));
+      else if(tk==="tri")P.push([0,18,36].map(d=>head(cx+d,true)+stem(cx+d)).join("")+`<rect x="${cx+5}" y="${y-33}" width="${37.5}" height="4.5" class="st-ink"/><text x="${cx+24}" y="${y-38}" text-anchor="middle" font-size="11" font-weight="700" class="st-ink" style="font-style:italic">3</text>`);
       else if(tk==="q.")P.push(head(cx,true)+stem(cx)+`<circle cx="${cx+12}" cy="${y-1}" r="2" class="st-ink"/>`);
       else if(tk==="eee")P.push([0,18,36].map(d=>head(cx+d,true)+stem(cx+d)).join("")+`<rect x="${cx+5}" y="${y-33}" width="${37.5}" height="4.5" class="st-ink"/>`);
       else if(tk==="qe")P.push(head(cx,true)+stem(cx)+head(cx+26,true)+stem(cx+26)+FLAG(cx+31.7,y-32));
@@ -1538,7 +1596,7 @@ function route(){let h=(location.hash||"#forsida").slice(1);if(h==="heim")h="for
   let v=document.querySelector(`section.view[data-view="${lvm?"lvlota":h}"]`);if(!v){h="forsida";v=document.querySelector('[data-view="forsida"]');}
   document.querySelectorAll("section.view").forEach(s=>{s.hidden=s!==v;});
   v.classList.remove("enter");void v.offsetWidth;v.classList.add("enter");
-  const navKey=h.startsWith("lota-")||lvm?"lotur":h==="lvprof"?"aefingar":["dagsins","kapphlaup","log","songur","semja","hlaup","aefingar","grunnprof","syniprof"].includes(h)?"aefingar":h;
+  const navKey=h.startsWith("lota-")||lvm?"lotur":h==="lvprof"?"aefingar":["dagsins","kapphlaup","log","songur","semja","hlaup","bingo","aefingar","grunnprof","syniprof"].includes(h)?"aefingar":h;
   document.querySelectorAll("nav.links a").forEach(a=>a.dataset.nav===navKey?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"));
   CUR_LOTA=h.startsWith("lota-")?+h.split("-")[1]:0;
   const fab=document.getElementById("gbFab"),dr=document.getElementById("gbDrawer");fab.hidden=!CUR_LOTA;dr.hidden=true;fab.setAttribute("aria-expanded","false");
@@ -1554,6 +1612,7 @@ function route(){let h=(location.hash||"#forsida").slice(1);if(h==="heim")h="for
   if(typeof HL!=="undefined"){HL.run=false;cancelAnimationFrame(HL.raf);}
   if(h==="aefingar"&&typeof hubRender==="function")hubRender();
   if(h==="hlaup"&&typeof hlaupHome==="function")hlaupHome();
+  if(h==="bingo"&&typeof bingoRender==="function")bingoRender();
   if(typeof hubCrumbs==="function")hubCrumbs();
   if(h==="semja"&&typeof compInit==="function")compInit();
   if(h==="log"&&typeof songsHome==="function"&&!SONG_CUR)songsHome();
@@ -3207,13 +3266,15 @@ const HIC=(()=>{const K="var(--kick)",S="var(--snare)",T="var(--tone)",G="var(--
   scale:[0,1,2,3,4].map(i=>ln(8+i*17,44-i*8,25+i*17,44-i*8,2,.2)).join("")+[K,S,T,G,K].map((c,i)=>hd(16+i*17,38-i*8,c,.85)).join(""),
   cof:Array.from({length:12},(_,i)=>{const a=(i*30-90)*Math.PI/180;return `<circle cx="${48+18*Math.cos(a)}" cy="${24+18*Math.sin(a)}" r="${i===0?5.5:3.4}" fill="${i===0?S:i<3||i>10?T:"currentColor"}" opacity="${i===0||i<3||i>10?1:.22}"/>`;}).join("")+`<circle cx="48" cy="24" r="8" fill="none" stroke="currentColor" stroke-width="2" opacity=".2"/>`,
   ear:pth("M38 34 C30 24 33 6 47 6 C59 6 62 16 59 22 C56 28 51 28 51 34 C51 41 45 43 42 39",S,4.5)+pth("M45 22 C45 15 54 15 54 21",S,3.5,.6)+pth("M68 16 Q74 24 68 32","currentColor",2.4,.22)+pth("M76 11 Q85 24 76 37","currentColor",2.4,.18)+hd(18,16,K,.6)+hd(24,30,G,.6),
+  bingo:rr(20,2,56,44,10,"currentColor",.08)+[0,1,2].map(r=>[0,1,2].map(c=>{const x=25+c*16.5,y=6+r*13.5,on=(r===c);return rr(x,y,14,11.5,3.5,on?[K,S,G][r]:"currentColor",on?1:.12);}).join("")).join("")+`<circle cx="49.5" cy="25.2" r="3.4" fill="var(--surface)"/>`+hd(84,12,S,.7)+hd(12,36,K,.6)+hd(86,34,P,.5),
   intread:staff()+hd(28,40,K,.95)+hd(68,16,S,.95)+pth("M34 36 Q46 14 61 17",T,3.2)+`<text x="40" y="17" text-anchor="middle" font-size="10" font-weight="700" fill="currentColor" opacity=".55">H5</text>`
  };})();
 const HUB=[
  {g:"Daglega",items:[
   {h:"#dagsins",ic:"dagsins",n:"Æfing dagsins",d:"Stutt blönduð æfing úr öllu efninu.",c:"--perc"},
   {h:"#kapphlaup",ic:"kapphlaup",n:"Kapphlaup",d:"Eins mörg svör og þú getur á móti klukkunni.",c:"--snare"},
-  {h:"#hlaup",ic:"hlaup",n:"Tónbilahlaupið",d:"Heyrðu tónbilið og hlauptu í gegnum réttu hurðina.",c:"--accent"}]},
+  {h:"#hlaup",ic:"hlaup",n:"Tónbilahlaupið",d:"Heyrðu tónbilið og hlauptu í gegnum réttu hurðina.",c:"--accent"},
+  {h:"#bingo",ic:"bingo",n:"Tónfræði-bingó",d:"Prentaðu bingóspjöld með tónbilum og spilaðu í hóp.",c:"--tone"}]},
  {g:"Grunnprófið",items:[
   {h:"#grunnprof",ic:"grunnprof",n:"Grunnprófið",d:"Hvernig prófið er byggt upp, hvar þú stendur og framvinda til kennara.",c:"--kick"},
   {h:"#syniprof",ic:"syniprof",n:"Sýnipróf",d:"Breytilegt æfingapróf með sama sniði og grunnprófið.",c:"--snare"}]},
@@ -3235,7 +3296,73 @@ function hubRender(){const h=document.getElementById("hub");if(!h||h._r)return;h
 function toolJump(id){const t=document.getElementById(id);if(!t)return false;const v=t.closest("section.view");if(!v)return false;
   history.replaceState(null,"","#"+v.dataset.view);route();const box=t.closest(".ex,.block,figure")||t;
   setTimeout(()=>{box.scrollIntoView({behavior:"smooth",block:"start"});box.classList.add("flash-in");setTimeout(()=>box.classList.remove("flash-in"),1600);},120);return true;}
-function hubCrumbs(){["dagsins","kapphlaup","songur","log","semja","hlaup","grunnprof","syniprof"].forEach(v=>{const s=document.querySelector(`section.view[data-view="${v}"] .vm-head`);if(s&&!s.querySelector(".crumb"))s.prepend(el("a",{class:"crumb",href:"#aefingar"},"← Æfingar"));});}
+function hubCrumbs(){["dagsins","kapphlaup","songur","log","semja","hlaup","bingo","grunnprof","syniprof"].forEach(v=>{const s=document.querySelector(`section.view[data-view="${v}"] .vm-head`);if(s&&!s.querySelector(".crumb"))s.prepend(el("a",{class:"crumb",href:"#aefingar"},"← Æfingar"));});}
+
+/* ============ TÓNFRÆÐI-BINGÓ ============ */
+const BG_IV=[["L2",2,1,"Lítil tvíund"],["S2",2,2,"Stór tvíund"],["L3",3,3,"Lítil þríund"],["S3",3,4,"Stór þríund"],["H4",4,5,"Hrein ferund"],["St4",4,6,"Tritónus"],["H5",5,7,"Hrein fimmund"],["L6",6,8,"Lítil sexund"],["S6",6,9,"Stór sexund"],["L7",7,10,"Lítil sjöund"],["S7",7,11,"Stór sjöund"],["H8",8,12,"Hrein áttund"]];
+const BG_PAL=["var(--kick)","var(--snare)","var(--tone)","var(--hat)","var(--perc)","var(--open)"];
+const BG={sel:new Set(store.get("bgSel")||["L2","S2","L3","S3","H4","H5","S6","H8"]),size:store.get("bgSize")||4,n:store.get("bgN")||6,show:store.get("bgShow")||"both",seed:store.get("bgSeed")||(1+Math.floor(Math.random()*9e5)),calls:[],cur:null,reveal:false};
+/* endurtakanleg slembitala svo hægt sé að athuga spjald eftir númeri */
+const bgRand=seed=>{let a=seed>>>0;return ()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296;};};
+function bgCard(no){const R=bgRand(BG.seed*1000+no),pool=BG_IV.filter(x=>BG.sel.has(x[0])),N=BG.size*BG.size,free=BG.size%2===1;
+  const cells=[];let bag=[];for(let i=0;i<N;i++){if(free&&i===(N-1)/2){cells.push(null);continue;}if(!bag.length)bag=pool.slice().sort(()=>R()-.5);const iv=bag.pop();
+    /* nótur: grunntónn á hvítri nótu, formerki þar sem þarf */
+    let lo,hi,g=0;do{const d1=28+Math.floor(R()*5),d2=d1+iv[1]-1,a2=iv[2]-(dMidi(d2,0)-dMidi(d1,0));if(Math.abs(a2)<=1){lo={d:d1,acc:0};hi={d:d2,acc:a2};}}while(!lo&&g++<40);
+    cells.push({iv,lo,hi,c:BG_PAL[Math.floor(R()*BG_PAL.length)]});}
+  return cells;}
+/* lítill nótnastrengur í reit: flatir nótnahausar í lit, daufar línur */
+function bgStaff(cell){const g=7.5,top=8,Y=d=>top+4*g-(d-30)*g/2,x1=22,x2=cell.hi.d-cell.lo.d<2?48:44,P=[];
+  for(let i=0;i<5;i++)P.push(`<line x1="2" x2="64" y1="${top+i*g}" y2="${top+i*g}" stroke="currentColor" stroke-width="1.1" opacity=".3"/>`);
+  const led=(d,x)=>{for(let dd=28;dd>=d;dd-=2)P.push(`<line x1="${x-9}" x2="${x+9}" y1="${Y(dd)}" y2="${Y(dd)}" stroke="currentColor" stroke-width="1.2" opacity=".55"/>`);for(let dd=40;dd<=d;dd+=2)P.push(`<line x1="${x-9}" x2="${x+9}" y1="${Y(dd)}" y2="${Y(dd)}" stroke="currentColor" stroke-width="1.2" opacity=".55"/>`);};
+  const hd=(n,x,c)=>{led(n.d,x);if(n.acc)P.push(`<text x="${x-13}" y="${Y(n.d)+5}" font-size="15" font-weight="700" text-anchor="middle" fill="currentColor" opacity=".8">${n.acc>0?"♯":"♭"}</text>`);P.push(`<ellipse cx="${x}" cy="${Y(n.d)}" rx="6.4" ry="4.7" transform="rotate(-18 ${x} ${Y(n.d)})" fill="${c}"/>`);};
+  hd(cell.lo,x1,"var(--kick)");hd(cell.hi,x2,"var(--snare)");
+  return `<svg class="bg-st" viewBox="0 0 66 50" aria-hidden="true">${P.join("")}</svg>`;}
+const BG_HEAD=["T","Ó","N","B","I","L"];
+function bgCardHTML(no){const cells=bgCard(no),S=BG.size;
+  const deco=[0,1,2,3,4].map(i=>`<ellipse cx="${10+i*14}" cy="${22-i*3.5}" rx="5.4" ry="3.9" transform="rotate(-18 ${10+i*14} ${22-i*3.5})" fill="${BG_PAL[i]}"/>`).join("");
+  return `<article class="bg-card" style="--s:${S}">
+   <header class="bg-ch"><svg viewBox="0 0 74 30" class="bg-deco" aria-hidden="true">${deco}</svg><div><b>Tónfræði-bingó</b><small>Tónbil eftir heyrn</small></div><span class="bg-no">Spjald ${no}</span></header>
+   <div class="bg-grid">${cells.map((c,i)=>c?`<div class="bg-cell" style="--cc:${c.c}">${BG.show!=="name"?bgStaff(c):""}${BG.show!=="staff"?`<b>${c.iv[0]}</b>${BG.show==="name"?`<small>${c.iv[3]}</small>`:""}`:""}</div>`
+     :`<div class="bg-cell free"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="var(--tone)"/><ellipse cx="17" cy="22" rx="7" ry="5" transform="rotate(-18 17 22)" fill="var(--snare)"/><rect x="22.6" y="6" width="2.2" height="16" rx="1" fill="var(--snare)"/></svg><b>Frítt</b></div>`).join("")}</div>
+   <footer class="bg-cf"><span>Nafn: ______________________</span><span class="bg-seed">Leikur ${BG.seed}</span></footer></article>`;}
+function bingoRender(){const h=document.getElementById("bingoBox");if(!h)return;
+  h.innerHTML=`<div class="bg-setup">
+   <div class="bg-row"><span class="bg-lab">Tónbil</span><div class="bg-chips">${BG_IV.map(x=>`<button type="button" class="bg-chip" data-k="${x[0]}" aria-pressed="${BG.sel.has(x[0])}" title="${x[3]}">${x[0]}</button>`).join("")}</div></div>
+   <div class="bg-row"><span class="bg-lab">Stærð</span><div class="seg" id="bgSize">${[3,4,5].map(n=>`<button data-v="${n}" aria-pressed="${BG.size===n}">${n}×${n}</button>`).join("")}</div>
+     <span class="bg-lab">Á reitunum</span><div class="seg" id="bgShow">${[["both","Nótur + heiti"],["staff","Bara nótur"],["name","Bara heiti"]].map(([v,t])=>`<button data-v="${v}" aria-pressed="${BG.show===v}">${t}</button>`).join("")}</div></div>
+   <div class="bg-row"><span class="bg-lab">Fjöldi spjalda</span><input type="number" id="bgN" min="1" max="40" value="${BG.n}" style="width:80px">
+     <button class="primary" id="bgNew">Ný spjöld</button><button id="bgPrint">${FI.pencil} Prenta spjöldin</button></div>
+   <p class="muted" style="font-size:.9rem">Tvö spjöld fara á hverja A4-síðu. Hvert spjald er ólíkt og hefur númer, svo hægt sé að athuga það.</p></div>
+   <section class="bg-caller"><div class="bg-cl-head"><h2>Kalla upp</h2><span class="muted" id="bgCount"></span></div>
+    <div class="bg-cl-main"><div class="bg-now" id="bgNow"><span class="muted">Ýttu á „Næsta tónbil“ til að byrja.</span></div>
+     <div class="row"><button class="primary btn-big" id="bgNext">▶ Næsta tónbil</button><button id="bgRep">${FI.replay} Aftur</button><button id="bgShowAns">Sýna svar</button>${speedCtl().outerHTML}</div></div>
+    <div class="bg-hist" id="bgHist"></div>
+    <div class="row"><label for="bgChk" class="bg-lab">Bingó! Athuga spjald nr.</label><input type="number" id="bgChk" min="1" max="99" style="width:80px"><button id="bgChkGo">Athuga</button><button id="bgReset" class="small">Byrja nýjan leik</button></div>
+    <div id="bgChkRes"></div></section>
+   <a class="next-card" href="#t~exIntHear" style="--c:var(--hat)"><span class="nc-num">→</span><span class="nc-t"><small>Eftir bingóið</small><b>Tónbil eftir heyrn</b><span>Æfðu tónbilin áfram, ein(n) og í þínum hraða.</span></span><span class="nc-go" aria-hidden="true">→</span></a>
+   <div id="bingoPrint" class="bg-cards">${Array.from({length:BG.n},(_,i)=>bgCardHTML(i+1)).join("")}</div>`;
+  const save=()=>{store.set("bgSel",[...BG.sel]);store.set("bgSize",BG.size);store.set("bgN",BG.n);store.set("bgShow",BG.show);store.set("bgSeed",BG.seed);};
+  const redraw=()=>{save();h.querySelector("#bingoPrint").innerHTML=Array.from({length:BG.n},(_,i)=>bgCardHTML(i+1)).join("");};
+  h.querySelectorAll(".bg-chip").forEach(b=>b.onclick=()=>{const k=b.dataset.k;if(BG.sel.has(k)){if(BG.sel.size>3)BG.sel.delete(k);}else BG.sel.add(k);h.querySelectorAll(".bg-chip").forEach(x=>x.setAttribute("aria-pressed",BG.sel.has(x.dataset.k)));redraw();});
+  h.querySelectorAll("#bgSize button").forEach(b=>b.onclick=()=>{BG.size=+b.dataset.v;h.querySelectorAll("#bgSize button").forEach(x=>x.setAttribute("aria-pressed",x===b));redraw();});
+  h.querySelectorAll("#bgShow button").forEach(b=>b.onclick=()=>{BG.show=b.dataset.v;h.querySelectorAll("#bgShow button").forEach(x=>x.setAttribute("aria-pressed",x===b));redraw();});
+  h.querySelector("#bgN").onchange=e=>{BG.n=Math.max(1,Math.min(40,+e.target.value||1));e.target.value=BG.n;redraw();};
+  h.querySelector("#bgNew").onclick=()=>{BG.seed=1+Math.floor(Math.random()*9e5);BG.calls=[];BG.cur=null;bingoRender();};
+  h.querySelector("#bgPrint").onclick=()=>{document.body.classList.add("print-bingo");setTimeout(()=>{try{window.print();}catch(e){}setTimeout(()=>document.body.classList.remove("print-bingo"),400);},60);};
+  const pool=()=>BG_IV.filter(x=>BG.sel.has(x[0]));
+  const playCur=()=>{if(!BG.cur)return;stopAll();const t=now();tone(BG.cur.r,t,0.7,0.24);tone(BG.cur.r+BG.cur.iv[2],t+0.75,0.9,0.24);tone(BG.cur.r,t+1.9,1.2,0.16);tone(BG.cur.r+BG.cur.iv[2],t+1.9,1.2,0.16);};
+  const upd=()=>{const now_=h.querySelector("#bgNow"),hist=h.querySelector("#bgHist");h.querySelector("#bgCount").textContent=BG.calls.length?`${BG.calls.length} tónbil kölluð`:"";
+    now_.innerHTML=BG.cur?`<span class="bg-big" style="--cc:${BG.cur.c}">${BG.reveal?`${BG.cur.iv[0]}<small>${BG.cur.iv[3]}</small>`:"?"}</span><span class="muted">Tónbil nr. ${BG.calls.length}</span>`:`<span class="muted">Ýttu á „Næsta tónbil“ til að byrja.</span>`;
+    hist.innerHTML=BG.calls.slice(0,-1).reverse().map((c,i)=>`<span class="bg-hi" style="--cc:${c.c}">${c.iv[0]}</span>`).join("");};
+  h.querySelector("#bgNext").onclick=()=>{const p=pool(),iv=pick(p.filter(x=>!BG.cur||x!==BG.cur.iv||p.length<2));BG.cur={iv,r:55+rnd(10),c:pick(BG_PAL)};BG.calls.push(BG.cur);BG.reveal=false;upd();playCur();};
+  h.querySelector("#bgRep").onclick=playCur;h.querySelector("#bgShowAns").onclick=()=>{BG.reveal=true;upd();};
+  h.querySelector("#bgReset").onclick=()=>{BG.calls=[];BG.cur=null;upd();h.querySelector("#bgChkRes").innerHTML="";};
+  h.querySelector("#bgChkGo").onclick=()=>{const no=+h.querySelector("#bgChk").value,res=h.querySelector("#bgChkRes");if(!no){res.innerHTML="";return;}
+    const called=new Set(BG.calls.map(c=>c.iv[0])),cells=bgCard(no),S=BG.size,hit=cells.map(c=>!c||called.has(c.iv[0]));
+    const lines=[];for(let r=0;r<S;r++)lines.push([...Array(S)].map((_,c)=>r*S+c));for(let c=0;c<S;c++)lines.push([...Array(S)].map((_,r)=>r*S+c));lines.push([...Array(S)].map((_,i)=>i*S+i),[...Array(S)].map((_,i)=>i*S+S-1-i));
+    const win=lines.filter(l=>l.every(i=>hit[i]));
+    res.innerHTML=`<div class="bg-check"><p><b>${win.length?"Bingó! Röð er full.":"Ekki enn komin heil röð."}</b> Bleikt = tónbil sem hefur verið kallað.</p><div class="bg-grid mini" style="--s:${S}">${cells.map((c,i)=>`<div class="bg-cell${hit[i]?" hit":""}${win.some(l=>l.includes(i))?" win":""}">${c?`<b>${c.iv[0]}</b>`:"Frítt"}</div>`).join("")}</div></div>`;};
+  upd();}
 
 /* ============ TÓNBILAHLAUPIÐ ============ */
 const HL={lv:[{n:"Byrjandi",k:["S2","S3","H5","H8"],opts:2,c:"--hat"},{n:"Áfram",k:["S2","L3","S3","H4","H5","H8"],opts:3,c:"--snare"},{n:"Meistari",k:["S2","L3","S3","H4","H5","S6","S7","H8"],opts:3,c:"--kick"}],raf:0};
@@ -3348,6 +3475,7 @@ const G68=["q.","q.","eee","eee","qe","eq"];
 const bar68=()=>Math.random()<0.15?["h."]:[pick(G68),pick(G68)];
 /* synkópur og bindingar yfir taktstrik (2/4 og 4/4) */
 function genSync(n){let bars;do{bars=[0,1].map(()=>genBar(n,["q","q","ee","eqe","eqe","h","qr"]));const L=bars[0][bars[0].length-1],F=bars[1][0];if((L==="q"||L==="h")&&(F==="q"||F==="h")&&Math.random()<0.75)bars[0][bars[0].length-1]=L+"~";}while(!bars.flat().some(t=>t==="eqe"||t.endsWith("~")));return bars;}
+function genTrip(n){let b;do{b=[0,1].map(()=>genBar(n,["q","tri","ee","eqe","h","qr"]));}while(!b.flat().includes("tri"));return b;}
 const rhOpts=(list,o={})=>list.map((b,i)=>({html:`<span class="ex-kind">${"ABC"[i]}</span>`+rhythmSVG(b,{ts:o.ts,tsd:o.tsd,syll:o.syll===true}),v:i}));
 /* myndir á hugtakaspjöldum mið-/framhaldsnáms (lykill: stig+lota_röð) */
 const lab=(n,t)=>Object.assign({},n,{label:t});
@@ -3378,6 +3506,38 @@ const MFIG={
  m9_2:()=>chordSvg([{notes:[{d:28},{d:31},{d:33}],label:"IV"},{notes:[{d:28},{d:30},{d:32}],label:"I"}],{step:80})+chordSvg([{notes:[{d:27},{d:29},{d:32}],label:"V"},{notes:[{d:28},{d:30},{d:33}],label:"VI"}],{step:80}),
  f5_0:()=>chordSvg([{notes:[{d:25},{d:27},{d:29},{d:31}],label:"V7"},{notes:[{d:28},{d:30},{d:32}],label:"I"}],{step:80}),
  f5_1:()=>chordSvg([{notes:[{d:25},{d:27},{d:29},{d:31}],label:"7"},{notes:[{d:27},{d:29},{d:31},{d:32}],label:"6/5"},{notes:[{d:29},{d:31},{d:32},{d:34}],label:"4/3"},{notes:[{d:31},{d:32},{d:34},{d:36}],label:"2"}],{step:62,minW:300})
+};
+/* ---------- nótnaskrift á mið- og framhaldsstigi ---------- */
+const nmD=(d,a)=>nm(((d%7)+7)%7,a||0);
+const wCheck=(st,exp,slotOff=0)=>{let ok=0;const marks=st.notes.map((s,i)=>i<slotOff?[]:s.map(n=>s.length===1&&n.d===exp[i-slotOff].d&&effAcc(n,st.ks)===exp[i-slotOff].acc));marks.forEach((m,i)=>{if(i>=slotOff&&m.length===1&&m[0])ok++;});return {ok,marks};};
+const LVW={
+ mWScale:{title:"Skrifaðu dúrtónstiga",intro:"Með lausum formerkjum: settu kross eða bé á undan hverri nótu sem þarf. Mundu hálftónana á milli 3.–4. og 7.–8. tóns.",
+  gen(){const K=pick(KEYS.filter(k=>k.n<=5&&k.n>=1)),start=K.l>=5?21+K.l:28+K.l,exp=Array.from({length:8},(_,i)=>{const d=start+i;return {d,acc:accIn(((d%7)+7)%7,K)};});
+   return {prompt:`Skrifaðu <b>${K.maj}-dúr</b> upp á við frá <b>${nameD(start,exp[0].acc)}</b>, með lausum formerkjum.`,opts:{clef:"g",slots:8,final:true,slotW:36},
+    check(st){const r=wCheck(st,exp);return {score:r.ok/8,marks:r.marks,explain:`${K.maj}-dúr: ${exp.map(e=>nmD(e.d,e.acc)).join(" – ")}.`};},
+    solution:()=>staffSVG({clef:"g",items:exp.map(e=>({notes:[{d:e.d,acc:e.acc||undefined}],label:nmD(e.d,e.acc)})),step:26,final:true,scale:1.3})};}},
+ mWMinor:{title:"Skrifaðu molltónstiga",intro:"Byrjaðu á hreinum moll út frá formerkjunum. Hljómhæfur: hækkaðu 7. tón. Laghæfur: hækkaðu 6. og 7. tón.",
+  gen(){const K=pick(KEYS.filter(k=>k.n<=4)),f=pick(["hreinn","hljómhæfur","laghæfur"]),tl=(K.l+5)%7,start=tl>=5?21+tl:28+tl;
+   const exp=Array.from({length:8},(_,i)=>{const d=start+i;let a=accIn(((d%7)+7)%7,K);if((i===6&&f!=="hreinn")||(i===5&&f==="laghæfur"))a+=1;return {d,acc:a};});
+   return {prompt:`Skrifaðu <b>${K.min}-moll, ${f}</b>, upp á við frá <b>${nameD(start,exp[0].acc)}</b>, með lausum formerkjum.`,opts:{clef:"g",slots:8,final:true,slotW:36},
+    check(st){const r=wCheck(st,exp);return {score:r.ok/8,marks:r.marks,explain:`${K.min}-moll ${f}: ${exp.map(e=>nmD(e.d,e.acc)).join(" – ")}.`};},
+    solution:()=>staffSVG({clef:"g",items:exp.map(e=>({notes:[{d:e.d,acc:e.acc||undefined}],label:nmD(e.d,e.acc)})),step:26,final:true,scale:1.3})};}},
+ mWInt:{title:"Skrifaðu tónbil upp",intro:"Teldu fyrst nótnaheitin (tvíund, þríund …), lagaðu svo stærðina með krossi eða bé.",
+  gen(){const I=mkInterval(IV_ALL.concat([[4,6],[5,6],[5,8],[2,3],[7,9]]));
+   return {prompt:`Skrifaðu <b>${I.name.toLowerCase()}</b> upp frá <b>${nameD(I.lo.d,I.lo.acc||0)}</b>.`,opts:{clef:"g",slots:2,given:[{slot:0,notes:[{d:I.lo.d,acc:I.lo.acc}]}],minW:180},
+    check(st){const s=st.notes[1],m=s.map(n=>n.d===I.hi.d&&effAcc(n,st.ks)===(I.hi.acc||0));const ok=s.length===1&&m[0];return {score:ok?1:0,marks:[[],m],explain:`${I.name} upp frá ${nameD(I.lo.d,I.lo.acc||0)} er ${nameD(I.hi.d,I.hi.acc||0)} (${I.semis} hálftónar).`};},
+    solution:()=>staffSVG({clef:"g",items:[{notes:[{d:I.lo.d,acc:I.lo.acc||undefined}],label:nameD(I.lo.d,I.lo.acc||0)},{notes:[{d:I.hi.d,acc:I.hi.acc||undefined}],label:nameD(I.hi.d,I.hi.acc||0)}],step:46,minW:180,scale:1.4})};}},
+ mWTriad:{title:"Skrifaðu þríhljóm",intro:"Byggðu þríhljóminn upp frá grunntóninum með tveimur þríundum, með lausum formerkjum.",
+  gen(){const t=pick(Object.keys(TRI)),c=mkTriad(t),exp=c.notes.map(n=>({d:n.d,acc:n.acc||0})),rn=nameD(exp[0].d,exp[0].acc);
+   return {prompt:`Skrifaðu <b>${TRI_N[t].toLowerCase()}</b> í grunnstöðu frá <b>${rn}</b>.`,opts:{clef:"g",slots:1,chord:true,minW:170},
+    check(st){const r=chordCheck(st,exp);r.explain=`${TRI_N[t]} frá ${rn}: ${exp.map(e=>nmD(e.d,e.acc)).join(" – ")}.`;return r;},
+    solution:()=>staffSVG({clef:"g",items:[{notes:exp.map(e=>({d:e.d,acc:e.acc||undefined})),label:TRI_N[t]}],step:50,minW:170,scale:1.4})};}},
+ fWSeventh:{title:"Skrifaðu sjöundarhljóm",intro:"Byggðu hljóminn upp í þríundum frá grunntóninum, með lausum formerkjum.",
+  gen(){const n=pick(Object.keys(SEV)),c=mkSeventh(n),exp=c.notes.map(x=>({d:x.d,acc:x.acc||0})),rn=nameD(exp[0].d,exp[0].acc);
+   return {prompt:`Skrifaðu <b>${n.toLowerCase()}</b> í grunnstöðu frá <b>${rn}</b>.`,opts:{clef:"g",slots:1,chord:true,minW:170},
+    check(st){const r=chordCheck(st,exp);r.explain=`${n} frá ${rn}: ${exp.map(e=>nmD(e.d,e.acc)).join(" – ")}.`;return r;},
+    solution:()=>staffSVG({clef:"g",items:[{notes:exp.map(e=>({d:e.d,acc:e.acc||undefined}))}],step:50,minW:170,scale:1.4})};}},
+ songDict:{title:"Skrifaðu laglínuna eftir heyrn",intro:"Þú heyrir frumhljóm tóntegundarinnar og svo hendingu úr lagi. Fyrsta nótan er gefin.",gen:()=>songDictTask()}
 };
 /* ---------- nýjar æfingar ---------- */
 const LVGEN={
@@ -3433,6 +3593,34 @@ const LVGEN={
    return {q:"Hvaða áferð heyrir þú?",options:["Einradda","Hómófónía","Pólýfónía"].map(x=>({label:x,v:x})),answer:k,explain:`${k}.`,
     play:()=>{stopAll();const t=now(),sp=0.36;mel.forEach((m,i)=>tone(m,t+i*sp,sp*0.9,0.2));if(k==="Hómófónía")mel.forEach((m,i)=>{if(i%2===0)chordOf(degs[i]).forEach(c=>tone(c,t+i*sp,sp*1.8,0.09));});
      if(k==="Pólýfónía")mel.forEach((m,i)=>tone(m-12,t+(i+4)*sp,sp*0.9,0.16));}};}},
+ fTripEar:{kind:"Hrynheyrn",title:"Þríólur eftir heyrn",intro:"Þríóla: þrjár jafnar nótur á einu slagi. Hlustaðu eftir muninum á tí-tí og trí-ó-la.",
+  gen(){const n=pick([2,4]),ops=[];let g=0;while(ops.length<3&&g++<80){const r=[0,1].map(()=>genBar(n,["q","tri","ee","tri","h","qr"]));if(!r.flat().includes("tri"))continue;const k=JSON.stringify(r);if(!ops.some(o=>o.k===k))ops.push({r,k});}const a=rnd(3);
+   return {q:"Hvert þeirra heyrir þú?",options:rhOpts(ops.map(o=>o.r),{ts:n}),optClass:"opts-rhythm",answer:a,explain:`Rétt svar: ${"ABC"[a]}.`,play:()=>playRhythm(ops[a].r,n,80,true)};}},
+ fSecDom:{kind:"Hljómfræði",title:"Hvaða aukaforhljómur?",intro:"Aukaforhljómur er forhljómur (V7) annars hljóms en I. Finndu hvaða hljóm hann leysist í: fimmund fyrir neðan grunntóninn.",
+  gen(){const D={"V7/V":[{d:29},{d:31,acc:1},{d:33},{d:35}],"V7/IV":[{d:28},{d:30},{d:32},{d:34,acc:-1}],"V7/II":[{d:26},{d:28,acc:1},{d:30},{d:32}],"V7/VI":[{d:30},{d:32,acc:1},{d:34},{d:36}]};
+   const k=pick(Object.keys(D));return {q:"Í C-dúr. Hvaða aukaforhljómur er þetta?",html:chordSvg([D[k]]),options:Object.keys(D).map(x=>({label:x,v:x})),answer:k,explain:`${k}: leysist í ${k.split("/")[1]}.`,play:()=>playChord(D[k].map(n=>dMidi(n.d,n.acc||0)))};}},
+ fSecEar:{kind:"Tónheyrn",title:"Aukaforhljómar eftir heyrn",intro:"Hvaða hljómagang heyrir þú? V/V hljómar eins og dúrhljómur á II. sæti.",
+  gen(){const C={I:[48,64,67,72],IV:[53,65,69,72],V:[43,62,67,71],II:[50,62,65,69],"V/V":[50,62,66,69],"V7/IV":[48,64,67,70]};
+   const P={"I – V/V – V – I":["I","V/V","V","I"],"I – II – V – I":["I","II","V","I"],"I – IV – V – I":["I","IV","V","I"],"I – V7/IV – IV – I":["I","V7/IV","IV","I"]};const k=pick(Object.keys(P));
+   return {q:"Hvaða hljómagang heyrir þú?",options:Object.keys(P).map(x=>({label:x,v:x})),answer:k,explain:`${k}.`,play:()=>{stopAll();const t=now();P[k].forEach((h,i)=>C[h].forEach(m=>tone(m,t+i*1.0,i===3?1.6:0.9,0.15)));}};}},
+ fN6:{kind:"Hljómfræði",title:"Napólski sexundarhljómurinn",intro:"N6 er dúrhljómur á lækkuðu 2. sæti, í 1. hljómhvarfi (þríundin neðst). Hann er algengastur í moll og leiðir í V.",
+  gen(){const M={a:"B-dúr",d:"Es-dúr",e:"F-dúr",g:"As-dúr",c:"Des-dúr",h:"C-dúr"};const k=pick(Object.keys(M));
+   return {q:`Hvaða hljómur er napólski hljómurinn í <b>${k}-moll</b>?`,options:opts4(M[k],Object.values(M).concat(["D-dúr","G-dúr"])),answer:M[k],explain:`Lækkað 2. sæti í ${k}-moll: ${M[k]}. Í N6 er þríundin neðst.`};}},
+ fN6Ear:{kind:"Tónheyrn",title:"N6 eftir heyrn",intro:"Í a-moll: hvaða hljómur kemur á undan forhljóminum (V)?",
+  gen(){const C={i:[45,57,60,64],N6:[50,58,62,65],iv6:[53,57,62,65],"ii°6":[50,59,62,65],V:[52,56,59,64]};const P={"N6 (napólski)":"N6","iv6 (undirforhljómur)":"iv6","ii°6 (minnkaður)":"ii°6"};const k=pick(Object.keys(P));
+   return {q:"Hvaða hljómur er númer 2?",options:Object.keys(P).map(x=>({label:x,v:x})),answer:k,explain:`i – ${P[k]} – V – i.`,play:()=>{stopAll();const t=now();["i",P[k],"V","i"].forEach((h,i)=>C[h].forEach(m=>tone(m,t+i*1.0,i===3?1.6:0.9,0.15)));}};}},
+ fModEar:{kind:"Tónheyrn",title:"Tóntegundaskipti eftir heyrn",intro:"Hljómagangurinn byrjar í C-dúr. Í hvaða tóntegund endar hann?",
+  gen(){const P={"G-dúr (fortóntegund)":[[48,64,67,72],[45,64,69,72],[50,66,69,72],[43,62,67,71],[55,62,67,71]],"F-dúr (undirfortóntegund)":[[48,64,67,72],[48,64,67,70],[41,65,69,72],[46,62,65,70],[41,60,65,69]],
+    "a-moll (samhljóða moll)":[[48,64,67,72],[50,62,65,69],[40,62,68,71],[45,60,64,69],[45,57,64,69]],"d-moll":[[48,64,67,72],[45,61,64,67],[50,62,65,69],[45,61,64,67],[50,57,62,65]]};const k=pick(Object.keys(P));
+   return {q:"Hvert fer tónlistin?",options:Object.keys(P).map(x=>({label:x,v:x})),answer:k,explain:`Endar í ${k}.`,play:()=>{stopAll();const t=now();P[k].forEach((c,i)=>c.forEach(m=>tone(m,t+i*0.95,i===4?1.7:0.85,0.15)));}};}},
+ fNonChord:{kind:"Hljómfræði",title:"Hljómframandi tónar",intro:"Hljómtónn tilheyrir hljómnum. Tengitónn tengir tvo hljómtóna í skrefum. Skiptitónn fer skref frá hljómtóni og aftur til baka.",
+  gen(){const CH={C:[0,2,4],F:[3,5,0],G:[4,6,1]};const cn=pick(Object.keys(CH)),T=CH[cn],inT=d=>T.includes(((d%7)+7)%7);const kind=pick(["Hljómtónn","Tengitónn","Skiptitónn"]);let ns,g=0;
+   do{const s=28+rnd(7);if(!inT(s))continue;if(kind==="Tengitónn"){const up=Math.random()<.5,m=s+(up?1:-1),e=s+(up?2:-2);if(!inT(m)&&inT(e))ns=[s,m,e];}else if(kind==="Skiptitónn"){const m=s+(Math.random()<.5?1:-1);if(!inT(m))ns=[s,m,s];}else{const a=[s,s+2,s+4].every(inT)?[s,s+2,s+4]:[s,s-2,s-4].every(inT)?[s,s-2,s-4]:null;if(a)ns=a;}}while(!ns&&g++<200);
+   const items=ns.map((d,i)=>({notes:[{d,col:i===1?"cur":null}],dur:"q",label:i===0?`${cn}-dúr`:""}));
+   return {q:"Hvaða hlutverki gegnir miðnótan (merkt)?",html:staffSVG({clef:"g",items,step:46,minW:220,scale:1.35}),options:["Hljómtónn","Tengitónn","Skiptitónn"].map(x=>({label:x,v:x})),answer:kind,explain:`Hljómurinn er ${cn}-dúr (${T.map(x=>LET[x]).join("-")}). Miðnótan er ${kind.toLowerCase()}.`,play:()=>{stopAll();const t=now();ns.forEach((d,i)=>tone(dMidi(d,0),t+i*0.5,0.45,0.22));[0,2,4].forEach(k=>tone(dMidi(16+T[0]+k,0),t,1.5,0.08));}};}},
+ fHarm:{kind:"Hljómfræði",title:"Hvaða hljómur passar?",intro:"Laglínutónninn þarf að vera einn af tónum hljómsins. I = c-e-g, IV = f-a-c, V = g-h-d.",
+  gen(){const P=[[30,"I"],[33,"IV"],[34,"V"],[29,"V"],[31,"IV"],[37,"I"],[36,"V"]];const [d,a]=pick(P);
+   return {q:`C-dúr. Hvaða aðalhljómur passar best undir nótuna ${nameD(d,0)}?`,html:staffSVG({clef:"g",items:[{notes:[{d}],dur:"h"}],step:60,minW:150,scale:1.4}),options:["I","IV","V"].map(x=>({label:x,v:x})),answer:a,explain:`${nameD(d,0)} er í ${a} (${a==="I"?"c-e-g":a==="IV"?"f-a-c":"g-h-d"}).`};}},
  mInt:{kind:"Tónfræði",title:"Hvaða tónbil?",intro:"Öll tónbil innan áttundar, líka stækkuð og minnkuð. Teldu nótnaheitin fyrst (tvíund, þríund…) og svo hálftónana.",
   gen(){const I=mkInterval(IV_ALL.concat([[4,6],[5,6]]));const pool=[...new Set(IV_ALL.map(([n,s])=>ivName(n,s)).concat(["Stækkuð ferund","Minnkuð fimmund","Stækkuð tvíund","Minnkuð sjöund"]).filter(Boolean))];
    return {html:seqSvg([I.lo,I.hi],{dur:"w",step:70}),options:opts4(I.name,pool),answer:I.name,explain:`${I.num}. stig (${IVN[I.num-1]}), ${I.semis} hálftónar: ${I.name.toLowerCase()}.`,play:()=>playSeq([I.m1,I.m2,[I.m1,I.m2]],0.7,0.65)};}},
@@ -3508,12 +3696,12 @@ const LVL_LOTUR={
    ck:["Ég les, klappa og skrifa hryndæmi með synkópum og bindingum yfir taktstrik.","Ég get botnað hrynhendingar."]},
   {t:"Allar tóntegundir",d:"Fimmundahringurinn allur · samhljóða og samnefndar",c:"--snare",lead:"Allur fimmundahringurinn, allar dúr- og molltóntegundir og heiti tónstigasætanna.",
    cc:[["Samhljóða tóntegundir","Sömu formerki, ólíkur frumtónn: C-dúr og a-moll, G-dúr og e-moll."],["Samnefndar tóntegundir","Sami frumtónn, ólík formerki: C-dúr og c-moll."],["Heiti tónstigasæta","I frumtónn, IV undirfortónn, V fortónn og VII leiðsögutónn (hálftón undir frumtóninum)."]],
-   ex:["mKeyRead","mRel","mDegree"],
+   ex:["mKeyRead","mRel","mDegree",{w:"mWScale"}],
    sb:["Teiknaðu fimmundahringinn með öllum dúr- og molltóntegundum.","Skrifaðu frumtón, undirfortón, fortón og leiðsögutón í D-dúr og B-dúr."],
    ck:["Ég kann fimmundahringinn og allar dúr- og molltóntegundir.","Ég veit hvað samhljóða og samnefndar tóntegundir eru.","Ég kann heitin frumtónn, undirfortónn, fortónn og leiðsögutónn."]},
   {t:"Þrenns konar moll",d:"Hreinn · hljómhæfur · laghæfur",c:"--snare",lead:"Moll er til í þremur útgáfum. Munurinn liggur í 6. og 7. tóni.",
    cc:[["Hreinn moll","Fylgir formerkjunum alla leið, t.d. a h c d e f g a."],["Hljómhæfur moll","7. tónn hækkaður um hálftón (gís í a-moll). Þá verður til leiðsögutónn."],["Laghæfur moll","6. og 7. tónn hækkaðir á leiðinni upp (fís, gís), en á leiðinni niður er hann eins og hreinn moll."]],
-   ex:["mMinor","mScaleEar"],
+   ex:["mMinor","mScaleEar",{w:"mWMinor"}],
    sb:["Skrifaðu e-moll og d-moll í öllum þremur útgáfunum."],
    ck:["Ég veit hvernig hreinn, hljómhæfur og laghæfur moll eru byggðir.","Ég þekki þá í sundur á blaði og eftir heyrn."]},
   {t:"Fleiri tónstigar",d:"Kirkjutóntegundir · fimmtóna · heiltóna · krómatískur",c:"--snare",lead:"Kirkjutóntegundir, fimmtóna, heiltóna og krómatískur tónstigi.",
@@ -3523,12 +3711,12 @@ const LVL_LOTUR={
    ck:["Ég þekki dóríska og lýdíska tóntegund og veit hvernig kirkjutóntegundir eru byggðar.","Ég þekki fimmtóna, heiltóna og krómatískan tónstiga á blaði og eftir heyrn."]},
   {t:"Öll tónbil innan áttundar",d:"Hrein · stór · lítil · stækkuð · minnkuð",c:"--hat",lead:"Þú þekkir nú öll tónbil innan áttundar, á blaði og eftir heyrn, og getur sungið þau.",
    cc:[["Tvö skref","1) Teldu nótnaheitin: c–e er þríund. 2) Teldu hálftónana: 4 = stór, 3 = lítil."],["Hrein tónbil","Príma, ferund, fimmund og áttund eru hrein. Hálftón stærra = stækkað, hálftón minna = minnkað."],["Tritónus","Stækkuð ferund (f–h) og minnkuð fimmund (h–f) eru báðar sex hálftónar."]],
-   ex:["mInt","mIntEar",{sing:"up",t:"Syngdu tónbilið upp"}],
+   ex:["mInt","mIntEar",{w:"mWInt"},{sing:"up",t:"Syngdu tónbilið upp"}],
    sb:["Skrifaðu öll tónbil upp frá d' og nefndu þau."],
    ck:["Ég þekki og skrifa öll tónbil innan áttundar.","Ég greini öll tónbil innan áttundar eftir heyrn.","Ég get sungið öll tónbil upp frá gefnum tóni."]},
   {t:"Þríhljómar og hljómhvörf",d:"Dúr · moll · minnkaður · stækkaður · rómverskar tölur",c:"--hat",lead:"Fjórar gerðir þríhljóma, í grunnstöðu og hljómhvörfum.",
    cc:[["Fjórar gerðir","Dúr (stór + lítil þríund), moll (lítil + stór), minnkaður (lítil + lítil), stækkaður (stór + stór)."],["Hljómhvörf","1. hljómhvarf: þríundin neðst. 2. hljómhvarf: fimmundin neðst."],["Rómverskar tölur","Hljómur á hverju sæti fær tölu: I, II, III … VII. Í dúr eru I, IV og V dúrhljómar."]],
-   ex:["mTriad","mTriadEar","mInv"],
+   ex:["mTriad","mTriadEar","mInv",{w:"mWTriad"}],
    sb:["Skrifaðu C-dúrhljóm í grunnstöðu og báðum hljómhvörfum.","Skrifaðu minnkaðan og stækkaðan hljóm frá d'."],
    ck:["Ég þekki dúr, moll, minnkaða og stækkaða þríhljóma á blaði og eftir heyrn.","Ég skrifa þríhljóma í grunnstöðu og hljómhvörfum frá hvaða tóni sem er."]},
   {t:"Aðalhljómar og niðurlög",d:"I · IV · V · aðalendi · hálfendi · kirkjuendi · gabbendi",c:"--hat",lead:"Aðalhljómarnir þrír og hvernig tónlist endar.",
@@ -3543,16 +3731,16 @@ const LVL_LOTUR={
    ck:["Ég skil og nota helstu hraða-, styrk- og blæbrigðaheiti.","Ég greini einradda, hómófóníska og pólýfóníska tónlist.","Ég þekki í sundur tónlist frá barokk, klassík, rómantík og 20. öld."]}
  ],
  f:[
-  {t:"Lestur í fjórum lyklum",d:"G · F · alt · tenór · tónflutningur",c:"--kick",lead:"Gott vald á G- og F-lykli og kynni af alt- og tenórlykli.",cc:[["Fjórir lyklar","G-, F-, alt- og tenórlykill. Sama nóta getur staðið á ólíkum stað eftir lykli."]],ex:[{todo:"Lestur í alt- og tenórlykli"},{todo:"Tónflutningur"}],sb:["Skrifaðu sömu laglínu í G-, F- og altlykli."],ck:["Ég les vel í G- og F-lykli.","Ég þekki alt- og tenórlykil."]},
-  {t:"Hrynur",d:"Þríólur · synkópur · sextándupartar",c:"--kick",lead:"Undirbúin og óundirbúin hryndæmi í 2/4, 3/4, 4/4 og 6/8.",cc:[["Þríólur","Þrjár nótur á tíma tveggja."]],ex:[{todo:"Hrynur skrifaður eftir heyrn: þríólur, synkópur, þagnir"}],sb:["Skrifaðu hryndæmi með þríólum og synkópum."],ck:["Ég flyt undirbúin og óundirbúin hryndæmi.","Ég skrifa hryndæmi eftir heyrn."]},
-  {t:"Laglínuritun",d:"Krómatík · atónal raðir · tvær raddir",c:"--snare",lead:"Laglínur með stöku tóni utan tóntegundar, atónal raðir og tvær raddir.",cc:[["Atónal tónaraðir","Tónar sem tilheyra engri tóntegund. Hugsaðu í tónbilum."]],ex:[{todo:"Laglína skrifuð eftir heyrn"},{todo:"Tveggja radda ritun"}],sb:["Syngdu undirbúna laglínu í tóntegund sem þú þekkir lítið."],ck:["Ég syng undirbúnar laglínur í öllum dúr- og molltóntegundum.","Ég skrifa einradda laglínur og einfaldar tveggja radda laglínur eftir heyrn."]},
+  {t:"Lestur í fjórum lyklum",d:"G · F · alt · tenór · tónflutningur",c:"--kick",lead:"Gott vald á G- og F-lykli og kynni af alt- og tenórlykli.",cc:[["Fjórir lyklar","G-, F-, alt- og tenórlykill. Sama nóta getur staðið á ólíkum stað eftir lykli."]],ex:["mClefC","mClefSame","mTranspose"],sb:["Skrifaðu sömu laglínu í G-, F- og altlykli."],ck:["Ég les vel í G- og F-lykli.","Ég þekki alt- og tenórlykil."]},
+  {t:"Hrynur",d:"Þríólur · synkópur · sextándupartar",c:"--kick",lead:"Undirbúin og óundirbúin hryndæmi í 2/4, 3/4, 4/4 og 6/8.",cc:[["Þríólur","Þrjár nótur á tíma tveggja."]],ex:["fTripEar",{tap:"read",t:"Klappaðu af blaði: þríólur og synkópur",trip:1},{tap:"ear",t:"Endurtaktu eftir heyrn",trip:1}],sb:["Skrifaðu hryndæmi með þríólum og synkópum."],ck:["Ég flyt undirbúin og óundirbúin hryndæmi.","Ég skrifa hryndæmi eftir heyrn."]},
+  {t:"Laglínuritun",d:"Krómatík · atónal raðir · tvær raddir",c:"--snare",lead:"Laglínur með stöku tóni utan tóntegundar, atónal raðir og tvær raddir.",cc:[["Atónal tónaraðir","Tónar sem tilheyra engri tóntegund. Hugsaðu í tónbilum."]],ex:[{w:"songDict"},{todo:"Tveggja radda ritun eftir heyrn"}],sb:["Syngdu undirbúna laglínu í tóntegund sem þú þekkir lítið."],ck:["Ég syng undirbúnar laglínur í öllum dúr- og molltóntegundum.","Ég skrifa einradda laglínur og einfaldar tveggja radda laglínur eftir heyrn."]},
   {t:"Tónbil innan tveggja áttunda",d:"Samsett tónbil · upp og niður",c:"--hat",lead:"Öll tónbil innan tveggja áttunda, laglínuleg og í samhljómi.",cc:[["Samsett tónbil","Nýund = áttund + tvíund, tíund = áttund + þríund."]],ex:["fIntEar2","mIntEar",{sing:"down",t:"Syngdu tónbilið niður"}],sb:["Skrifaðu stóra nýund og litla tíund upp frá c'."],ck:["Ég syng öll tónbil innan áttundar upp og niður.","Ég greini tónbil innan tveggja áttunda eftir heyrn."]},
-  {t:"Sjöundarhljómar",d:"Allar gerðir · öll hljómhvörf",c:"--hat",lead:"Þríhljómar og sjöundarhljómar í öllum hljómhvörfum, í dúr og moll.",cc:[["Forhljómur með sjöund","V7: dúrhljómur með lítilli sjöund. Vill leysast í I."],["Hljómhvörf sjöundarhljóma","7, 6/5, 4/3 og 2: tölurnar sýna tónbilin upp frá neðstu nótu."]],ex:["fSeventh","fSeventhEar","fSevInv"],sb:["Skrifaðu V7 í C-dúr í öllum fjórum stöðunum."],ck:["Ég þekki alla þríhljóma og sjöundarhljóma í öllum hljómhvörfum."]},
-  {t:"Aukaforhljómar",d:"V/V · V7/IV · fullminnkaður sjöundarhljómur",c:"--hat",lead:"Aukaforhljómar og fullminnkaði hljómurinn á 7. sæti.",cc:[["Aukaforhljómur","Forhljómur annars hljóms en I, t.d. V/V: D-dúr á undan G-dúr í C-dúr."]],ex:[{todo:"Greindu aukaforhljóma í hljómagangi"}],sb:["Skrifaðu V/V og V/IV í G-dúr."],ck:["Ég þekki aukaforhljóma í öllum hljómhvörfum, með og án sjöundar.","Ég þekki fullminnkaða hljóminn á 7. sæti."]},
-  {t:"Lánshljómar",d:"Napólíhljómur (N6) · stækkaður V · hálfminnkaður II",c:"--perc",lead:"Algengustu lánshljómarnir.",cc:[["Napólíhljómur","Lækkað 2. sæti í 1. hljómhvarfi (N6), t.d. Des-dúr í C-dúr. Leiðir yfirleitt í V."]],ex:[{todo:"Lánshljómar á blaði og eftir heyrn"}],sb:["Skrifaðu N6 – V – I í a-moll."],ck:["Ég þekki N6, stækkaðan V og hálfminnkaðan II."]},
-  {t:"Tóntegundaskipti",d:"Upp og niður · 1–4 formerki",c:"--snare",lead:"Að skipta um tóntegund innan verks.",cc:[["Brúarhljómur","Hljómur sem tilheyrir báðum tóntegundum. Þar er auðveldast að skipta."]],ex:[{todo:"Greindu tóntegundaskipti"}],sb:["Skrifaðu hljómagang sem fer úr C-dúr í G-dúr."],ck:["Ég get beitt tóntegundaskiptum upp og niður, frá einu upp í fjögur formerki."]},
-  {t:"Niðurlög og hljómframandi tónar",d:"Allir endar · tengitónar · biðtónar · granntónar",c:"--perc",lead:"Allar gerðir niðurlaga og tónar sem tilheyra ekki hljómnum.",cc:[["Hljómframandi tónar","Tengitónn, skiptitónn, biðtónn, granntónn, stökktónn og hljómboði."]],ex:["mCad",{todo:"Greindu hljómframandi tóna"}],sb:["Merktu hljómframandi tóna í sálmalagi."],ck:["Ég þekki allar gerðir niðurlaga.","Ég greini alla hljómframandi tóna."]},
-  {t:"Hljómsetning og greining",d:"Sálmalög J.S. Bachs · eigin hljómsetning",c:"--perc",lead:"Greining dæma úr tónbókmenntum og hljómsetning einfaldra laga.",cc:[["Fjórradda hljómsetning","Sópran, alt, tenór, bassi. Forðastu samstígar fimmundir og áttundir."]],ex:[{todo:"Hljómsettu einfalt lag"},{todo:"Greindu sálmalag eftir Bach"}],sb:["Hljómsettu fjögurra takta lag með I, IV og V."],ck:["Ég get greint hljómsetningar Bachs á sálmalögum.","Ég get hljómsett einföld lög."]}
+  {t:"Sjöundarhljómar",d:"Allar gerðir · öll hljómhvörf",c:"--hat",lead:"Þríhljómar og sjöundarhljómar í öllum hljómhvörfum, í dúr og moll.",cc:[["Forhljómur með sjöund","V7: dúrhljómur með lítilli sjöund. Vill leysast í I."],["Hljómhvörf sjöundarhljóma","7, 6/5, 4/3 og 2: tölurnar sýna tónbilin upp frá neðstu nótu."]],ex:["fSeventh","fSeventhEar","fSevInv",{w:"fWSeventh"}],sb:["Skrifaðu V7 í C-dúr í öllum fjórum stöðunum."],ck:["Ég þekki alla þríhljóma og sjöundarhljóma í öllum hljómhvörfum."]},
+  {t:"Aukaforhljómar",d:"V/V · V7/IV · fullminnkaður sjöundarhljómur",c:"--hat",lead:"Aukaforhljómar og fullminnkaði hljómurinn á 7. sæti.",cc:[["Aukaforhljómur","Forhljómur annars hljóms en I, t.d. V/V: D-dúr á undan G-dúr í C-dúr."]],ex:["fSecDom","fSecEar"],sb:["Skrifaðu V/V og V/IV í G-dúr."],ck:["Ég þekki aukaforhljóma í öllum hljómhvörfum, með og án sjöundar.","Ég þekki fullminnkaða hljóminn á 7. sæti."]},
+  {t:"Lánshljómar",d:"Napólíhljómur (N6) · stækkaður V · hálfminnkaður II",c:"--perc",lead:"Algengustu lánshljómarnir.",cc:[["Napólíhljómur","Lækkað 2. sæti í 1. hljómhvarfi (N6), t.d. Des-dúr í C-dúr. Leiðir yfirleitt í V."]],ex:["fN6","fN6Ear"],sb:["Skrifaðu N6 – V – I í a-moll."],ck:["Ég þekki N6, stækkaðan V og hálfminnkaðan II."]},
+  {t:"Tóntegundaskipti",d:"Upp og niður · 1–4 formerki",c:"--snare",lead:"Að skipta um tóntegund innan verks.",cc:[["Brúarhljómur","Hljómur sem tilheyrir báðum tóntegundum. Þar er auðveldast að skipta."]],ex:["fModEar","mKeyRead"],sb:["Skrifaðu hljómagang sem fer úr C-dúr í G-dúr."],ck:["Ég get beitt tóntegundaskiptum upp og niður, frá einu upp í fjögur formerki."]},
+  {t:"Niðurlög og hljómframandi tónar",d:"Allir endar · tengitónar · biðtónar · granntónar",c:"--perc",lead:"Allar gerðir niðurlaga og tónar sem tilheyra ekki hljómnum.",cc:[["Hljómframandi tónar","Tengitónn, skiptitónn, biðtónn, granntónn, stökktónn og hljómboði."]],ex:["mCad","fNonChord"],sb:["Merktu hljómframandi tóna í sálmalagi."],ck:["Ég þekki allar gerðir niðurlaga.","Ég greini alla hljómframandi tóna."]},
+  {t:"Hljómsetning og greining",d:"Sálmalög J.S. Bachs · eigin hljómsetning",c:"--perc",lead:"Greining dæma úr tónbókmenntum og hljómsetning einfaldra laga.",cc:[["Fjórradda hljómsetning","Sópran, alt, tenór, bassi. Forðastu samstígar fimmundir og áttundir."]],ex:["fHarm",{todo:"Hljómsettu heilt lag í fjórum röddum"},{todo:"Greindu sálmalag eftir Bach"}],sb:["Hljómsettu fjögurra takta lag með I, IV og V."],ck:["Ég get greint hljómsetningar Bachs á sálmalögum.","Ég get hljómsett einföld lög."]}
  ]};
 const LVL_PROF={
  m:{h:"Miðpróf í tónfræðagreinum",parts:[["A. Munnlegt","Hrynur eftir heyrn, hrynur af blaði, laglína eftir heyrn og laglína af blaði (4 × 5 einingar). Hámark 10 mínútur.","20"],["B. Skriflegt","Tónheyrn, hlustun og greining, tónfræðileg þekkingaratriði (3 × 20 einingar). Allt að 1,5 klst.","60"],["C. Valverkefni","Metið með umsögn og einkunn.","20"]],
@@ -3587,7 +3775,7 @@ function lvLoturRender(){const ps=document.getElementById("phaseStack");if(!ps)r
     <div class="pc-units">${LL.slice(ph.from-1,ph.to).map((L,j)=>{const n=ph.from+j,[d,t]=lvProg(LEVEL,n);return `<a class="pc-unit${d===t?" done":""}" href="#${LEVEL}-lota-${n}"><span class="num">${d===t?"✓":n}</span><span class="pc-t"><b>${L.t}</b><small>${L.d}</small></span><span class="pc-prog">${d}/${t}</span></a>`;}).join("")}</div></article>`).join("");}
 function lvLotaRender(lv,n){const box=document.getElementById("lvLota"),LL=LVL_LOTUR[lv],L=LL[n-1];if(!box||!L)return;stopAll();
   const ph=lvPhases(lv).find(p=>n>=p.from&&n<=p.to),c=lvChecks();
-  const exHtml=L.ex.map((e,i)=>typeof e==="string"?`<div class="ex" id="${lv}${n}_${e}"></div>`:e.tap?`<div class="ex lv-tap" id="${lv}${n}_tap${i}"></div>`:e.sing?`<div class="ex lv-sing" id="${lv}${n}_sing${i}"></div>`:`<div class="ex lv-todo"><div class="ex-head"><div><span class="ex-kind">Í vinnslu</span><h3>${e.todo}</h3></div></div><p class="muted">Þessi æfing er í smíðum og bætist við síðar.</p></div>`).join("");
+  const exHtml=L.ex.map((e,i)=>typeof e==="string"?`<div class="ex" id="${lv}${n}_${e}"></div>`:e.tap?`<div class="ex lv-tap" id="${lv}${n}_tap${i}"></div>`:e.sing?`<div class="ex lv-sing" id="${lv}${n}_sing${i}"></div>`:e.w?`<div class="ex" id="${lv}${n}_${e.w}"></div>`:`<div class="ex lv-todo"><div class="ex-head"><div><span class="ex-kind">Í vinnslu</span><h3>${e.todo}</h3></div></div><p class="muted">Þessi æfing er í smíðum og bætist við síðar.</p></div>`).join("");
   const bands=[["Það sem þú þarft að vita","Hugtök","--kick",`<div class="concepts">${L.cc.map(([t,x],ci)=>{const F=MFIG[`${lv}${n}_${ci}`];return `<article class="cc"><div class="cc-fig${F?"":" lv-fig"}" aria-hidden="true">${F?F():ART[ph.art]()}</div><h3>${t}</h3><p>${x}</p></article>`;}).join("")}</div>`],
     ["Lestu, hlustaðu og svaraðu","Æfingar","--snare",exHtml],
     ["Glósur","Í stílabókina","--open",`<ul class="lv-sb">${L.sb.map(x=>`<li>${x}</li>`).join("")}</ul>`],
@@ -3599,7 +3787,8 @@ function lvLotaRender(lv,n){const box=document.getElementById("lvLota"),LL=LVL_L
     <section class="stack lfoot read">${n<LL.length?`<a class="next-card" href="#${lv}-lota-${n+1}" style="--c:var(${ph.c})"><span class="nc-num">${n+1}</span><span class="nc-t"><small>Næsta lota</small><b>${LL[n].t}</b><span>${LL[n].d}</span></span><span class="nc-go" aria-hidden="true">→</span></a>`:`<a class="next-card" href="#lvprof" style="--c:var(--accent)"><span class="nc-num">✓</span><span class="nc-t"><small>Síðasta lotan</small><b>Kíktu á ${LV[lv].prof.toLowerCase()}ið</b><span>Hvernig prófið er byggt upp.</span></span><span class="nc-go" aria-hidden="true">→</span></a>`}
     <div class="row" style="justify-content:space-between">${n>1?`<a class="lk" href="#${lv}-lota-${n-1}">← Lota ${n-1}: ${LL[n-2].t}</a>`:`<a class="lk" href="#lotur">← Loturnar</a>`}<a class="lk" href="#lotur">Allar lotur</a></div></section></div>`;
   box.querySelectorAll(".stoc button").forEach(b=>b.onclick=()=>document.getElementById(b.dataset.go).scrollIntoView({behavior:"smooth"}));
-  L.ex.forEach((e,i)=>{if(e&&e.tap){const host=document.getElementById(`${lv}${n}_tap${i}`);if(host)mountTap(host,{mode:e.tap,title:e.t,gen:e.g68?()=>({n:3,bars:[bar68(),bar68()],c68:1}):()=>{const k=pick([2,4]);return {n:k,bars:genSync(k)};}});}});
+  L.ex.forEach((e,i)=>{if(e&&e.tap){const host=document.getElementById(`${lv}${n}_tap${i}`);if(host)mountTap(host,{mode:e.tap,title:e.t,gen:e.g68?()=>({n:3,bars:[bar68(),bar68()],c68:1}):e.trip?()=>({n:2,bars:genTrip(2)}):()=>{const k=pick([2,4]);return {n:k,bars:genSync(k)};}});}});
+  L.ex.forEach(e=>{if(e&&e.w){const W=LVW[e.w],host=document.getElementById(`${lv}${n}_${e.w}`);if(W&&host)wex(host,{key:`${lv}${n}_${e.w}`,kind:"Nótnaskrift",title:W.title,intro:W.intro,gen:W.gen});}});
   L.ex.forEach((e,i)=>{if(e&&e.sing){const host=document.getElementById(`${lv}${n}_sing${i}`);if(host)lvSingInt(host,e.sing,e.t);}});
   L.ex.forEach(e=>{if(typeof e!=="string")return;const g=LVGEN[e],host=document.getElementById(`${lv}${n}_${e}`);if(g&&host)quiz(host,{kind:g.kind,title:g.title,intro:g.intro,gen:g.gen});});
   box.querySelectorAll(".checklist input").forEach(inp=>inp.onchange=()=>{const c=lvChecks();c[inp.dataset.k]=inp.checked;store.set("lvChecks",c);});
@@ -3608,14 +3797,14 @@ function lvProfRender(){const box=document.getElementById("lvProf");if(!box)retu
   if(!P){box.innerHTML=`<p>Sjá <a href="#grunnprof">Grunnprófið</a>.</p>`;return;}
   box.innerHTML=`<div class="vm-head"><p class="eyebrow">${LV[LEVEL].n}</p><h1>${P.h}</h1><p class="lead2">Samkvæmt aðalnámskrá tónlistarskóla, tónfræðagreinar (2005).</p></div>
    <div class="lv-prof">${P.parts.map(([t,x,v])=>`<div class="lv-part"><b>${t}</b><span>${x}</span><em>${v}</em></div>`).join("")}</div>
-   <ul class="lv-sb">${P.notes.map(x=>`<li>${x}</li>`).join("")}</ul>${LEVEL==="m"?`<a class="next-card" href="#syniprof" style="--c:var(--accent)"><span class="nc-num">✓</span><span class="nc-t"><small>Æfðu þig</small><b>Sýnipróf fyrir miðpróf</b><span>Nýtt próf í hvert sinn: munnlegt og skriflegt.</span></span><span class="nc-go" aria-hidden="true">→</span></a>`:""}<div class="ex lv-todo"${LEVEL==="m"?" hidden":""}><div class="ex-head"><div><span class="ex-kind">Í vinnslu</span><h3>Sýnipróf fyrir ${LV[LEVEL].prof.toLowerCase()}</h3></div></div><p class="muted">Breytilegt sýnipróf í sama anda og fyrir grunnprófið er í smíðum.</p></div>`;}
+   <ul class="lv-sb">${P.notes.map(x=>`<li>${x}</li>`).join("")}</ul><a class="next-card" href="#syniprof" style="--c:var(--accent)"><span class="nc-num">✓</span><span class="nc-t"><small>Æfðu þig</small><b>Sýnipróf fyrir ${LV[LEVEL].prof.toLowerCase()}</b><span>${LEVEL==="m"?"Nýtt próf í hvert sinn: munnlegt og skriflegt.":"Tónheyrn og hljómfræði, nýtt próf í hvert sinn."}</span></span><span class="nc-go" aria-hidden="true">→</span></a><div class="ex lv-todo" hidden><div class="ex-head"><div><span class="ex-kind">Í vinnslu</span><h3>Sýnipróf fyrir ${LV[LEVEL].prof.toLowerCase()}</h3></div></div><p class="muted">Breytilegt sýnipróf í sama anda og fyrir grunnprófið er í smíðum.</p></div>`;}
 /* skiptir um námsleið */
 function setLevel(lv,init){LEVEL=lv;store.set("level",lv);document.documentElement.dataset.level=lv;
   document.querySelectorAll(".lvl-sw button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lv===lv)));
   if(typeof HUB!=="undefined"){const g=HUB.find(x=>x.g==="Grunnprófið"||x.id==="prof");if(g){g.id="prof";g.g=lv==="g"?"Grunnprófið":LV[lv].prof;g.items=lv==="g"?[{h:"#grunnprof",ic:"grunnprof",n:"Grunnprófið",d:"Hvernig prófið er byggt upp, hvar þú stendur og framvinda til kennara.",c:"--kick"},{h:"#syniprof",ic:"syniprof",n:"Sýnipróf",d:"Breytilegt æfingapróf með sama sniði og grunnprófið.",c:"--snare"}]
-    :[{h:"#lvprof",ic:"grunnprof",n:LV[lv].prof,d:"Hvernig prófið er byggt upp samkvæmt aðalnámskrá.",c:"--kick"}].concat(lv==="m"?[{h:"#syniprof",ic:"syniprof",n:"Sýnipróf",d:"Breytilegt æfingapróf með sama sniði og miðprófið.",c:"--snare"}]:[]);const hb=document.getElementById("hub");if(hb)hb._r=0;}}
+    :[{h:"#lvprof",ic:"grunnprof",n:LV[lv].prof,d:"Hvernig prófið er byggt upp samkvæmt aðalnámskrá.",c:"--kick"}].concat([{h:"#syniprof",ic:"syniprof",n:"Sýnipróf",d:lv==="m"?"Breytilegt æfingapróf með sama sniði og miðprófið.":"Tónheyrn og hljómfræði fyrir framhaldspróf.",c:"--snare"}]);const hb=document.getElementById("hub");if(hb)hb._r=0;}}
   const h=(location.hash||"").slice(1);if(/^[mf]-lota-/.test(h)||h==="lotur"||h==="aefingar"||h==="lvprof"||/^lota-\d/.test(h)){if(init)return;if(/^[mf]-lota-/.test(h))location.hash="#lotur";else if(h==="lvprof"&&lv==="g")location.hash="#grunnprof";else route();}
-  else if(!init&&((h==="grunnprof"&&lv!=="g")||(h==="syniprof"&&lv==="f")))location.hash="#lvprof";
+  else if(!init&&h==="grunnprof"&&lv!=="g")location.hash="#lvprof";
   if(!init&&typeof examStart==="function")examStart();}
 function lvSwitchHTML(){return `<div class="lvl-sw" role="group" aria-label="Námsleið">${["g","m","f"].map(k=>`<button type="button" data-lv="${k}" aria-pressed="${k===LEVEL}" title="${LV[k].n}">${LV[k].s}</button>`).join("")}</div>`;}
 function lvInit(){document.documentElement.dataset.level=LEVEL;const w=document.querySelector("header.top .set-wrap");if(w&&!document.querySelector(".lvl-sw")){w.insertAdjacentHTML("beforebegin",lvSwitchHTML());document.querySelectorAll(".lvl-sw button").forEach(b=>b.onclick=()=>setLevel(b.dataset.lv));}setLevel(LEVEL,true);}
@@ -3664,12 +3853,21 @@ const EXAM_PLAN_M=[
  {id:"t",name:"B1. Tónheyrn",sub:"Tónbil, hljómar, tónstigar, takttegundir, hrynur, niðurlög",pts:20,c:"--kick",items:[["mIntEar",3],["mTriadEar",2],["mScaleEar",1],["mMeter",1],["m68ear",1],["mSyncEar",1],["mCad",1],["mI45",1]]},
  {id:"h",name:"B2. Hlustun og greining",sub:"Áferð, orð og tákn, form, dúr og moll",pts:20,c:"--hat",items:[["mTexture",2],["mTerms",4],["exForm",1],["know",1],["exSongMode",1]]},
  {id:"k",name:"B3. Tónfræðileg þekkingaratriði",sub:"Tónbil, þríhljómar, moll, kirkjutóntegundir, tóntegundir, lyklar, takttegundir, tónflutningur",pts:20,c:"--snare",items:[["mInt",2],["mTriad",2],["mInv",1],["mMinor",1],["mMode",1],["mKeyRead",1],["mDegree",1],["mRel",1],["mTsig",1],["mTranspose",1],["mBotna",1],["mOct",1],["mClefC",1]]}];
+Object.keys(LVGEN).forEach(k=>{if(!GENS[k])GENS[k]={title:LVGEN[k].title,intro:LVGEN[k].intro,gen:LVGEN[k].gen};});
+Object.keys(LVW).forEach(k=>{GENS["w_"+k]={write:true,title:LVW[k].title,intro:LVW[k].intro,gen:LVW[k].gen};});
+GENS.fTapEar={title:"Hrynur endurtekinn eftir heyrn",tap:"ear",tapGen:()=>({n:2,bars:genTrip(2)})};
+GENS.fTapRead={title:"Hrynur lesinn af blaði",tap:"read",tapGen:()=>({n:pick([2,4]),bars:genTrip(2)})};
+EXAM_PLAN_M[3].items.push(["w_mWScale",1],["w_mWTriad",1],["w_mWInt",1]);
+const EXAM_PLAN_F=[
+ {id:"m",name:"A. Munnleg tónheyrn",sub:"Hrynur með þríólum og synkópum, eftir heyrn og af blaði",pts:20,c:"--perc",items:[["fTapEar",2],["fTapRead",2]]},
+ {id:"t",name:"B. Skrifleg tónheyrn",sub:"Samsett tónbil, sjöundarhljómar, þríólur, aukaforhljómar, N6, tóntegundaskipti, niðurlög",pts:20,c:"--kick",items:[["fIntEar2",2],["fSeventhEar",2],["mTriadEar",1],["fTripEar",1],["fSecEar",1],["fN6Ear",1],["fModEar",1],["mCad",1],["w_songDict",1]]},
+ {id:"k",name:"C. Hljómfræði",sub:"Sjöundarhljómar og hljómhvörf, aukaforhljómar, N6, hljómframandi tónar, hljómsetning",pts:20,c:"--snare",items:[["fSeventh",2],["fSevInv",1],["fSecDom",1],["fN6",1],["fNonChord",2],["fHarm",1],["mKeyRead",1],["w_fWSeventh",1],["w_mWInt",1]]}];
 let EXAM_PLAN=EXAM_PLAN_G;
 const EX={qs:[],i:0,t0:0,timer:null,withOral:true,mic:false};
 function buildExam(withOral){
   IH.sel=new Set(["S2","L3","S3","H4","H5","H8"]);IH.fixed=true;KQ.basic=true;
   const qs=[];
-  EXAM_PLAN.filter(s=>withOral||s.id!=="m").forEach(s=>{const items=s.id==="m"&&EX.mic?[[EXAM_PLAN===EXAM_PLAN_M?"mTapEar":"tapEar",1],[EXAM_PLAN===EXAM_PLAN_M?"mTapRead":"tapRead",1],["singEar",1],["singRead",1]]:s.items;const n=items.reduce((a,b)=>a+b[1],0);
+  EXAM_PLAN.filter(s=>withOral||s.id!=="m").forEach(s=>{const pre=EXAM_PLAN===EXAM_PLAN_M?"m":EXAM_PLAN===EXAM_PLAN_F?"f":"";const items=s.id==="m"&&EX.mic?[[pre?pre+"TapEar":"tapEar",1],[pre?pre+"TapRead":"tapRead",1],["singEar",1],["singRead",1]]:s.items;const n=items.reduce((a,b)=>a+b[1],0);
     items.forEach(([key,cnt])=>{const G=GENS[key];const seen=new Set();
       for(let k=0;k<cnt;k++){
         if(G.write){qs.push({sec:s.id,key,title:G.title,write:true,task:G.gen(),state:null,pts:s.pts/n});continue;}
@@ -3692,12 +3890,20 @@ const EXAM_INTRO_M=`<div class="summary" style="--c:var(--accent)"><h3>Svona er 
      <li><b>C. Valverkefni (20)</b> er ekki hluti af sýniprófinu.</li>
      <li>Í alvöru prófinu eru hlustunardæmin úr tónbókmenntum (tímabil, hljóðfæri, tónskáld). Þau bætast við síðar.</li>
      <li>Í skriflega prófinu skrifar þú líka á nótnastreng: tónstiga, hljóma, tónbil og laglínu eftir heyrn.</li></ul></div></div>`;
+const EXAM_INTRO_F=`<div class="summary" style="--c:var(--accent)"><h3>Svona er sýniprófið</h3><ul>
+     <li><b>A. Munnleg tónheyrn (20):</b> hrynur með þríólum og synkópum, eftir heyrn og af blaði. Með hljóðnema syngur þú líka laglínur.</li>
+     <li><b>B. Skrifleg tónheyrn (20):</b> tónbil innan tveggja áttunda, sjöundarhljómar, þríólur, aukaforhljómar, N6, tóntegundaskipti, niðurlög og laglína skrifuð eftir heyrn.</li>
+     <li><b>C. Hljómfræði (20):</b> sjöundarhljómar og hljómhvörf, aukaforhljómar, napólski hljómurinn, hljómframandi tónar og hljómsetning. Hljómar og tónbil skrifuð á nótnastreng.</li>
+     <li>Þú mátt hlusta <b>eins oft og þú vilt</b>. Niðurstöður og útskýringar koma í lokin.</li></ul></div>
+   <div class="summary" style="--c:var(--snare)"><h3>Það sem vantar upp á alvöru framhaldsprófið</h3><ul>
+     <li>Framhaldspróf er í fjórum greinum: hljómfræði, tónheyrn, tónlistarsögu og valgrein. Hér eru <b>tónheyrn og hljómfræði</b> æfð.</li>
+     <li>Fjórradda hljómsetning, greining tónverka og tónlistarsaga bætast við síðar.</li></ul></div></div>`;
 function examStart(){
-  EXAM_PLAN=LEVEL==="m"?EXAM_PLAN_M:EXAM_PLAN_G;
-  const sv=document.querySelector('section[data-view="syniprof"] .vm-head');if(sv){sv.querySelector(".eyebrow").textContent=LEVEL==="m"?"Miðprófið":"Grunnprófið";sv.querySelector(".lead2").textContent=`Nýtt próf í hvert sinn. Spurningarnar eru búnar til af handahófi úr sömu efnisþáttum og ${LEVEL==="m"?"miðprófið":"grunnprófið"}.`;const t=sv.querySelector('.vm-tabs a[href="#grunnprof"]');if(t)t.setAttribute("href",LEVEL==="m"?"#lvprof":"#grunnprof");}
+  EXAM_PLAN=LEVEL==="m"?EXAM_PLAN_M:LEVEL==="f"?EXAM_PLAN_F:EXAM_PLAN_G;
+  const sv=document.querySelector('section[data-view="syniprof"] .vm-head');if(sv){sv.querySelector(".eyebrow").textContent=LEVEL==="m"?"Miðprófið":LEVEL==="f"?"Framhaldsprófið":"Grunnprófið";sv.querySelector(".lead2").textContent=`Nýtt próf í hvert sinn. Spurningarnar eru búnar til af handahófi úr sömu efnisþáttum og ${LEVEL==="m"?"miðprófið":LEVEL==="f"?"tónheyrnar- og hljómfræðihluti framhaldsprófsins":"grunnprófið"}.`;const t=sv.querySelector('.vm-tabs a[href="#grunnprof"]');if(t)t.setAttribute("href",LEVEL!=="g"?"#lvprof":"#grunnprof");}
   const h=document.getElementById("exam");
   h.innerHTML=`<div class="cols">
-   ${LEVEL==="m"?EXAM_INTRO_M:`<div class="summary" style="--c:var(--accent)"><h3>Svona er prófið</h3><ul>
+   ${LEVEL==="m"?EXAM_INTRO_M:LEVEL==="f"?EXAM_INTRO_F:`<div class="summary" style="--c:var(--accent)"><h3>Svona er prófið</h3><ul>
      <li><b>Munnlegt próf (20):</b> með hljóðnema: hryndæmi og laglína, bæði eftir heyrn og af blaði, eins og á grunnprófinu. Án hljóðnema: fjögur hryndæmi sem þú klappar á hnapp eða bilslána.</li>
      <li><b>Skrifleg tónheyrn (20):</b> tíu spurningar sem þú hlustar á.</li>
      <li><b>Hlustun og greining (20):</b> tíu spurningar um form, styrk, hraða, leikmáta, hljóðfæri og raddir.</li>
