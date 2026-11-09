@@ -743,7 +743,6 @@ button.opt[aria-pressed="true"],.opts-rhythm button[aria-pressed="true"]{backgro
 <section class="view stack-lg" data-view="forsida">
   <div class="hero">
     <div>
-      <p class="eyebrow" id="heroEyebrow">Tónfræðismiðjan · fjarnám · grunnnám í tónfræði og tónheyrn · 10 lotur</p>
       <h1>Lærðu að lesa, heyra og skilja tónlist</h1>
       <p class="lead" id="heroLead">Nótur, hrynur, tónstigar, tónbil og hljómar. Allt sem þú þarft fyrir grunnpróf í tónfræði, með æfingum sem þú getur hlustað á.</p>
       <div class="row" style="margin-top:22px"><a class="btn primary btn-big" id="heroStart" href="#lota-1">Byrja <span aria-hidden="true">→</span></a><a class="btn" href="#syniprof">Taka sýnipróf</a></div>
@@ -3804,11 +3803,10 @@ function setLevel(lv,init){LEVEL=lv;store.set("level",lv);document.documentEleme
   if(!init&&typeof examStart==="function")examStart();}
 /* forsíðan fylgir völdu stigi */
 const HERO_G={}; 
-function lvHomeRender(){const E=document.getElementById("heroEyebrow"),Ld=document.getElementById("heroLead"),St=document.getElementById("heroStart"),PM=document.getElementById("phaseMini"),TC=document.getElementById("topicChips");if(!E)return;
-  if(!HERO_G.e){HERO_G.e=E.textContent;HERO_G.l=Ld.textContent;HERO_G.pm=PM.innerHTML;HERO_G.tc=TC.innerHTML;}
-  if(LEVEL==="g"){E.textContent=HERO_G.e;Ld.textContent=HERO_G.l;St.href="#lota-1";PM.innerHTML=HERO_G.pm;TC.innerHTML=HERO_G.tc;return;}
+function lvHomeRender(){const E=document.getElementById("heroEyebrow"),Ld=document.getElementById("heroLead"),St=document.getElementById("heroStart"),PM=document.getElementById("phaseMini"),TC=document.getElementById("topicChips");if(!Ld)return;
+  if(!HERO_G.l){HERO_G.l=Ld.textContent;HERO_G.pm=PM.innerHTML;HERO_G.tc=TC.innerHTML;}
+  if(LEVEL==="g"){Ld.textContent=HERO_G.l;St.href="#lota-1";PM.innerHTML=HERO_G.pm;TC.innerHTML=HERO_G.tc;return;}
   const PH=lvPhases(LEVEL),LL=LVL_LOTUR[LEVEL];
-  E.textContent=`Tónfræðismiðjan · fjarnám · ${LV[LEVEL].n.toLowerCase()} í tónfræði og tónheyrn · 10 lotur`;
   Ld.textContent=LEVEL==="m"?"Tónstigar í öllum tóntegundum, tónbil, hljómar, ítalskur orðaforði og hlustun. Allt sem þú þarft fyrir miðpróf í tónfræði, með æfingum sem þú getur hlustað á.":"Sjöundarhljómar, hljómfræði, tónheyrn og greining. Undirbúningur fyrir framhaldspróf í tónfræði, með æfingum sem þú getur hlustað á.";
   St.href=`#${LEVEL}-lota-1`;
   PM.innerHTML=PH.map(ph=>`<a class="pm-card" href="#lotur" style="--c:var(${ph.c})"><div class="pm-art" aria-hidden="true">${ART[ph.art]()}</div><b>${ph.name}</b><small>${ph.from===ph.to?`Lota ${ph.from}`:`Lotur ${ph.from}–${ph.to}`}</small></a>`).join("");
