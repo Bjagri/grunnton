@@ -1325,7 +1325,7 @@ function staffSVG(o){
   if(o.final){parts.push(`<line x1="${x}" x2="${x}" y1="${top}" y2="${top+4*g}" class="st-line" style="stroke:var(--ink)"/><rect x="${x+3}" y="${top}" width="${g*0.45}" height="${g*4}" class="st-ink"/>`);x+=g*0.8;}
   x+=g*0.8;
   const W=Math.max(o.minW||0,x);
-  let lines="";for(let i=0;i<5;i++)lines+=`<line x1="4" x2="${W-4}" y1="${top+i*g}" y2="${top+i*g}" class="st-line"/>`;
+  let lines="";for(let i=0;i<5;i++)lines+=`<line x1="4" x2="${o.lineEnd||W-4}" y1="${top+i*g}" y2="${top+i*g}" class="st-line"/>`;
   const extra=o.extra?o.extra(Y,o.items,g):"";
   return `<svg viewBox="0 0 ${W} ${height}" width="${W*(o.scale||1.4)}" role="img" aria-label="${o.aria||'Nótnastrengur'}">${lines}${parts.join("")}${extra}</svg>`;
 }
@@ -2504,15 +2504,15 @@ const FIG={
  lines:()=>{let s="";const t=18,g=13,x1=58,x2=200;for(let i=0;i<5;i++){const y=t+i*g;s+=`<line x1="${x1}" x2="${x2}" y1="${y}" y2="${y}" style="stroke:var(--ink);stroke-width:1.4"/>`+tx(x2+8,y+4,`${5-i}. lína`,{a:"start",c:PINK});}
    for(let i=0;i<4;i++){const y=t+i*g+g/2;s+=`<rect x="${x1+4}" y="${y-4}" width="${x2-x1-8}" height="8" rx="3" style="fill:${BLUE};opacity:.13"/>`+tx(x1-6,y+4,`${4-i}. bil`,{a:"end",c:BLUE});}
    s+=arrow(130,t+4*g+22,130,t+4*g+6,"var(--muted)")+tx(130,t+4*g+34,"talið neðan frá",{s:10});return sv(260,t+4*g+40,s);},
- names:()=>{const L=["c","d","e","f","g","a","h","c"];let s="";L.forEach((l,i)=>{const x=20+i*30;s+=`<circle cx="${x}" cy="38" r="12" style="fill:${i===0||i===7?PINK:"var(--tint)"}"/>`+tx(x,42,l,{s:13,c:i===0||i===7?"#fff":"var(--ink)"});});
-   s+=`<path d="M20 22 Q125 -6 230 22" style="fill:none;stroke:${PINK};stroke-width:1.8"/>`+tx(125,12,"ein áttund",{c:PINK});return sv(252,58,s);},
+ names:()=>{const L=["c","d","e","f","g","a","h","c"];let s="";L.forEach((l,i)=>{const x=20+i*30;s+=`<circle cx="${x}" cy="52" r="12" style="fill:${i===0||i===7?PINK:"var(--tint)"}"/>`+tx(x,56,l,{s:13,c:i===0||i===7?"#fff":"var(--ink)"});});
+   s+=`<path d="M20 36 Q125 12 230 36" style="fill:none;stroke:${PINK};stroke-width:1.8"/>`+tx(125,13,"ein áttund",{c:PINK});return sv(252,70,s);},
  hb:()=>kbSVG({from:64,to:72,names:true,hi:{69:"l",70:"p",71:"p",72:"l"},lab:{70:"b",71:"h"}}),
- gclef:()=>staffSVG({clef:"g",items:[{notes:[{d:32,hl:true}],label:"g'"}],step:46,minW:150,scale:1.3,extra:(Y,it,g)=>hlLine(Y,30,2,4,146)+tx(146,Y(32)-6,"2. lína",{a:"end",c:PINK,s:10})}),
- fclef:()=>staffSVG({clef:"f",items:[{notes:[{d:24,hl:true}],label:"f"}],step:46,minW:150,scale:1.3,extra:(Y)=>hlLine(Y,18,4,4,146)+tx(146,Y(24)-6,"4. lína",{a:"end",c:PINK,s:10})}),
+ gclef:()=>staffSVG({clef:"g",items:[{notes:[{d:32,hl:true}],label:"g'"}],step:46,minW:196,lineEnd:146,scale:1.3,extra:(Y,it,g)=>hlLine(Y,30,2,50,146)+tx(152,Y(32)+3.6,"2. lína",{a:"start",c:PINK,s:10})}),
+ fclef:()=>staffSVG({clef:"f",items:[{notes:[{d:24,hl:true}],label:"f"}],step:46,minW:196,lineEnd:146,scale:1.3,extra:(Y)=>hlLine(Y,18,4,50,146)+tx(152,Y(24)+3.6,"4. lína",{a:"start",c:PINK,s:10})}),
  ledger:()=>staffSVG({clef:"g",items:[{notes:[{d:28,hl:true}],label:"c' (mið-c)",w:70},{notes:[{d:40,hl:true}],label:"a''"}],step:50,minW:200,scale:1.3,extra:(Y,it)=>tx(it[0]._x+28,Y(28)+4,"← aukalína",{a:"start",c:PINK,s:10})}),
  headstem:()=>{let s=`<ellipse cx="70" cy="88" rx="17" ry="12" transform="rotate(-18 70 88)" style="fill:var(--ink)"/><line x1="85" x2="85" y1="86" y2="16" style="stroke:var(--ink);stroke-width:3"/>`;
    s+=arrow(150,92,94,90,PINK)+tx(154,96,"nótnahaus",{a:"start",c:PINK,s:13})+arrow(150,36,92,40,BLUE)+tx(154,40,"nótnaháls",{a:"start",c:BLUE,s:13});return sv(270,110,s,1.1);},
- stems:()=>staffSVG({clef:"g",items:[{notes:[{d:30}],dur:"q",label:"upp"},{notes:[{d:32}],dur:"q",label:"upp"},{notes:[{d:34}],dur:"q",label:"niður"},{notes:[{d:37}],dur:"q",label:"niður"}],step:42,minW:260,scale:1.2,extra:(Y)=>`<line x1="4" x2="256" y1="${Y(34)}" y2="${Y(34)}" style="stroke:${PINK};stroke-width:2.5;stroke-dasharray:5 3;opacity:.8"/>`+tx(254,Y(34)-5,"miðlína",{a:"end",c:PINK,s:10})}),
+ stems:()=>staffSVG({clef:"g",items:[{notes:[{d:30}],dur:"q",label:"upp"},{notes:[{d:32}],dur:"q",label:"upp"},{notes:[{d:34}],dur:"q",label:"niður"},{notes:[{d:37}],dur:"q",label:"niður"}],step:42,minW:270,lineEnd:212,scale:1.2,extra:(Y)=>`<line x1="50" x2="212" y1="${Y(34)}" y2="${Y(34)}" style="stroke:${PINK};stroke-width:2.5;stroke-dasharray:5 3;opacity:.8"/>`+tx(218,Y(34)+3.6,"miðlína",{a:"start",c:PINK,s:10})}),
  kbc:()=>kbSVG({from:48,to:71,hi:{48:"p",60:"p",49:"l",51:"l",61:"l",63:"l"},lab:{48:"c",60:"c"},sc:1.05}),
  /* lota 2 */
  pulse4:()=>rowFig(["ts:4","q","q","q","q","||"],{under:[1,2,3,4].map(i=>({i,t:String(i),c:PINK,s:12})),sc:1.3}),
@@ -2527,7 +2527,7 @@ const FIG={
      const cells=Math.ceil(a+b);for(let i=0;i<cells;i++)s+=`<rect x="${bx+i*W}" y="${y+16}" width="${W-4}" height="20" rx="5" style="fill:var(--tint)" data-tk="${bt+i}"/>`;
      s+=`<rect x="${bx}" y="${y+16}" width="${a*W-3}" height="20" rx="5" style="fill:color-mix(in srgb,var(--ink) 72%,#fff)" data-bt="${bt}" data-bl="${a}"/><rect x="${bx+a*W}" y="${y+16}" width="${b*W-3}" height="20" rx="5" style="fill:${PINK}" data-bt="${bt+a}" data-bl="${b}"/>`+tx(bx+3*W+6,y+31,lab,{a:"start",c:"var(--ink)",s:12});});
    return sv(bx+3*W+80,134,s,1.1);},
- flag:()=>{let s=`<ellipse cx="40" cy="60" rx="7" ry="5" transform="rotate(-18 40 60)" style="fill:var(--ink)"/><line x1="46" x2="46" y1="58" y2="24" style="stroke:var(--ink);stroke-width:1.6"/><path d="M46 24 q2 10 11 16 q-3 -6 -11 -7 z" style="fill:${PINK}"/>`+tx(40,88,"fáni",{c:PINK,s:12});
+ flag:()=>{let s=`<ellipse cx="40" cy="60" rx="7" ry="5" transform="rotate(-18 40 60)" style="fill:var(--ink)"/><line x1="46" x2="46" y1="58" y2="24" style="stroke:var(--ink);stroke-width:1.6"/><path d="M45.2 24 C46.5 32 58 35.5 54.5 49 C55.5 40.5 50.5 37 45.2 35.5 Z" style="fill:${PINK}"/>`+tx(40,88,"fáni",{c:PINK,s:12});
    [110,136,162,188].forEach((x,i)=>{s+=`<ellipse cx="${x}" cy="60" rx="7" ry="5" transform="rotate(-18 ${x} 60)" style="fill:var(--ink)"/><line x1="${x+6}" x2="${x+6}" y1="58" y2="26" style="stroke:var(--ink);stroke-width:1.6"/>`;});
    s+=`<rect x="115" y="24" width="27" height="5" style="fill:${PINK}"/><rect x="167" y="24" width="27" height="5" style="fill:${PINK}"/>`+tx(154,88,"bjálkar",{c:PINK,s:12})+tx(128,14,"1. slag",{s:9})+tx(180,14,"2. slag",{s:9});return sv(220,96,s,1.2);},
  syll:()=>rhythmSVG([["q","ee","h"]]),
