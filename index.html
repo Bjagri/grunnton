@@ -786,6 +786,14 @@ button.opt[aria-pressed="true"],.opts-rhythm button[aria-pressed="true"]{backgro
 .cr-bars span.on{background:var(--accent);color:#fff;transform:scale(1.04)}
 .cr-bars span:nth-child(n+3).on{background:var(--hat);color:var(--ink)}
 .cr-notes{font-weight:700;letter-spacing:.02em}
+.sm-steps{flex-wrap:wrap}.sm-steps button b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--tint);font-size:.75rem;margin-right:4px}
+.sm-steps button[aria-pressed="true"] b{background:var(--accent);color:#fff}
+.sm-chords{display:grid;grid-template-columns:repeat(8,1fr);margin:10px 0 0 calc(34 / (34 + 64*13 + 8) * 100%);font-weight:700;font-size:.95rem}
+.sm-chords span{padding:2px 4px;border-left:2px solid var(--line)}
+.sm-wrap{overflow-x:auto}.sm-roll{width:100%;min-width:640px;height:auto;display:block}
+.sm-leg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.85rem;align-items:center}
+.sm-leg span[style]::before{content:"";display:inline-block;width:18px;height:7px;border-radius:4px;background:var(--c);margin-right:6px;vertical-align:middle}
+.sm-tip{font-size:.9rem;margin:0}
 </style>
 
 </head>
@@ -4399,6 +4407,89 @@ Object.assign(LVGEN,{
    const [w,mn]=pick(T);return {q:`Hvað merkir <b><i>${w}</i></b>?`,options:opts4(mn,T.map(x=>x[1])),answer:mn,explain:`${w}: ${mn}.`};}}
 });
 
+/* ============ SÓLÓSMIÐJAN: frá tónstiga til sólós í sex skrefum ============ */
+/* Hljómagangur: IIm7–V7–Imaj7–IVmaj7 í B♭-dúr og IIm7♭5–V7–Im í g-moll (algengasti djassgangurinn) */
+const SM_BARS=[[0,"m7"],[5,"7"],[10,"maj7"],[3,"maj7"],[9,"m7b5"],[2,"7"],[7,"m7"],[7,"m7"]];
+const SM_SC=[[10,0,2,3,5,7,9],[7,9,10,0,2,3,6]];/* B♭-dúr, g hljómrænn moll */
+const SM_TEN={m7:[2,5],"7":[2,9],maj7:[2,9],m7b5:[5]};const SM_TEN_D7=[1,3,8];
+const SM_STEPS=[
+ {n:"Tónstiginn",h:"Laglína úr tónstiganum",p:"Byrjaðu einfalt: hálfnótur sem ganga í skrefum upp og niður tónstigann. Fyrstu fjórir taktarnir eru í B♭-dúr, síðustu fjórir í g-moll (hljómrænn moll, með fís). Laglínan hljómar strax eins og lag."},
+ {n:"Réttu nóturnar",h:"Lentu á hljómtónum",p:"Nú lendir hver nóta á slögum 1 og 3 á hljómtóni: grunntóni (1), þríund (3), fimmund (5) eða sjöund (7). Þríundin og sjöundin segja mest um hljóminn. Taktu eftir hvað hver tónn þarf að fara stutt."},
+ {n:"Hrynur",h:"Gefðu línunni líf",p:"Sömu hljómtónarnir, en með fjölbreyttari hrynjanda: þögn á fyrsta slagi, punkteraðar nótur og áttundapartar. Tónar úr tónstiganum (bláir) tengja hljómtónana saman."},
+ {n:"Spennutónar",h:"Litur ofan á hljóminn",p:"Sumir hljómtónar víkja fyrir spennutónum (gulir): 9 og 13 á dúr- og mollhljómum, ♭9, ♯9 og ♭13 á D7. Þeir gera línuna nútímalegri en eiga samt heima í hljómnum."},
+ {n:"Orðaforði",h:"Nálganir og umkringing",p:"Áttundapartalínur með krómatískum nálgunum (gráir) og umkringingu: tónn fyrir ofan, hálftónn fyrir neðan og svo markið. Þannig hljómar tungumál bebopsins."},
+ {n:"Saga",h:"Byggðu sóló sem segir sögu",p:"Stutt mótíf í byrjun, endurtekið á nýjum hljómum (sekvens), svo tilbrigði, og loks þéttari lína sem nær hápunkti og leysist niður á g."}];
+function smPools(bar){const [pc,q]=SM_BARS[bar],sc=SM_SC[bar<4?0:1],ct=[0,...RQ[q].iv.map(x=>x[1])].map(s=>(pc+s)%12),tn=(bar===5?SM_TEN_D7:SM_TEN[q]).map(s=>(pc+s)%12);
+  const R=[];for(let m=57;m<=81;m++)R.push(m);return {pc,q,ct:R.filter(m=>ct.includes(m%12)),sc:R.filter(m=>sc.includes(m%12)),tn:R.filter(m=>tn.includes(m%12)),ctp:ct,scp:sc,tnp:tn};}
+function smCat(bar,m){const P=smPools(bar),x=m%12;return P.ctp.includes(x)?"ct":P.tnp.includes(x)?"tn":P.scp.includes(x)?"sc":"ch";}
+function smDeg(bar,m){const [pc,q]=SM_BARS[bar],s=((m-pc)%12+12)%12,dom=q==="7";
+  return {0:"1",1:"♭9",2:"9",3:q[0]==="m"?"♭3":"♯9",4:"3",5:"11",6:q==="m7b5"?"♭5":"♯11",7:"5",8:"♭13",9:"13",10:"7",11:"7"}[s];}
+const smNear=(pool,m,dir=0,max=7)=>{let c=pool.filter(x=>Math.abs(x-m)<=max&&(dir>0?x>m:dir<0?x<m:true));if(!c.length)c=pool.filter(x=>Math.abs(x-m)<=max);if(!c.length)c=pool;return c.sort((a,b)=>Math.abs(a-m)-Math.abs(b-m)+(Math.random()-0.5)*1.5)[0];};
+const smStepTo=(pool,m,dir)=>{let s=pool.filter(x=>x>=58&&x<=79&&(dir>0?x>m:x<m)).sort((a,b)=>dir>0?a-b:b-a);if(!s.length)s=pool.filter(x=>x>=58&&x<=79&&(dir>0?x<m:x>m)).sort((a,b)=>dir>0?b-a:a-b);return s[0]??m;};
+function smTarget(bar,prev,lvl){const P=smPools(bar);/* þríund og sjöund vegnar hærra */const g=P.ct.filter(m=>Math.abs(m-prev)<=5);const pref=g.filter(m=>{const d=smDeg(bar,m);return d==="3"||d==="♭3"||d==="7";});
+  let m=(pref.length&&Math.random()<0.7?pref:g.length?g:P.ct).sort((a,b)=>Math.abs(a-prev)-Math.abs(b-prev))[0];
+  if(lvl>=4&&Math.random()<0.4&&P.tn.length){const t=smNear(P.tn,m,0,4);if(Math.abs(t-prev)<=6)m=t;}return m;}
+const SM_RH=[[[0,2],[2,2],[4,4]],[[0,3],[3,1],[4,4]],[[2,2],[4,2],[6,2]],[[0,1],[1,3],[4,2],[6,2]],[[1,2],[3,1],[4,4]],[[0,4],[6,2]],[[2,1],[3,1],[4,4]],[[0,2],[3,1],[4,3]]];
+function smGen(lvl){return smClean(smGen0(lvl));}
+function smClean(N){N.sort((a,b)=>a.t-b.t);const o=[];N.forEach(x=>{const l=o[o.length-1];if(l&&x.t<=l.t)return;if(l&&l.t+l.d>x.t)l.d=x.t-l.t;o.push(x);});return o.filter(x=>x.d>0&&x.t<64).map(x=>(x.t+x.d>64&&(x.d=64-x.t),x));}
+function smGen0(lvl){const N=[];let prev=67+rnd(3),dir=pick([1,-1]),force=null;const P=b=>smPools(b);
+  const add=(t,d,m)=>{if(m<57||m>81)m=m<57?m+12:m-12;N.push({t,d,m});};
+  if(lvl===1){for(let b=0;b<8;b++){for(let h=0;h<2;h++){if(b===7&&h===1)break;let m=smStepTo(P(b).sc,prev,dir);if(m>76)dir=-1;if(m<60)dir=1;if(Math.random()<0.25)dir=-dir;if(b===7)m=smNear(P(b).ct.filter(x=>x%12===7||x%12===10),prev);add(b*8+h*4,b===7?8:4,m);prev=m;}}return N;}
+  if(lvl===2){for(let b=0;b<8;b++)for(let h=0;h<2;h++){if(b===7&&h===1)break;const m=b===7?smNear(P(b).ct.filter(x=>x%12===7||x%12===10),prev):smTarget(b,prev,2);add(b*8+h*4,b===7?8:4,m);prev=m;}return N;}
+  /* hrynmynstur + tengitónar */
+  const barRh=(b,rh)=>{rh.forEach(([s,d],i)=>{const strong=s===0||s===4||i===0;let m;if(i===0&&force!=null){m=force;force=null;}else if(strong)m=smTarget(b,prev,lvl);else{const nxt=smTarget(b,prev,lvl);m=smStepTo(P(b).sc,prev,nxt>=prev?1:-1);if(Math.abs(m-prev)>4)m=smNear(P(b).sc,prev);}add(b*8+s,d,m);prev=m;});};
+  const line=(b)=>{/* áttundapartalína með nálgun að næsta markmiði */let m=force!=null?force:smTarget(b,prev,lvl);force=null;add(b*8,1,m);prev=m;const nb=Math.min(7,b+1),tgt=smTarget(nb,prev+pick([-3,3]),lvl);
+    const kind=pick(["kr","umk","skr"]),close=Math.abs(tgt-m)<5;let away=tgt>=m?-1:1;if(m<63)away=1;if(m>76)away=-1;
+    for(let s=1;s<8;s++){let x;const toward=prev<tgt?1:-1;
+      if(s===7&&kind==="kr")x=tgt-1;else if(s===6&&kind==="umk")x=smStepTo(P(b).sc,tgt,1);else if(s===7&&kind==="umk")x=tgt-1;
+      else x=smStepTo(P(b).sc,prev,(close&&s<=3)?away:toward);
+      add(b*8+s,1,x);prev=x;}force=tgt;return tgt;};
+  if(lvl===3||lvl===4){for(let b=0;b<7;b++)barRh(b,pick(SM_RH));const m=smNear(P(7).ct.filter(x=>x%12===7||x%12===10),prev);add(56,6,m);return N;}
+  if(lvl===5){for(let b=0;b<7;b++){if(Math.random()<0.55&&b<6)line(b);else barRh(b,pick(SM_RH));}const m=force!=null&&force%12===7?force:smNear(P(7).ct.filter(x=>x%12===7),prev);add(56,6,m);return N;}
+  /* saga: mótíf í 1–2, sekvens í 3–4, tilbrigði í 5–6, hápunktur í 7, lausn í 8 */
+  const rh=pick(SM_RH.filter(r=>r.length>=3));barRh(0,rh);const m0=N.slice(0);const intervals=m0.slice(1).map((x,i)=>x.m-m0[i].m);
+  /* taktur 2: löng nóta, svo andrými */const t2=smTarget(1,prev,lvl);add(8,6,t2);prev=t2;
+  const seq=(b)=>{let m=smTarget(b,prev,lvl);rh.forEach(([s,d],i)=>{if(i>0){m=m+intervals[i-1];const P2=P(b);if(!P2.sc.includes(m)&&!P2.tn.includes(m)&&!P2.ct.includes(m))m=smNear(P2.sc,m,0,2);}add(b*8+s,d,m);prev=m;});};
+  seq(2);const t4=smTarget(3,prev,lvl);add(24,6,t4);prev=t4;
+  seq(4);barRh(5,pick(SM_RH));prev=Math.min(prev+5,74);line(6);const end=force!=null&&force%12===7?force:smNear(P(7).ct.filter(x=>x%12===7),prev);add(56,6,end);
+  return N;}
+function smSVG(notes,showDeg){const E=13,X0=34,lo=56,hi=82,Y=m=>14+(hi-m)*6.2,H=Y(lo)+14,W=X0+64*E+8;let s="";
+  for(let m=lo;m<=hi;m++)if([0,5].includes(m%12))s+=`<line x1="${X0}" x2="${W-8}" y1="${Y(m)+3}" y2="${Y(m)+3}" style="stroke:var(--line);stroke-width:1"/><text x="${X0-6}" y="${Y(m)+6}" text-anchor="end" font-size="9" style="fill:var(--muted)">${m%12===0?"c":"f"}${m>=72?"''":"'"}</text>`;
+  for(let b=0;b<=8;b++)s+=`<line x1="${X0+b*8*E}" x2="${X0+b*8*E}" y1="6" y2="${H-6}" style="stroke:color-mix(in srgb,var(--ink) ${b%4?18:40}%,transparent);stroke-width:${b%4?1:1.6}"/>`;
+  const C={ct:PINK,sc:BLUE,tn:"var(--tone)",ch:"color-mix(in srgb,var(--ink) 45%,#999)"};
+  notes.forEach(n=>{const b=Math.floor(n.t/8),c=smCat(b,n.m);s+=`<rect x="${X0+n.t*E+1}" y="${Y(n.m)-3}" width="${n.d*E-2}" height="6.5" rx="3" style="fill:${C[c]}"/>`;
+    if(showDeg){const d=c==="ch"?"→":smDeg(b,n.m);s+=`<text x="${X0+n.t*E+2}" y="${Y(n.m)-6}" font-size="8.5" font-weight="700" style="fill:var(--ink)">${d}</text>`;}});
+  s+=`<line class="sm-ph" x1="${X0}" x2="${X0}" y1="4" y2="${H-4}" style="stroke:var(--ink);stroke-width:2;opacity:0"/>`;
+  return `<svg class="sm-roll" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMinYMin meet">${s}</svg>`;}
+function mountSolo(host,start=1){let lvl=start,notes=smGen(lvl),deg=true,playing=false,bpm=120,t0=0,timer=null,iv=null;
+  const FL=PA_FL;const sym=([p,q])=>FL[p]+RQ[q].s;
+  const draw=()=>{const S=SM_STEPS[lvl-1];host.innerHTML=`<div class="ex-head"><div><span class="ex-kind">Sólósmiðjan</span><h3>Frá tónstiga til sólós</h3></div></div>
+     <p>Sex skref að sóló yfir algengasta hljómagang djassins: II–V–I í B♭-dúr og II–V–I í g-moll. Veldu skref, hlustaðu og spilaðu svo sjálf(ur) með undirleiknum.</p>
+     <div class="seg sm-steps">${SM_STEPS.map((x,i)=>`<button data-l="${i+1}" aria-pressed="${i+1===lvl}"><b>${i+1}</b> ${x.n}</button>`).join("")}</div>
+     <div class="deepbox" style="--c:var(--open)"><h3>${lvl}. ${S.h}</h3><p>${S.p}</p></div>
+     <div class="sm-chords no-hb">${SM_BARS.map(c=>`<span>${sym(c)}</span>`).join("")}</div>
+     <div class="sm-wrap">${smSVG(notes,deg)}</div>
+     <div class="sm-leg"><span style="--c:${PINK}">Hljómtónn</span><span style="--c:${BLUE}">Tónstigatónn</span><span style="--c:var(--tone)">Spennutónn</span><span style="--c:color-mix(in srgb,var(--ink) 45%,#999)">Krómatískur</span><span class="muted">${deg?"Tölurnar sýna sæti tónsins í hljómnum.":""}</span></div>
+     <div class="row"><button class="primary sm-play">${playing?"■ Stöðva":"▶ Hlusta á sólóið"}</button><button class="sm-new">↻ Nýtt sóló</button><button class="sm-comp">▶ Bara undirleikur</button>
+       <label class="chk"><input type="checkbox" class="sm-deg" ${deg?"checked":""}> Sýna tölur</label>
+       <label class="spd"><span class="spd-l">Hraði</span><input type="range" class="sm-bpm" min="70" max="200" value="${bpm}"><span class="spd-v">${bpm}</span></label></div>
+     <p class="muted sm-tip">Prófaðu: hlustaðu á sólóið, spilaðu svo með „Bara undirleikur“ og notaðu sömu hugmynd: ${["gakktu í skrefum um tónstigann","lentu á 3 og 7 á slögum 1 og 3","haltu sömu tónunum en breyttu hrynnum","bættu 9 eða 13 ofan á hljóminn","nálgastu markið hálftón neðan frá","endurtaktu stutt mótíf á nýjum hljómum"][lvl-1]}.</p>`;
+    host.querySelectorAll(".sm-steps button").forEach(b=>b.onclick=()=>{lvl=+b.dataset.l;notes=smGen(lvl);stop();draw();});
+    host.querySelector(".sm-new").onclick=()=>{notes=smGen(lvl);const w=playing;stop();draw();if(w)play(true);};
+    host.querySelector(".sm-play").onclick=()=>{if(playing){stop();draw();}else play(true);};
+    host.querySelector(".sm-comp").onclick=()=>{if(playing){stop();draw();}else play(false);};
+    host.querySelector(".sm-deg").onchange=e=>{deg=e.target.checked;draw();};
+    const rg=host.querySelector(".sm-bpm");rg.oninput=()=>{bpm=+rg.value;rg.nextElementSibling.textContent=bpm;};};
+  function play(mel){stopAll();playing=true;draw();const b=60/bpm,sw=b*2/3;t0=now()+0.15;
+    const sched=(t)=>{SM_BARS.forEach(([pc,q],i)=>{const bt=t+i*4*b,v=rVoice(pc,q),ivs=[0,...RQ[q].iv.map(x=>x[1])],root=36+pc,npc=SM_BARS[(i+1)%8][0];
+        [root,root+ivs[1],root+ivs[2],36+npc+(Math.random()<0.5?1:-1)].forEach((m,k)=>tone(m,bt+k*b,b*0.85,0.18));
+        [[0,1],[1.5+0.17,0.6]].forEach(([o,l])=>v.slice(1).forEach(m=>tone(m,bt+o*b,b*l,0.08)));for(let k=0;k<4;k++){knock(bt+k*b,false,k%2?0.2:0.12);if(k%2)knock(bt+k*b+sw,false,0.09);}});
+      if(mel)notes.forEach(n=>{const tt=t+Math.floor(n.t/2)*b+(n.t%2?sw:0),dd=n.d===1?(n.t%2?b-sw:sw)*0.95:(n.d/2)*b*0.95;tone(n.m,tt,dd,0.25);});return 32*b;};
+    let next=t0;const loop=()=>{if(!playing)return;next+=sched(next);timer=setTimeout(loop,Math.max(200,(next-now()-1.5)*1000));};loop();
+    const ph=()=>host.querySelector(".sm-ph");iv=setInterval(()=>{if(!playing||!host.isConnected){stop();return;}const el=((now()-t0)/(32*b))%1,p=ph();if(p&&now()>=t0){const x=34+el*64*13;p.setAttribute("x1",x);p.setAttribute("x2",x);p.style.opacity=.7;}},50);}
+  function stop(){playing=false;clearTimeout(timer);clearInterval(iv);stopAll();}
+  draw();}
+
 /* ---------- loturnar ---------- */
 LV.mr={k:"mr",n:"Rytmískt miðnám",s:"Mið",prof:"Miðpróf",base:"m",r:1};
 LV.fr={k:"fr",n:"Rytmískt framhaldsnám",s:"Framhald",prof:"Framhaldspróf",base:"f",r:1};
@@ -4445,7 +4536,7 @@ LVL_LOTUR.mr=[
   ck:["Ég les og skrifa sjöundarhljóma eftir táknum.","Ég heyri muninn á maj7, 7 og m7."]},
  {t:"Hljómagangar",d:"Rómverskar tölur · heimahljómar · II–V–I · aukaforhljómar · djassmoll",c:"--hat",lead:"II–V–I er algengasti hljómagangurinn í djassi. Þú lærir að greina hljómagang með rómverskum tölum og spinna yfir hann.",
   cc:[["Heimahljómar","Imaj7 – IIm7 – IIIm7 – IVmaj7 – V7 – VIm7 – VIIm7♭5. Í C: Cmaj7 Dm7 Em7 Fmaj7 G7 Am7 Bm7♭5."],["II–V–I","Dúr: Dm7 – G7 – Cmaj7. Moll: Dm7♭5 – G7 – Cm6."],["Aukaforhljómar","Forhljómur að öðrum hljómi en I: A7 → Dm7 (V7/II), D7 → G7 (V7/V)."]],
-  ex:["rDiatonic","rIIVI","rIIVIEar","rSecDom","rJazzScales",{pa:"iivi"}],
+  ex:["rDiatonic","rIIVI","rIIVIEar","rSecDom","rJazzScales",{pa:"iivi"},{solo:1}],
   sb:["Skrifaðu heimahljómana í C-, F- og B♭-dúr.","Skrifaðu II–V–I í fimm dúrtóntegundum."],
   ck:["Ég þekki heimahljómana í algengustu tóntegundunum.","Ég finn II–V–I í dúr og moll.","Ég veit hvað aukaforhljómur er."]},
  {t:"Orð, tákn og hlustun",d:"Swing, shuffle, coda · stórsveitin · stílar · íslensk dægurtónlist",c:"--perc",lead:"Orðin sem standa á lagablöðum, stórsveitin og helstu stílar rytmískrar tónlistar.",
@@ -4501,19 +4592,19 @@ LVL_PROF.fr={h:"Framhaldspróf í tónfræðagreinum (rytmískt)",src:"Samkvæmt
 LVL_LOTUR.fr.push(
  {t:"Snarstefjun I: hljómtónar",d:"Hljómtónar á sterkum slögum · brotnir hljómar · leiðsögutónalínur",c:"--open",lead:"Góður spuni heyrist í hljómunum. Fyrsta skrefið er að lenda á hljómtónum á réttum stöðum og tengja hljómana saman.",
   cc:[["Hljómtónarnir eru akkerið","Lentu á grunntóni, þríund, fimmund eða sjöund á slögum 1 og 3. Þá heyrist hljómurinn í línunni þinni, jafnvel án undirleiks."],["Brotnir hljómar","Spilaðu 1-3-5-7 og 3-5-7-9 upp og niður yfir hvern hljóm. 3-5-7-9 á m7-hljómi er sami tónn og maj7-hljómur þríund ofar."],["Leiðsögutónalína","Tengdu þríundir og sjöundir hljómanna með minnstu hreyfingu. Í II–V–I fer sjöundin niður um hálftón í þríund næsta hljóms."]],
-  ex:["rChordTone","rGuide",{cr:1},{pa:"iivi"}],sb:["Skrifaðu 1-3-5-7 og 3-5-7-9 yfir Dm7, G7 og Cmaj7.","Skrifaðu leiðsögutónalínu yfir II–V–I í C, F og B♭."],
+  ex:[{solo:2},"rChordTone","rGuide",{cr:1},{pa:"iivi"}],sb:["Skrifaðu 1-3-5-7 og 3-5-7-9 yfir Dm7, G7 og Cmaj7.","Skrifaðu leiðsögutónalínu yfir II–V–I í C, F og B♭."],
   ck:["Ég lendi á hljómtónum á sterkum slögum.","Ég spila brotna hljóma yfir II–V–I.","Ég spila leiðsögutónalínu yfir II–V–I."]},
  {t:"Snarstefjun II: nálganir og bebop",d:"Krómatískar nálganir · umkringing · bebop-tónstigar",c:"--open",lead:"Tónar utan hljómsins verða djass þegar þeir leiða inn í hljómtón. Nálgunartónar og bebop-tónstigar eru hjartað í tungumáli bebopsins.",
   cc:[["Nálgunartónar","Krómatísk nálgun: hálftónn fyrir neðan markið. Tónstigaskref: næsti tónn ofan frá. Báðir leysast í hljómtón á slagi."],["Umkringing","Tónn fyrir ofan, svo hálftónn fyrir neðan og loks markið: f – dís – e. Algengt í bebop."],["Bebop-tónstigar","Mixólýdísk + stór sjöund (g a h c d e f fís g). Með aukatóninum lenda hljómtónarnir á slögunum þegar leikið er niður í áttundapörtum."]],
-  ex:["rApproach","rBebop",{cr:1},{pa:"turn"}],sb:["Skrifaðu krómatíska nálgun og umkringingu að hverjum hljómtóni í Cmaj7.","Skrifaðu bebop-forhljómstónstiga frá G, C og F."],
+  ex:[{solo:5},"rApproach","rBebop",{cr:1},{pa:"turn"}],sb:["Skrifaðu krómatíska nálgun og umkringingu að hverjum hljómtóni í Cmaj7.","Skrifaðu bebop-forhljómstónstiga frá G, C og F."],
   ck:["Ég nota krómatískar nálganir og umkringingu.","Ég kann bebop-forhljómstónstigann."]},
  {t:"Snarstefjun III: pentatónískir og blús",d:"Pentatónískir yfir hljóma · djassblús · mótíf og sekvens",c:"--open",lead:"Pentatónískir tónstigar gefa opinn, nútímalegan hljóm. Í djassblús reynir á að fylgja fleiri hljómum en í venjulegum blús.",
   cc:[["Pentatónískir yfir hljóma","Á Cmaj7 má nota C-, G- og D-dúr-pentatónískan. Því lengra frá grunntóninum, þeim mun meiri litur."],["Djassblús","Sami 12 takta grunnur, en með II–V og aukaforhljómum: F7 B♭7 F7 Cm7–F7 B♭7 B°7 F7 Am7–D7 Gm7 C7 F7–D7 Gm7–C7."],["Mótíf og sekvens","Byrjaðu á stuttri hugmynd og endurtaktu hana, breyttu henni og færðu á aðra tónhæð. Þá segir sólóið sögu."]],
-  ex:["rPentaOver","rImprovTerms",{pa:"jazzblues"},{cr:1}],sb:["Skrifaðu hljómagang djassblúss í F og B♭.","Semdu tveggja takta mótíf og skrifaðu þrjú tilbrigði við það."],
+  ex:[{solo:4},"rPentaOver","rImprovTerms",{pa:"jazzblues"},{cr:1}],sb:["Skrifaðu hljómagang djassblúss í F og B♭.","Semdu tveggja takta mótíf og skrifaðu þrjú tilbrigði við það."],
   ck:["Ég nota pentatóníska tónstiga yfir ólíka hljóma.","Ég spila yfir djassblús.","Ég byggi sóló á mótífi."]},
  {t:"Snarstefjun IV: módal, úti og sóló",d:"Módal spuni · að spila úti · transkripsjón · trading fours",c:"--open",lead:"Í módal djassi standa hljómarnir lengi og liturinn kemur úr tónstiganum. Hér lærir þú líka að fara út fyrir hljóminn og koma aftur, og að læra sóló eftir heyrn.",
   cc:[["Módal spuni","Einn hljómur í marga takta, t.d. Dm7 í dórískri. Einkennistónninn (stóra sexundin) gefur litinn. Hugsaðu í mótífum frekar en hljómum."],["Að spila úti","Spilaðu línu hálftón ofar en hljómurinn (sideslipping) og leystu hana aftur inn. Spennan virkar ef þú kemur sannfærandi til baka."],["Transkripsjón","Skrifaðu niður sóló eftir heyrn og lærðu að spila það. Svona hafa djassleikarar alltaf lært tungumálið. Í framhaldsprófi er fluttur skriflegur sóló."]],
-  ex:[{pa:"dorian"},"rImprovTerms",{cr:1},{todo:"Transkripsjón: skrifaðu niður sóló eftir heyrn og spilaðu það með upptökunni"},{todo:"Skrifaðu eigið sóló yfir djassblús og fluttu það"}],sb:["Veldu sóló sem þú vilt læra og skrifaðu niður fyrstu 12 taktana.","Spinndu yfir dórískt vamp og prófaðu að fara út hálftón ofar og koma aftur."],
+  ex:[{solo:6},{pa:"dorian"},"rImprovTerms",{cr:1},{todo:"Transkripsjón: skrifaðu niður sóló eftir heyrn og spilaðu það með upptökunni"},{todo:"Skrifaðu eigið sóló yfir djassblús og fluttu það"}],sb:["Veldu sóló sem þú vilt læra og skrifaðu niður fyrstu 12 taktana.","Spinndu yfir dórískt vamp og prófaðu að fara út hálftón ofar og koma aftur."],
   ck:["Ég spinn yfir módal vamp.","Ég get farið út fyrir hljóminn og komið aftur.","Ég hef skrifað niður og lært sóló eftir heyrn."]});
 /* ---------- sýnipróf fyrir rytmísku leiðina ---------- */
 const EXAM_PLAN_MR=[
@@ -4642,7 +4733,7 @@ function lvLoturRender(){const ps=document.getElementById("phaseStack");if(!ps)r
     <div class="pc-units">${LL.slice(ph.from-1,ph.to).map((L,j)=>{const n=ph.from+j,[d,t]=lvProg(LEVEL,n);return `<a class="pc-unit${d===t?" done":""}" href="#${LEVEL}-lota-${n}"><span class="num">${d===t?"✓":n}</span><span class="pc-t"><b>${L.t}</b><small>${L.d}</small></span><span class="pc-prog">${d}/${t}</span></a>`;}).join("")}</div></article>`).join("");}
 function lvLotaRender(lv,n){const box=document.getElementById("lvLota"),LL=LVL_LOTUR[lv],L=LL[n-1];if(!box||!L)return;stopAll();
   const ph=lvPhases(lv).find(p=>n>=p.from&&n<=p.to),c=lvChecks();
-  const exHtml=L.ex.map((e,i)=>typeof e==="string"?`<div class="ex" id="${lv}${n}_${e}"></div>`:e.tap?`<div class="ex lv-tap" id="${lv}${n}_tap${i}"></div>`:e.sing?`<div class="ex lv-sing" id="${lv}${n}_sing${i}"></div>`:e.w?`<div class="ex" id="${lv}${n}_${e.w}"></div>`:e.pa?`<div class="ex lv-pa" id="${lv}${n}_pa${i}"></div>`:e.cr?`<div class="ex lv-cr" id="${lv}${n}_cr${i}"></div>`:`<div class="ex lv-todo"><div class="ex-head"><div><span class="ex-kind">Í vinnslu</span><h3>${e.todo}</h3></div></div><p class="muted">Þessi æfing er í smíðum og bætist við síðar.</p></div>`).join("");
+  const exHtml=L.ex.map((e,i)=>typeof e==="string"?`<div class="ex" id="${lv}${n}_${e}"></div>`:e.tap?`<div class="ex lv-tap" id="${lv}${n}_tap${i}"></div>`:e.sing?`<div class="ex lv-sing" id="${lv}${n}_sing${i}"></div>`:e.w?`<div class="ex" id="${lv}${n}_${e.w}"></div>`:e.pa?`<div class="ex lv-pa" id="${lv}${n}_pa${i}"></div>`:e.cr?`<div class="ex lv-cr" id="${lv}${n}_cr${i}"></div>`:e.solo?`<div class="ex lv-solo" id="${lv}${n}_solo${i}"></div>`:`<div class="ex lv-todo"><div class="ex-head"><div><span class="ex-kind">Í vinnslu</span><h3>${e.todo}</h3></div></div><p class="muted">Þessi æfing er í smíðum og bætist við síðar.</p></div>`).join("");
   const bands=[["Það sem þú þarft að vita","Hugtök","--kick",`<div class="concepts">${L.cc.map(([t,x],ci)=>{const F=MFIG[`${lv}${n}_${ci}`];return `<article class="cc"><div class="cc-fig${F?"":" lv-fig"}" aria-hidden="true">${F?F():ART[ph.art]()}</div><h3>${t}</h3><p>${x}</p></article>`;}).join("")}</div>`],
     ["Lestu, hlustaðu og svaraðu","Æfingar","--snare",exHtml],
     ["Glósur","Í stílabókina","--open",`<ul class="lv-sb">${L.sb.map(x=>`<li>${x}</li>`).join("")}</ul>`],
@@ -4658,6 +4749,7 @@ function lvLotaRender(lv,n){const box=document.getElementById("lvLota"),LL=LVL_L
   L.ex.forEach((e,i)=>{if(e&&e.tap){const host=document.getElementById(`${lv}${n}_tap${i}`);if(host)mountTap(host,{mode:e.tap,title:e.t,gen:e.g68?()=>({n:3,bars:[bar68(),bar68()],c68:1}):e.trip?()=>({n:2,bars:genTrip(2)}):()=>{const k=pick([2,4]);return {n:k,bars:genSync(k)};}});}});
   L.ex.forEach(e=>{if(e&&e.w){const W=LVW[e.w],host=document.getElementById(`${lv}${n}_${e.w}`);if(W&&host)wex(host,{key:`${lv}${n}_${e.w}`,kind:"Nótnaskrift",title:W.title,intro:W.intro,gen:W.gen});}});
   if(L.deep){const host=document.getElementById(`${lv}${n}_deep`);if(host)mountScx(host,L.deep);}
+  L.ex.forEach((e,i)=>{if(e&&e.solo){const host=document.getElementById(`${lv}${n}_solo${i}`);if(host)mountSolo(host,e.solo);}});
   L.ex.forEach((e,i)=>{if(e&&e.cr){const host=document.getElementById(`${lv}${n}_cr${i}`);if(host)mountCR(host);}});
   L.ex.forEach((e,i)=>{if(e&&e.pa){const host=document.getElementById(`${lv}${n}_pa${i}`);if(host)mountPA(host,{prog:e.pa});}});
   L.ex.forEach((e,i)=>{if(e&&e.sing){const host=document.getElementById(`${lv}${n}_sing${i}`);if(host)lvSingInt(host,e.sing,e.t);}});
