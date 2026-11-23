@@ -3053,7 +3053,7 @@ function compChecks(){
   const A=JSON.stringify([c.bars[0],c.bars[1]]),B=JSON.stringify(c.form==="ABA"?[c.bars[2],c.bars[3]]:[c.bars[4],c.bars[5]]);
   out.push([B!=="[[],[]]"&&A!==B,"B-kaflinn er ólíkur A-kaflanum","Í B-kaflanum kemur eitthvað nýtt: önnur laglína eða annar hrynur."]);
   let st=0,tot=0;for(let i=1;i<notes.length;i++){tot++;if(Math.abs(notes[i].d-notes[i-1].d)<=1)st++;}
-  out.push([tot>3&&st/tot>=0.5,"Mest skref, nokkur stökk","Laglínur sem fara mest í skrefum er auðvelt að syngja. Notaðu stökk til að krydda."]);
+  out.push([tot>3&&st/tot>=0.5,"Skref og stökk","Laglínur hreyfast oftast í skrefum og nýta stökk sparlega."]);
   const ds=notes.map(e=>e.d);out.push([ds.length>0&&Math.max(...ds)-Math.min(...ds)<=8,"Innan áttundar og einnar nótu","Þá er auðvelt að syngja lagið."]);
   return out;
 }
