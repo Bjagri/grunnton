@@ -788,11 +788,9 @@ button.opt[aria-pressed="true"],.opts-rhythm button[aria-pressed="true"]{backgro
 .cr-notes{font-weight:700;letter-spacing:.02em}
 .sm-steps{flex-wrap:wrap}.sm-steps button b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--tint);font-size:.75rem;margin-right:4px}
 .sm-steps button[aria-pressed="true"] b{background:var(--accent);color:#fff}
-.sm-chords{display:grid;grid-template-columns:repeat(8,1fr);margin:10px 0 0 calc(34 / (34 + 64*13 + 8) * 100%);font-weight:700;font-size:.95rem}
-.sm-chords span{padding:2px 4px;border-left:2px solid var(--line)}
-.sm-wrap{overflow-x:auto}.sm-roll{width:100%;min-width:640px;height:auto;display:block}
+.sm-wrap{overflow-x:auto;margin-top:6px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:6px 4px}.sm-score{width:100%;min-width:720px;height:auto;display:block}
 .sm-leg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.85rem;align-items:center}
-.sm-leg span[style]::before{content:"";display:inline-block;width:18px;height:7px;border-radius:4px;background:var(--c);margin-right:6px;vertical-align:middle}
+.sm-leg span[style]::before{content:"";display:inline-block;width:11px;height:8px;border-radius:50%;transform:rotate(-18deg);background:var(--c);margin-right:6px;vertical-align:middle}
 .sm-tip{font-size:.9rem;margin:0}
 /* djassspilarar */
 .jz-deck{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:16px;padding:14px 18px;border-radius:24px;background:linear-gradient(135deg,color-mix(in srgb,var(--ink) 92%,#000),color-mix(in srgb,var(--ink) 75%,var(--accent)));color:#fff;margin:6px 0 4px}
@@ -3160,7 +3158,7 @@ function compScoreSVG(line){
         if(e.acc!=null)P.push(`<text x="${nx-15}" y="${y+(e.acc===-1?4:3.3)}" font-size="25" text-anchor="middle" style="font-family:var(--f-music);fill:${col}">${e.acc===1?"♯":e.acc===-1?"♭":"♮"}</text>`);
         const filled=e.dur<2;P.push(`<ellipse cx="${nx}" cy="${y}" rx="6.6" ry="4.6" transform="rotate(-18 ${nx} ${y})" style="${filled?`fill:${col}`:`fill:var(--surface);stroke:${col};stroke-width:1.8`}"/>`);
         if(e.dur<4&&!pair.has(j)){const up=e.d<34,sx=up?nx+6:nx-6,y2=up?y-34:y+34;P.push(`<line x1="${sx}" x2="${sx}" y1="${y}" y2="${y2}" style="stroke:${col};stroke-width:1.4"/>`);
-          if(e.dur===0.5)P.push(up?`<path d="M${sx} ${y2} q2 9 10 14 q-3 -5 -10 -6 z" style="fill:${col}"/>`:`<path d="M${sx} ${y2} q2 -9 10 -14 q-3 5 -10 6 z" style="fill:${col}"/>`);}
+          if(e.dur===0.5)P.push(`<path d="M${sx} ${y2} c0.6 ${up?6:-6} 10.5 ${up?8:-8} 8.6 ${up?19:-19} c-0.8 ${up?-6.5:6.5} -4.6 ${up?-9.5:9.5} -8.6 ${up?-10.5:10.5} z" style="fill:${col}"/>`);}
         if(e.dur===1.5||e.dur===3)P.push(`<circle cx="${nx+11}" cy="${y-(e.d%2===0?3:0)}" r="2" style="fill:${col}"/>`);
         if(selN)P.push(`<circle cx="${nx}" cy="${y}" r="12" style="fill:none;stroke:${PINK};stroke-width:2;opacity:.6"/>`);}
       geo.push({bar:src,i:j,x:nx,copy:isCopy});beat+=e.dur;});
@@ -4640,7 +4638,7 @@ function smTarget(bar,prev,lvl){const P=smPools(bar);/* þríund og sjöund vegn
   if(lvl>=4&&Math.random()<0.4&&P.tn.length){const t=smNear(P.tn,m,0,4);if(Math.abs(t-prev)<=6)m=t;}return m;}
 const SM_RH=[[[0,2],[2,2],[4,4]],[[0,3],[3,1],[4,4]],[[2,2],[4,2],[6,2]],[[0,1],[1,3],[4,2],[6,2]],[[1,2],[3,1],[4,4]],[[0,4],[6,2]],[[2,1],[3,1],[4,4]],[[0,2],[3,1],[4,3]]];
 function smGen(lvl){return smClean(smGen0(lvl));}
-function smClean(N){N.sort((a,b)=>a.t-b.t);const o=[];N.forEach(x=>{const l=o[o.length-1];if(l&&x.t<=l.t)return;if(l&&l.t+l.d>x.t)l.d=x.t-l.t;o.push(x);});return o.filter(x=>x.d>0&&x.t<64).map(x=>(x.t+x.d>64&&(x.d=64-x.t),x));}
+function smClean(N){N.sort((a,b)=>a.t-b.t);const o=[];N.forEach(x=>{const l=o[o.length-1];if(l&&x.t<=l.t)return;if(l&&l.t+l.d>x.t)l.d=x.t-l.t;o.push(x);});return o.filter(x=>x.d>0&&x.t<64).map(x=>{const e=8-x.t%8;if(x.d>e)x.d=e;x.d=smSnap(x.d);return x;});}
 function smGen0(lvl){const N=[];let prev=67+rnd(3),dir=pick([1,-1]),force=null;const P=b=>smPools(b);
   const add=(t,d,m)=>{if(m<57||m>81)m=m<57?m+12:m-12;N.push({t,d,m});};
   if(lvl===1){for(let b=0;b<8;b++){for(let h=0;h<2;h++){if(b===7&&h===1)break;let m=smStepTo(P(b).sc,prev,dir);if(m>76)dir=-1;if(m<60)dir=1;if(Math.random()<0.25)dir=-dir;if(b===7)m=smNear(P(b).ct.filter(x=>x%12===7||x%12===10),prev);add(b*8+h*4,b===7?8:4,m);prev=m;}}return N;}
@@ -4662,22 +4660,61 @@ function smGen0(lvl){const N=[];let prev=67+rnd(3),dir=pick([1,-1]),force=null;c
   seq(2);const t4=smTarget(3,prev,lvl);add(24,6,t4);prev=t4;
   seq(4);barRh(5,pick(SM_RH));prev=Math.min(prev+5,74);line(6);const end=force!=null&&force%12===7?force:smNear(P(7).ct.filter(x=>x%12===7),prev);add(56,6,end);
   return N;}
-function smSVG(notes,showDeg){const E=13,X0=34,lo=56,hi=82,Y=m=>14+(hi-m)*6.2,H=Y(lo)+14,W=X0+64*E+8;let s="";
-  for(let m=lo;m<=hi;m++)if([0,5].includes(m%12))s+=`<line x1="${X0}" x2="${W-8}" y1="${Y(m)+3}" y2="${Y(m)+3}" style="stroke:var(--line);stroke-width:1"/><text x="${X0-6}" y="${Y(m)+6}" text-anchor="end" font-size="9" style="fill:var(--muted)">${m%12===0?"c":"f"}${m>=72?"''":"'"}</text>`;
-  for(let b=0;b<=8;b++)s+=`<line x1="${X0+b*8*E}" x2="${X0+b*8*E}" y1="6" y2="${H-6}" style="stroke:color-mix(in srgb,var(--ink) ${b%4?18:40}%,transparent);stroke-width:${b%4?1:1.6}"/>`;
-  const C={ct:PINK,sc:BLUE,tn:"var(--tone)",ch:"color-mix(in srgb,var(--ink) 45%,#999)"};
-  notes.forEach(n=>{const b=Math.floor(n.t/8),c=smCat(b,n.m);s+=`<rect x="${X0+n.t*E+1}" y="${Y(n.m)-3}" width="${n.d*E-2}" height="6.5" rx="3" style="fill:${C[c]}"/>`;
-    if(showDeg){const d=c==="ch"?"→":smDeg(b,n.m);s+=`<text x="${X0+n.t*E+2}" y="${Y(n.m)-6}" font-size="8.5" font-weight="700" style="fill:var(--ink)">${d}</text>`;}});
-  s+=`<line class="sm-ph" x1="${X0}" x2="${X0}" y1="4" y2="${H-4}" style="stroke:var(--ink);stroke-width:2;opacity:0"/>`;
-  return `<svg class="sm-roll" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMinYMin meet">${s}</svg>`;}
+/* nótnaskrift fyrir Sólósmiðjuna: 2 línur × 4 taktar, 4/4, B♭-dúr/g-moll (2 ♭) */
+const SM_DUR=[8,6,4,3,2,1],smSnap=d=>SM_DUR.find(x=>x<=d)||1;
+const SMS={g:10,top:64,LH:178,X0:98,BW:224,pad:16};
+const SM_SP={0:[0,0],1:[1,-1],2:[1,0],3:[2,-1],4:[2,0],5:[3,0],6:[3,1],7:[4,0],8:[5,-1],9:[5,0],10:[6,-1],11:[6,0]};
+function smSpell(m,next){const pc=m%12;let [st,a]=SM_SP[pc];
+  if(next!=null&&next-m===1&&(pc===1||pc===8)){st=pc===1?0:4;a=1;}/* krómatísk nálgun neðan frá: c♯, g♯ */
+  return {d:(Math.floor(m/12)-1)*7+st,st,a};}
+function smScoreSVG(notes,showDeg,syms){const {g,top:T0,LH,X0,BW,pad}=SMS,W=X0+4*BW+14,H=2*LH-20;
+  const KS={6:-1,2:-1},C={ct:PINK,sc:BLUE,tn:"var(--tone)",ch:"color-mix(in srgb,var(--ink) 50%,#999)"};let P=[];
+  for(let ln=0;ln<2;ln++){const top=T0+ln*LH,Y=d=>top+(38-d)*g/2;
+    for(let i=0;i<5;i++)P.push(`<line x1="6" x2="${W-6}" y1="${top+i*g}" y2="${top+i*g}" class="st-line"/>`);
+    P.push(`<text class="st-mus" x="10" y="${Y(32)+g*0.9}" font-size="${g*4.2}">𝄞</text>`);
+    [34,37].forEach((d,i)=>P.push(accGlyph(-1,52+i*10,Y(d),g)));
+    if(ln===0)[36,32].forEach(d=>P.push(`<text x="84" y="${Y(d)+g*0.95}" text-anchor="middle" font-size="${g*2.2}" font-weight="800" class="st-ink" style="font-family:var(--f-display)">4</text>`));
+    for(let k=0;k<4;k++){const bar=ln*4+k,bx=X0+k*BW,X=t=>bx+pad+(t/8)*(BW-pad-8);
+      P.push(`<text x="${bx+4}" y="${top-34}" font-size="15" font-weight="700" style="fill:${BLUE};font-family:var(--f-display)">${syms[bar]}</text>`);
+      P.push(`<text x="${bx+4}" y="${top-50}" font-size="9" style="fill:var(--muted)">${bar+1}</text>`);
+      const ev=notes.filter(n=>Math.floor(n.t/8)===bar).map(n=>({...n,p:n.t%8,d8:Math.min(n.d,8-n.t%8)}));
+      /* þagnir í eyðum */const R=[];let pos=0;const fill=(a,b)=>{while(a<b){const L=a===0&&b===8?8:a%4===0&&b-a>=4?4:a%2===0&&b-a>=2?2:1;R.push({p:a,d8:L});a+=L;}};
+      ev.forEach(e=>{fill(pos,e.p);pos=e.p+e.d8;});fill(pos,8);
+      R.forEach(r=>{const x=X(r.p)+(r.d8===8?(BW-pad-8)/2-pad/2:0),gl={8:"𝄻",4:"𝄼",2:"𝄽",1:"𝄾"}[r.d8];P.push(mus(x,r.d8>=4?Y(r.d8===8?36:34)+2:Y(33)+10,gl,30,"var(--muted)"));});
+      /* nótur */const alt={};const geo=ev.map((e,j)=>{const nx=ev[j+1]&&ev[j+1].p===e.p+e.d8?ev[j+1].m:null,sp=smSpell(e.m,nx),key=sp.st+"_"+sp.d,cur=key in alt?alt[key]:(KS[sp.st]||0);
+        const acc=sp.a!==cur?sp.a:null;alt[key]=sp.a;return {...e,dd:sp.d,acc,x:X(e.p),y:Y(sp.d),cat:smCat(bar,e.m)};});
+      /* bjálkahópar: samliggjandi áttundapartar innan hálfs takts */
+      const grp=[];geo.forEach((e,j)=>{if(e.d8!==1)return;const l=grp[grp.length-1],pe=geo[j-1];if(l&&pe&&l[l.length-1]===j-1&&pe.p+1===e.p&&Math.floor(pe.p/4)===Math.floor(e.p/4))l.push(j);else grp.push([j]);});
+      const inBeam=new Set();grp.filter(q=>q.length>1).forEach(q=>q.forEach(j=>inBeam.add(j)));
+      geo.forEach((e,j)=>{const {x,y,dd}=e;
+        for(let k2=28;k2>=dd;k2-=2)P.push(`<line x1="${x-g}" x2="${x+g}" y1="${Y(k2)}" y2="${Y(k2)}" class="st-line" style="stroke:var(--ink)"/>`);
+        for(let k2=40;k2<=dd;k2+=2)P.push(`<line x1="${x-g}" x2="${x+g}" y1="${Y(k2)}" y2="${Y(k2)}" class="st-line" style="stroke:var(--ink)"/>`);
+        if(e.acc!=null)P.push(`<text x="${x-13}" y="${y+(e.acc===-1?3.5:3.3)}" font-size="21" text-anchor="middle" style="font-family:var(--f-music);fill:var(--ink)">${e.acc===1?"♯":e.acc===-1?"♭":"♮"}</text>`);
+        const hollow=e.d8>=4,col=C[e.cat];
+        P.push(`<ellipse cx="${x}" cy="${y}" rx="6.6" ry="4.7" transform="rotate(-18 ${x} ${y})" style="${hollow?`fill:var(--surface);stroke:${col};stroke-width:2.4`:`fill:${col}`}"/>`);
+        if(e.d8<8&&!inBeam.has(j)){const up=dd<34,sx=up?x+6:x-6,y2=up?y-32:y+32;P.push(`<line x1="${sx}" x2="${sx}" y1="${y}" y2="${y2}" style="stroke:var(--ink);stroke-width:1.4"/>`);
+          if(e.d8===1)P.push(`<path d="M${sx} ${y2} c0.6 ${up?6:-6} 10.5 ${up?8:-8} 8.6 ${up?19:-19} c-0.8 ${up?-6.5:6.5} -4.6 ${up?-9.5:9.5} -8.6 ${up?-10.5:10.5} z" style="fill:var(--ink)"/>`);}
+        if(e.d8===3||e.d8===6)P.push(`<circle cx="${x+11}" cy="${y-(dd%2===0?3:0)}" r="2.1" style="fill:var(--ink)"/>`);
+        if(showDeg){const lab=e.cat==="ch"?"→":smDeg(bar,e.m);P.push(`<text x="${x}" y="${top+4*g+40}" text-anchor="middle" font-size="11" font-weight="800" style="fill:${e.cat==="tn"?"color-mix(in srgb,var(--tone) 70%,var(--ink))":col}">${lab}</text>`);}});
+      grp.filter(q=>q.length>1).forEach(q=>{const G=q.map(j=>geo[j]),up=G.reduce((a,e)=>a+e.dd,0)/G.length<34,x0=G[0].x,x1=G[G.length-1].x;
+        const s=Math.max(-0.12,Math.min(0.12,(G[G.length-1].y-G[0].y)/(x1-x0||1)*0.5)),sx=e=>up?e.x+6:e.x-6;
+        const c=up?Math.min(...G.map(e=>e.y-28-s*(e.x-x0))):Math.max(...G.map(e=>e.y+28-s*(e.x-x0))),by=e=>c+s*(e.x-x0);
+        G.forEach(e=>P.push(`<line x1="${sx(e)}" x2="${sx(e)}" y1="${e.y}" y2="${by(e)}" style="stroke:var(--ink);stroke-width:1.4"/>`));
+        const t=4.5,o=up?0:-t,a=G[0],b=G[G.length-1];P.push(`<path d="M${sx(a)-.7} ${by(a)+o} L${sx(b)+.7} ${by(b)+o} L${sx(b)+.7} ${by(b)+o+t} L${sx(a)-.7} ${by(a)+o+t} Z" style="fill:var(--ink)"/>`);});
+      const xe=bx+BW,last=bar===7;P.push(`<line x1="${xe}" x2="${xe}" y1="${top}" y2="${top+4*g}" style="stroke:var(--ink);stroke-width:${last?1:1.3}"/>`);
+      if(last)P.push(`<line x1="${xe-6}" x2="${xe-6}" y1="${top}" y2="${top+4*g}" style="stroke:var(--ink);stroke-width:1.2"/><rect x="${xe-2}" y="${top}" width="4.5" height="${4*g}" class="st-ink"/>`);}
+  }
+  P.push(`<line class="sm-ph" x1="0" x2="0" y1="0" y2="0" style="stroke:var(--accent);stroke-width:2.5;opacity:0;stroke-linecap:round"/>`);
+  return `<svg class="sm-score no-hb" viewBox="0 0 ${W} ${H}" role="img" aria-label="Sólóið í nótnaskrift">${P.join("")}</svg>`;}
+function smPH(svg,bp){const p=svg&&svg.querySelector(".sm-ph");if(!p)return;const {g,top,LH,X0,BW,pad}=SMS,b=bp%32,bar=Math.floor(b/4),ln=bar>>2,x=X0+(bar%4)*BW+pad+((b%4)/4)*(BW-pad-8)-4,y=top+ln*LH;
+  p.setAttribute("x1",x);p.setAttribute("x2",x);p.setAttribute("y1",y-26);p.setAttribute("y2",y+4*g+26);p.style.opacity=.6;}
 function mountSolo(host,start=1){let lvl=start,notes=smGen(lvl),deg=true,playing=false,bpm=120,t0=0,timer=null,iv=null;
   const FL=PA_FL;const sym=([p,q])=>FL[p]+RQ[q].s;
   const draw=()=>{const S=SM_STEPS[lvl-1];host.innerHTML=`<div class="ex-head"><div><span class="ex-kind">Sólósmiðjan</span><h3>Frá tónstiga til sólós</h3></div></div>
      <p>Sex skref að sóló yfir algengasta hljómagang djassins: II–V–I í B♭-dúr og II–V–I í g-moll. Veldu skref, hlustaðu og spilaðu svo sjálf(ur) með undirleiknum.</p>
      <div class="seg sm-steps">${SM_STEPS.map((x,i)=>`<button data-l="${i+1}" aria-pressed="${i+1===lvl}"><b>${i+1}</b> ${x.n}</button>`).join("")}</div>
      <div class="deepbox" style="--c:var(--open)"><h3>${lvl}. ${S.h}</h3><p>${S.p}</p></div>
-     <div class="sm-chords no-hb">${SM_BARS.map(c=>`<span>${sym(c)}</span>`).join("")}</div>
-     <div class="sm-wrap">${smSVG(notes,deg)}</div>
+     <div class="sm-wrap">${smScoreSVG(notes,deg,SM_BARS.map(sym))}</div>
      <div class="sm-leg"><span style="--c:${PINK}">Hljómtónn</span><span style="--c:${BLUE}">Tónstigatónn</span><span style="--c:var(--tone)">Spennutónn</span><span style="--c:color-mix(in srgb,var(--ink) 45%,#999)">Krómatískur</span><span class="muted">${deg?"Tölurnar sýna sæti tónsins í hljómnum.":""}</span></div>
      <div class="row"><button class="primary sm-play">${playing?"■ Stöðva":"▶ Hlusta á sólóið"}</button><button class="sm-new">↻ Nýtt sóló</button><button class="sm-comp">▶ Bara undirleikur</button>
        <label class="chk"><input type="checkbox" class="sm-deg" ${deg?"checked":""}> Sýna tölur</label>
@@ -4690,7 +4727,7 @@ function mountSolo(host,start=1){let lvl=start,notes=smGen(lvl),deg=true,playing
     host.querySelector(".sm-deg").onchange=e=>{deg=e.target.checked;draw();};
     const rg=host.querySelector(".sm-bpm");rg.oninput=()=>{bpm=+rg.value;rg.nextElementSibling.textContent=bpm;};};
   let melOn=true;const SMC=SM_BARS.map(([pc,q])=>({pc,q,beats:4}));
-  const LP=jzLoop(()=>SMC,()=>bpm,bp=>{const p=host.querySelector(".sm-ph");if(p){const x=34+((bp%32)/32)*64*13;p.setAttribute("x1",x);p.setAttribute("x2",x);p.style.opacity=.75;}},
+  const LP=jzLoop(()=>SMC,()=>bpm,bp=>smPH(host.querySelector(".sm-score"),bp),
     {host,extra:(t,bp)=>{if(!melOn)return;const b=60/bp,sw=b*0.62,s0=SCAL;SCAL=false;notes.forEach(n=>{const tt=t+Math.floor(n.t/2)*b+(n.t%2?sw:0),dd=n.d===1?(n.t%2?b-sw:sw)*0.95:(n.d/2)*b*0.95;jzT(n.m,tt,dd,0.26);});SCAL=s0;}});
   function play(mel){melOn=mel;playing=true;LP.start();draw();}
   function stop(){playing=false;LP.stop();}
