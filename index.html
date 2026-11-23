@@ -3938,7 +3938,7 @@ const FGC=[PINK,BLUE,"var(--hat)","var(--perc)","var(--snare)","var(--open)","va
 /* hljómaspjöld í röð með örvum */
 function fgCards(items,o={}){const w=o.w||58,g=o.arrow===false?8:22,h=40;let x=6,s="";items.forEach((it,i)=>{const c=it.c||FGC[i%FGC.length],on=it.on!==false;
     s+=`<rect x="${x}" y="8" width="${w}" height="${h}" rx="12" style="fill:${on?c:"var(--tint)"};opacity:${it.dim?0.45:1}"/>`+tx(x+w/2,33,it.t,{s:it.t.length>6?11:13,c:on?"#fff":"var(--ink)",cls:"no-hb"});
-    if(it.s)s+=tx(x+w/2,64,it.s,{s:10,c:it.sc||"var(--muted)",cls:it.hb?"":"no-hb"});
+    if(it.s)s+=tx(x+w/2,64,it.s,{s:10,c:it.sc||"var(--muted)"});
     if(i<items.length-1&&o.arrow!==false)s+=arrow(x+w+3,28,x+w+g-4,28,"var(--muted)");x+=w+g;});
   if(o.br)o.br.forEach(([a,b,t])=>{const x1=6+a*(w+g)+6,x2=6+b*(w+g)+w-6;s+=`<path d="M${x1} 74 V80 H${x2} V74" style="fill:none;stroke:${PINK};stroke-width:2"/>`+tx((x1+x2)/2,93,t,{s:10,c:PINK,cls:"no-hb"});});
   return sv(x-g+12,o.br?100:(items.some(i=>i.s)?72:56),s,o.sc||1.15);}
@@ -4029,7 +4029,7 @@ Object.assign(MFIG,{
  mr3_0:()=>FIG.relative(),mr3_1:()=>fgKey("#",6,"Fís-dúr")+fgKey("b",6,"Ges-dúr"),
  mr3_2:()=>kbSVG({from:60,to:72,names:true,hi:{71:"p",72:"l"},arcs:[[71,72,"½ upp í frumtóninn",PINK]]}),
  mr4_0:()=>chordSvg([{notes:[{d:28},{d:30}],label:"S3"},{notes:[{d:28},{d:30,acc:-1}],label:"L3"},{notes:[{d:28},{d:32}],label:"H5"},{notes:[{d:28},{d:35}],label:"H8"}],{step:58,minW:280}),
- mr4_1:()=>kbSVG({from:65,to:77,names:true,hi:{67:"l",71:"p",74:"l",77:"p"},arcs:[[71,77,"tritónus: 3 og 7 í G7",PINK]]}),
+ mr4_1:()=>kbSVG({from:65,to:77,names:true,hi:{67:"l",71:"p",74:"l",77:"p"},arcs:[[71,77,"tónskratti: 3 og 7 í G7",PINK]]}),
  mr4_2:fgLadder,mr5_0:fgModes,
  mr5_1:()=>fgPairs([["stór þríund","jónísk · lýdísk · mixólýdísk"],["lítil þríund","dórísk · frýgísk · eólísk · lókrísk"]],{lw:84,rw:178}),
  mr5_2:()=>seqSvg([29,30,31,32,33,34,35,36].map((d,i)=>({d,acc:null,col:i===5?"cur":null,label:i===5?"S6":""})),{step:28,minW:290}),
@@ -4060,7 +4060,7 @@ Object.assign(MFIG,{
  fr4_1:()=>fgCards([{t:"Dm7♭5",s:"IIm7♭5"},{t:"G7♭9",s:"V7♭9"},{t:"Cm6",s:"Im6"}],{w:62}),
  fr4_2:()=>fgCards([{t:"Em7",c:BLUE},{t:"A7",c:PINK},{t:"Dm7",c:BLUE},{t:"G7",c:PINK},{t:"Cmaj7",c:"var(--hat)"}],{w:48,br:[[0,1,"II–V til Dm"],[2,3,"II–V til C"]]}),
  fr5_0:()=>fgCards([{t:"Cmaj7",c:"var(--hat)"},{t:"A7",s:"V7/II",c:"var(--perc)"},{t:"Dm7",c:BLUE},{t:"G7",c:PINK}],{w:52}),
- fr5_1:()=>kbSVG({from:65,to:79,names:true,hi:{67:"l",71:"p",74:"l",77:"p",73:"b",68:"b"},arcs:[[71,77,"sameiginlegir: h og f",PINK]]}),
+ fr5_1:()=>kbSVG({from:65,to:79,names:true,hi:{67:"l",71:"p",74:"l",77:"p",73:"b",68:"b"},arcs:[[71,77,"sameiginlegir: B og F",PINK]]}),
  fr5_2:()=>fgCards([{t:"Cmaj7",s:"c",c:"var(--hat)"},{t:"C♯dim7",s:"cís",c:"var(--perc)"},{t:"Dm7",s:"d",c:BLUE}],{w:62}),
  fr6_0:()=>chordSvg([{notes:[{d:31},{d:35}],label:"Dm7"},{notes:[{d:31},{d:34}],label:"G7"},{notes:[{d:30},{d:34}],label:"Cmaj7"}],{step:80,minW:260}),
  fr6_1:()=>fgCards([{t:"G7",c:PINK},{t:"Cmaj7",c:"var(--hat)"}],{w:56})+fgCards([{t:"Dm7",c:BLUE},{t:"D♭7",c:"var(--perc)"},{t:"Cmaj7",c:"var(--hat)"}],{w:56}),
@@ -4439,18 +4439,18 @@ Object.assign(LVGEN,{
    const [c,s]=pick(P),pool=[...new Set(P.map(x=>x[1]))];if(Math.random()<0.6)return {q:`Hvaða tónstigi passar best við ${rs(c)}?`,options:opts4(s,pool),answer:s,explain:`${c} → ${s}.`};
    const cs=P.filter(x=>x[1]===s).map(x=>x[0]);return {q:`Við hvaða hljóm passar <b>${s}</b>?`,options:opts4(c,P.map(x=>x[0]).filter(x=>x===c||!cs.includes(x))).map(o=>({html:rs(o.label),v:o.v})),answer:c,explain:`${s} → ${c}.`};}},
  rAnalyze:{kind:"Djasshljómfræði",title:"Hljómgreining",intro:"Greindu merkta hljóminn í hljómaganginum. Hugsaðu: hvert leysist hann?",
-  gen(){const P=[[["Imaj7","VI7","IIm7","V7"],1,"V7/II"],[["IIIm7","VI7","IIm7","V7"],1,"V7/II"],[["Imaj7","II7","IIm7","V7"],1,"V7/V"],[["Imaj7","I7","IVmaj7","IVm6"],1,"V7/IV"],[["IIm7","♭II7","Imaj7","Imaj7"],1,"SubV7 (tritónus-staðgengill)"],
+  gen(){const P=[[["Imaj7","VI7","IIm7","V7"],1,"V7/II"],[["IIIm7","VI7","IIm7","V7"],1,"V7/II"],[["Imaj7","II7","IIm7","V7"],1,"V7/V"],[["Imaj7","I7","IVmaj7","IVm6"],1,"V7/IV"],[["IIm7","♭II7","Imaj7","Imaj7"],1,"SubV7 (tónskrattastaðgengill)"],
      [["Imaj7","♯Idim7","IIm7","V7"],1,"Minnkaður gegnumgangshljómur"],[["Imaj7","IVmaj7","IVm6","Imaj7"],2,"Lánshljómur úr moll"],[["IVmaj7","♭VII7","Imaj7","Imaj7"],1,"Lánshljómur úr moll"],[["Imaj7","VIm7","IIm7","V7"],3,"V7"],[["IIIm7","VI7","IIm7","V7"],0,"IIIm7"],[["Imaj7","VIm7","IIm7","V7"],2,"IIm7"]];
    const K=pick(KEYS_R.filter(k=>k.n<=3)),[pr,mi,ans]=pick(P);const parse=s=>{const m=s.match(/^([♭♯]?)(VII|VI|V|IV|III|II|I)(.*)$/);const deg=["I","II","III","IV","V","VI","VII"].indexOf(m[2]),alt=m[1]==="♭"?-1:m[1]==="♯"?1:0,q={"maj7":"maj7","7":"7","m7":"m7","m6":"m6","dim7":"dim7"}[m[3]];const c=diaChord(K,deg,alt);return {...c,q,sym:rRoot(c.li,c.acc)+RQ[q].s};};
-   const C=pr.map(parse);const L=["V7/II","V7/V","V7/IV","SubV7 (tritónus-staðgengill)","Minnkaður gegnumgangshljómur","Lánshljómur úr moll","IIm7","IIIm7","V7"];
+   const C=pr.map(parse);const L=["V7/II","V7/V","V7/IV","SubV7 (tónskrattastaðgengill)","Minnkaður gegnumgangshljómur","Lánshljómur úr moll","IIm7","IIIm7","V7"];
    const html=`<div class="r-prog no-hb">${C.map((c,i)=>`<span class="${i===mi?"on":""}">${c.sym}</span>`).join("")}</div><p class="muted" style="margin:6px 0 0">Tóntegund: ${rs(keyR(K)+"-dúr")}</p>`;
    return {html,q:"Hvað er merkti hljómurinn?",options:opts4(ans,L),answer:ans,explain:`${pr.join(" – ")}: merkti hljómurinn er ${ans}.`,play:()=>rPlayProg(C.map(c=>[c.pc,c.q]))};}},
- rTritone:{kind:"Djasshljómfræði",title:"Tritónus-staðgenglar",intro:"Í stað V7 má nota forhljóm tritónus (6 hálftónum) frá: G7 → D♭7. Þríund og sjöund hljómanna eru sömu tónarnir.",
+ rTritone:{kind:"Djasshljómfræði",title:"Tónskrattastaðgenglar",intro:"Í stað V7 má nota forhljóm sem er stækkaðri ferund (tónskratta, 6 hálftónum) frá: G7 → D♭7. Þríund og sjöund hljómanna eru sömu tónarnir.",
   gen(){const FL=["C","D♭","D","E♭","E","F","G♭","G","A♭","A","B♭","B"];const pc=rnd(12),r=FL[pc],right=FL[(pc+6)%12]+"7";
-   if(Math.random()<0.6){const pool=[1,5,7,3,9].map(x=>FL[(pc+x)%12]+"7");return {q:`Hver er tritónus-staðgengill ${rs(r+"7")}?`,options:opts4(right,pool).map(o=>({html:rs(o.label),v:o.v})),answer:right,explain:`Tritónus frá ${r} er ${FL[(pc+6)%12]}: ${right}.`};}
+   if(Math.random()<0.6){const pool=[1,5,7,3,9].map(x=>FL[(pc+x)%12]+"7");return {q:`Hver er tónskrattastaðgengill ${rs(r+"7")}?`,options:opts4(right,pool).map(o=>({html:rs(o.label),v:o.v})),answer:right,explain:`Stækkuð ferund (tónskratti) frá ${r} er ${FL[(pc+6)%12]}: ${right}.`};}
    const T=["C","D","E","F","G","A","B"];const li=rnd(7),pc2=OFF[li];const g=[[li+2,(pc2+4)%12],[li+6,(pc2+10)%12]].map(([l,p])=>{l%=7;const a=((p-OFF[l])%12+18)%12-6;return nm(l,a);});const right2=g.join(" og ");
    const pool2=[nm((li+4)%7,0)+" og "+nm(li,0),nm(li,0)+" og "+g[0],g[1]+" og "+nm((li+4)%7,0)];
-   return {q:`Hvaða tónar eru sameiginlegir ${rs(T[li]+"7")} og tritónus-staðgengli hans?`,options:shuffle([right2,...pool2]).map(x=>({label:x,v:x})),answer:right2,explain:`Þríundin og sjöundin: ${right2}. Þeir skipta um hlutverk í staðgenglinum.`};}},
+   return {q:`Hvaða tónar eru sameiginlegir ${rs(T[li]+"7")} og tónskrattastaðgengli hans?`,options:shuffle([right2,...pool2]).map(x=>({label:x,v:x})),answer:right2,explain:`Þríundin og sjöundin: ${right2}. Þeir skipta um hlutverk í staðgenglinum.`};}},
  rGuide:{kind:"Djasshljómfræði",title:"Leiðsögutónar",intro:"Leiðsögutónar eru þríund og sjöund hljómsins. Þeir segja mest um hljómgerðina.",
   gen(){const q=pick(["maj7","7","m7","m7b5"]),c=mkR(q);const right=`${c.names[1]} og ${c.names[3]}`;const pool=[`${c.names[0]} og ${c.names[2]}`,`${c.names[0]} og ${c.names[3]}`,`${c.names[2]} og ${c.names[3]}`];
    return {q:`Hverjir eru leiðsögutónar ${rs(c.sym)}?`,options:shuffle([right,...pool]).map(x=>({label:x,v:x})),answer:right,explain:`${c.sym} = ${c.names.join(" – ")}. Þríundin ${c.names[1]} og sjöundin ${c.names[3]}.`,play:()=>playSeq([c.ms[1],c.ms[3],[c.ms[1],c.ms[3]]],0.5,0.5)};}},
@@ -4716,7 +4716,7 @@ LVL_LOTUR.mr=[
   sb:["Teiknaðu fimmundahringinn með öllum dúr- og molltóntegundum.","Tónflyttu stutta laglínu úr C-dúr í F-dúr og G-dúr."],
   ck:["Ég þekki allar dúr- og molltóntegundir af formerkjum.","Ég veit hvað samnefndar og samhljóða tóntegundir eru.","Ég get tónflutt einfalda laglínu."]},
  {t:"Tónbil",d:"Öll tónbil innan áttundar · eftir heyrn og á blaði · sungin upp og niður",c:"--snare",lead:"Öll tónbil innan áttundar: að greina þau, syngja þau og skrifa.",
-  cc:[["Stór, lítil og hrein","Tvíund, þríund, sexund og sjöund eru stórar eða litlar. Príma, ferund, fimmund og áttund eru hreinar."],["Tritónus","Sex hálftónar: stækkuð ferund eða minnkuð fimmund. Hann er í öllum forhljómum (á milli þríundar og sjöundar)."],["Að muna tónbil","Tengdu hvert tónbil við upphaf lags sem þú kannt."]],
+  cc:[["Stór, lítil og hrein","Tvíund, þríund, sexund og sjöund eru stórar eða litlar. Príma, ferund, fimmund og áttund eru hreinar."],["Tónskratti","Sex hálftónar: stækkuð ferund eða minnkuð fimmund. Tónskrattinn er í öllum forhljómum (á milli þríundar og sjöundar)."],["Að muna tónbil","Tengdu hvert tónbil við upphaf lags sem þú kannt."]],
   ex:["mInt","mIntEar",{sing:"up",t:"Syngdu tónbil upp"},{sing:"down",t:"Syngdu tónbil niður"},{w:"mWInt"}],
   sb:["Skrifaðu öll tónbil frá c' upp í c'' og merktu þau.","Finndu eitt lag fyrir hvert tónbil."],
   ck:["Ég greini öll tónbil innan áttundar á blaði.","Ég greini tónbil eftir heyrn.","Ég syng tónbil upp og niður."]},
@@ -4767,12 +4767,12 @@ LVL_LOTUR.fr=[
   cc:[["Heimahljómar","Í dúr: Imaj7 IIm7 IIIm7 IVmaj7 V7 VIm7 VIIm7♭5."],["II–V í moll","IIm7♭5 – V7(♭9) – Im6 eða Im(maj7)."],["Að finna II–V","Leitaðu að m7 sem fer upp um ferund í 7-hljóm. Þá ertu með II–V, oft í annarri tóntegund."]],
   ex:["rDiatonic","rIIVI","rProgEar",{pa:"iiviMoll"}],sb:["Greindu hljómagang í djasslagi sem þú kannt með rómverskum tölum.","Merktu öll II–V-in í laginu."],
   ck:["Ég greini heimahljóma og II–V–I.","Ég finn II–V í öðrum tóntegundum."]},
- {t:"Hljómagreining II",d:"Aukaforhljómar · tritónus-staðgenglar · minnkaðir hljómar · lánshljómar",c:"--snare",lead:"Hljómar utan tóntegundarinnar: hvaðan koma þeir og hvert fara þeir?",
-  cc:[["Aukaforhljómar","V7/II, V7/V o.s.frv.: forhljómur að öðrum hljómi en I."],["Tritónus-staðgengill","♭II7 í stað V7: D♭7 → Cmaj7. Þríund og sjöund skipta um hlutverk."],["Minnkaður gegnumgangshljómur","♯Idim7 milli Imaj7 og IIm7: krómatísk bassalína upp."]],
-  ex:["rAnalyze","rSecDom","rTritone"],sb:["Skrifaðu II–V–I í C með tritónus-staðgengli.","Greindu Rhythm changes eða annað lag með aukaforhljómum."],
-  ck:["Ég þekki aukaforhljóma og tritónus-staðgengla.","Ég greini minnkaða hljóma og lánshljóma."]},
+ {t:"Hljómagreining II",d:"Aukaforhljómar · tónskrattastaðgenglar · minnkaðir hljómar · lánshljómar",c:"--snare",lead:"Hljómar utan tóntegundarinnar: hvaðan koma þeir og hvert fara þeir?",
+  cc:[["Aukaforhljómar","V7/II, V7/V o.s.frv.: forhljómur að öðrum hljómi en I."],["Tónskrattastaðgengill","♭II7 í stað V7: D♭7 → Cmaj7. Þríund og sjöund skipta um hlutverk."],["Minnkaður gegnumgangshljómur","♯Idim7 milli Imaj7 og IIm7: krómatísk bassalína upp."]],
+  ex:["rAnalyze","rSecDom","rTritone"],sb:["Skrifaðu II–V–I í C með tónskrattastaðgengli.","Greindu Rhythm changes eða annað lag með aukaforhljómum."],
+  ck:["Ég þekki aukaforhljóma og tónskrattastaðgengla.","Ég greini minnkaða hljóma og lánshljóma."]},
  {t:"Leiðsögutónar og endurhljómsetning",d:"Leiðsögutónalínur · endurhljómsetning · módal",c:"--snare",lead:"Þríund og sjöund hvers hljóms mynda leiðsögutónalínu sem hreyfist í litlum skrefum.",
-  cc:[["Leiðsögutónar","Þríund og sjöund. Í II–V–I fer sjöundin niður um hálftón í þríund næsta hljóms."],["Endurhljómsetning","Skipta út hljómum: tritónus-staðgenglar, II–V á undan hljómi, eða nýir aukaforhljómar."],["Módal tónsmíðar","Fáir hljómar sem standa lengi, byggðir á einni kirkjutóntegund (t.d. So What)."]],
+  cc:[["Leiðsögutónar","Þríund og sjöund. Í II–V–I fer sjöundin niður um hálftón í þríund næsta hljóms."],["Endurhljómsetning","Skipta út hljómum: tónskrattastaðgenglar, II–V á undan hljómi, eða nýir aukaforhljómar."],["Módal tónsmíðar","Fáir hljómar sem standa lengi, byggðir á einni kirkjutóntegund (t.d. So What)."]],
   ex:["rGuide","rTritone",{todo:"Skrifaðu leiðsögutónalínu yfir II–V–I"}],sb:["Skrifaðu leiðsögutónalínu yfir II–V–I í fjórum tóntegundum.","Endurhljómsettu fjóra takta úr lagi sem þú kannt."],
   ck:["Ég finn leiðsögutóna og skrifa leiðsögutónalínu.","Ég get endurhljómsett einfaldan hljómagang."]},
  {t:"Tónheyrn: laglína og tónbil",d:"Tónbil innan tveggja áttunda · laglínur í öllum tóntegundum · utan tóntegundar",c:"--kick",lead:"Tónheyrn í framhaldsnámi: tónbil innan tveggja áttunda og laglínur, líka utan tóntegundar.",
