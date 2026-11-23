@@ -4179,10 +4179,10 @@ Object.assign(LVGEN,{
    const [d,a]=pick(Q);return {q:`Hvaða kirkjutóntegund er <b>${d}</b>?`,options:opts4(a,["Jónísk","Dórísk","Frýgísk","Lýdísk","Mixólýdísk","Eólísk","Lókrísk"]),answer:a,explain:`${a}: ${d}.`};}},
  rModeEar:{kind:"Tónheyrn",title:"Kirkjutóntegundir eftir heyrn",intro:"Allir tónstigarnir byrja á sama tóni. Hlustaðu eftir þríundinni (dúr eða moll) og svo sérkennunum.",
   gen(){const N=["Jónísk (dúr)","Dórísk","Lýdísk","Mixólýdísk","Eólísk (hreinn moll)","Frýgísk"],n=pick(N),r=60+rnd(3);return {q:"Hvaða tónstiga heyrir þú?",options:opts4(n,N),answer:n,explain:"",play:()=>playSeq([...R_SCALES[n].map(s=>r+s),r+12,[r,r+R_SCALES[n][2],r+7]],0.3,0.3)};}},
- rJazzScales:{kind:"Tónfræði",title:"Djassmoll og mixólýdískur ♭9 ♭13",intro:"Djassmoll er dúr með lækkaðri þríund. Mixólýdískur ♭9 ♭13 er 5. háttur hljómræns molls og passar við V7 í moll.",
+ rJazzScales:{kind:"Tónfræði",title:"Djassmoll og mixólýdískur ♭9 ♭13",intro:"Djassmoll er dúr með lækkaðri þríund. Mixólýdískur ♭9 ♭13 byrjar á 5. tóni hljómræns molls og passar við V7 í moll.",
   gen(){if(Math.random()<0.5){const n=pick(["Djassmoll (melódískur moll)","Mixólýdískur ♭9 ♭13","Dórísk","Mixólýdísk","Eólísk (hreinn moll)"]),li=pick([0,3,4,1]);const ns=mkScaleR(li,0,R_SCALES[n]);
      return {html:seqSvg(ns,{step:32,minW:310}),q:"Hvaða tónstigi er þetta?",options:opts4(n,["Djassmoll (melódískur moll)","Mixólýdískur ♭9 ♭13","Dórísk","Mixólýdísk","Eólísk (hreinn moll)"]),answer:n,explain:`Hálftónaröð: ${R_SCALES[n].join(", ")}.`,play:()=>playSeq(ns.map(x=>dMidi(x.d,x.acc||0)),0.3,0.3)};}
-   const Q=[["Djassmoll er eins og dúr nema …","með lækkaðri þríund",["með lækkaðri sjöund","með hækkaðri ferund","með lækkaðri sexund"]],["Mixólýdískur ♭9 ♭13 er 5. háttur …","hljómræns molls",["djassmolls","dúrs","dóríska tónstigans"]],
+   const Q=[["Djassmoll er eins og dúr nema …","með lækkaðri þríund",["með lækkaðri sjöund","með hækkaðri ferund","með lækkaðri sexund"]],["Mixólýdískur ♭9 ♭13 byrjar á 5. tóni …","hljómræns molls",["djassmolls","dúrs","dóríska tónstigans"]],
     ["Yfir hvaða hljóm er mixólýdískur ♭9 ♭13 oftast leikinn?","V7 í moll, t.d. G7 í c-moll",["Imaj7 í dúr","IIm7 í dúr","IVmaj7 í dúr"]],["Hvaða tónstigi passar við m(maj7)-hljóm?","Djassmoll",["Mixólýdísk","Lókrísk","Frýgísk"]]];
    const [q,a,d]=pick(Q);return {q,options:shuffle([a,...d]).map(x=>({label:x,v:x})),answer:a,explain:a+"."};}},
  rBlues:{kind:"Hljómfræði",title:"12 takta blús",intro:"I7 í 4 takta, IV7 í 2, I7 í 2, V7, IV7, I7 og I7 (eða V7 í síðasta takti).",
@@ -4217,7 +4217,7 @@ Object.assign(LVGEN,{
      const pool=T.map(([l2,s2,e2])=>{const l=(li+s2)%7,a=((r+e2-OFF[l])%12+18)%12-6;return nm(l,a);});
      return {q:`Hvaða tónn er <b>${rs(lab)}</b> í ${rs(sym)}?`,options:opts4(note,[...new Set(pool)]),answer:note,explain:`${lab} í ${rs(sym)} er ${note}.`};}}},
  rChordScale:{kind:"Djasshljómfræði",title:"Hljómar og tónstigar",intro:"Hver hljómgerð á sér tónstiga sem passar við hana.",
-  gen(){const P=[["m7 (IIm7)","Dórísk"],["7 (V7)","Mixólýdísk"],["maj7 (Imaj7)","Jónísk"],["maj7♯11 (IVmaj7)","Lýdísk"],["m7♭5","Lókrísk"],["7alt","Ólagaður tónstigi (7. háttur djassmolls)"],["7♭9 (á undan dúr)","Hálftóns-heiltóns minnkaður tónstigi"],["7♯5 (7+)","Heiltónatónstigi"],["m(maj7)","Djassmoll"],["dim7","Heiltóns-hálftóns minnkaður tónstigi"],["7♯11","Lýdísk ♭7"],["m7 (VIm7)","Eólísk"],["m7 (IIIm7)","Frýgísk"]];
+  gen(){const P=[["m7 (IIm7)","Dórísk"],["7 (V7)","Mixólýdísk"],["maj7 (Imaj7)","Jónísk"],["maj7♯11 (IVmaj7)","Lýdísk"],["m7♭5","Lókrísk"],["7alt","Ólagaður tónstigi (byrjar á 7. tóni djassmolls)"],["7♭9 (á undan dúr)","Hálftóns-heiltóns minnkaður tónstigi"],["7♯5 (7+)","Heiltónatónstigi"],["m(maj7)","Djassmoll"],["dim7","Heiltóns-hálftóns minnkaður tónstigi"],["7♯11","Lýdísk ♭7"],["m7 (VIm7)","Eólísk"],["m7 (IIIm7)","Frýgísk"]];
    const [c,s]=pick(P),pool=[...new Set(P.map(x=>x[1]))];if(Math.random()<0.6)return {q:`Hvaða tónstigi passar best við ${rs(c)}?`,options:opts4(s,pool),answer:s,explain:`${rs(c)} → ${s}.`};
    const cs=P.filter(x=>x[1]===s).map(x=>x[0]);return {q:`Við hvaða hljóm passar <b>${s}</b>?`,options:opts4(c,P.map(x=>x[0]).filter(x=>x===c||!cs.includes(x))).map(o=>({html:rs(o.label),v:o.v})),answer:c,explain:`${s} → ${rs(c)}.`};}},
  rAnalyze:{kind:"Djasshljómfræði",title:"Hljómgreining",intro:"Greindu merkta hljóminn í hljómaganginum. Hugsaðu: hvert leysist hann?",
@@ -4312,10 +4312,10 @@ LVL_LOTUR.mr=[
   sb:["Skrifaðu öll tónbil frá c' upp í c'' og merktu þau.","Finndu eitt lag fyrir hvert tónbil."],
   ck:["Ég greini öll tónbil innan áttundar á blaði.","Ég greini tónbil eftir heyrn.","Ég syng tónbil upp og niður."]},
  {t:"Kirkjutóntegundir",d:"Jónísk, dórísk, frýgísk, lýdísk, mixólýdísk, eólísk og lókrísk",c:"--snare",lead:"Kirkjutóntegundirnar eru grunnurinn að spuna í djassi og rokki. Hver hljómgerð á sér tóntegund sem passar við hana.",
-  cc:[["Sjö hættir","Spilaðu hvítu nóturnar frá c: jónísk. Frá d: dórísk. Frá e: frýgísk. Frá f: lýdísk. Frá g: mixólýdísk. Frá a: eólísk. Frá h: lókrísk."],["Dúr eða moll?","Jónísk, lýdísk og mixólýdísk hafa stóra þríund. Dórísk, frýgísk, eólísk og lókrísk hafa litla þríund."],["Einkennistónninn","Dórísk = moll með stórri sexund. Mixólýdísk = dúr með lítilli sjöund. Lýdísk = dúr með stækkaðri ferund."]],
+  cc:[["Sjö tónstigar","Spilaðu hvítu nóturnar frá c: jónísk. Frá d: dórísk. Frá e: frýgísk. Frá f: lýdísk. Frá g: mixólýdísk. Frá a: eólísk. Frá h: lókrísk."],["Dúr eða moll?","Jónísk, lýdísk og mixólýdísk hafa stóra þríund. Dórísk, frýgísk, eólísk og lókrísk hafa litla þríund."],["Einkennistónninn","Dórísk = moll með stórri sexund. Mixólýdísk = dúr með lítilli sjöund. Lýdísk = dúr með stækkaðri ferund."]],
   ex:["mMode","rModes","rModeEar"],
-  sb:["Skrifaðu alla sjö hættina frá c og merktu hálftónaskrefin.","Skrifaðu hvaða einkennistónn greinir hvern hátt frá dúr eða moll."],
-  ck:["Ég þekki alla sjö hættina.","Ég þekki einkennistón hvers háttar.","Ég heyri muninn á dórískri, mixólýdískri og lýdískri tóntegund."]},
+  sb:["Skrifaðu alla sjö tónstigana frá c og merktu hálftónaskrefin.","Skrifaðu hvaða einkennistónn greinir hvern tónstiga frá dúr eða moll."],
+  ck:["Ég þekki alla sjö tónstigana.","Ég þekki einkennistón hvers tónstiga.","Ég heyri muninn á dórískri, mixólýdískri og lýdískri tóntegund."]},
  {t:"Pentatónískur og blús",d:"Dúr- og moll-pentatónískur · blússkalinn · 12 takta blús · spuni",c:"--snare",lead:"Blúsinn er undirstaða djass, rokks og popps. Þú lærir formið, skalana og byrjar að spinna.",
   cc:[["Moll-pentatónískur","Fimm tónar: 1 ♭3 4 5 ♭7. Í a: a c d e g."],["Blússkalinn","Moll-pentatónískur með ♭5 (blúsnótunni). Í c: c es f fís g b."],["12 takta blús","I7 (4 taktar) – IV7 (2) – I7 (2) – V7 – IV7 – I7 – I7 (eða V7). Allir hljómarnir eru forhljómar."]],
   ex:["rBluesScale","rBlues",{pa:"blues"}],
@@ -4350,10 +4350,10 @@ LVL_LOTUR.fr=[
   cc:[["9, 11, 13","Tónarnir fyrir ofan sjöundina: 9 = 2 áttund ofar, 11 = 4, 13 = 6."],["Óbreyttir spennutónar","Cmaj7: 9, ♯11, 13. Cm7: 9, 11, 13. Á maj7 er hreina 11 forðast."],["Breyttir spennutónar","Á forhljómi: ♭9, ♯9, ♯11, ♭13. C7alt = c e b + ♭9 ♯9 ♯11 ♭13."]],
   ex:["rSymExt"],sb:["Skrifaðu alla spennutóna á G7.","Skrifaðu C7♭9, C7♯9 og C7♯11 á nótnastreng."],
   ck:["Ég finn alla spennutóna á sjöundarhljómi.","Ég veit hvaða spennutónar eiga við hverja hljómgerð."]},
- {t:"Tónstigar og hljómar",d:"Kirkjutóntegundir · djassmoll og hættir hans · minnkaðir og heiltóna",c:"--hat",lead:"Hver hljómur á sér tónstiga. Að kunna tengslin er grunnurinn að spuna.",
-  cc:[["Úr dúr","IIm7 → dórísk, V7 → mixólýdísk, Imaj7 → jónísk, IVmaj7 → lýdísk, VIIm7♭5 → lókrísk."],["Úr djassmoll","m(maj7) → djassmoll, 7♯11 → lýdísk ♭7, 7alt → ólagaður tónstigi (7. háttur)."],["Samhverfir tónstigar","Heiltóna (7♯5) og minnkaðir: hálftóns-heiltóns (7♭9) og heiltóns-hálftóns (dim7)."]],
+ {t:"Tónstigar og hljómar",d:"Kirkjutóntegundir · djassmoll og tónstigar sem byggja á honum · minnkaðir og heiltóna",c:"--hat",lead:"Hver hljómur á sér tónstiga. Að kunna tengslin er grunnurinn að spuna.",
+  cc:[["Úr dúr","IIm7 → dórísk, V7 → mixólýdísk, Imaj7 → jónísk, IVmaj7 → lýdísk, VIIm7♭5 → lókrísk."],["Úr djassmoll","m(maj7) → djassmoll, 7♯11 → lýdísk ♭7, 7alt → ólagaður tónstigi (byrjar á 7. tóni)."],["Samhverfir tónstigar","Heiltóna (7♯5) og minnkaðir: hálftóns-heiltóns (7♭9) og heiltóns-hálftóns (dim7)."]],
   ex:["rChordScale","rJazzScales","rModeEar"],sb:["Skrifaðu tónstigann sem passar við hvern hljóm í II–V–I í C.","Skrifaðu djassmoll frá c og ólagaðan tónstiga frá h."],
-  ck:["Ég veit hvaða tónstigi passar við hverja hljómgerð.","Ég kann hætti djassmolls."]},
+  ck:["Ég veit hvaða tónstigi passar við hverja hljómgerð.","Ég kann tónstigana sem byggja á djassmoll."]},
  {t:"Hljómagreining I",d:"Heimahljómar · II–V–I í dúr og moll · rómverskar tölur",c:"--snare",lead:"Að greina hljómagang: hvaða tóntegund, hvaða sæti, og hvar II–V-in eru.",
   cc:[["Heimahljómar","Í dúr: Imaj7 IIm7 IIIm7 IVmaj7 V7 VIm7 VIIm7♭5."],["II–V í moll","IIm7♭5 – V7(♭9) – Im6 eða Im(maj7)."],["Að finna II–V","Leitaðu að m7 sem fer upp um ferund í 7-hljóm. Þá ertu með II–V, oft í annarri tóntegund."]],
   ex:["rDiatonic","rIIVI","rProgEar",{pa:"iiviMoll"}],sb:["Greindu hljómagang í djasslagi sem þú kannt með rómverskum tölum.","Merktu öll II–V-in í laginu."],
