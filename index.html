@@ -3065,22 +3065,31 @@ function compScoreSVG(line){
   let x=10,P=[];P.push(`<text class="st-mus" x="${x}" y="${Y(32)+g*0.9}" font-size="${g*4.2}">𝄞</text>`);x+=g*3.6;
   if(K.n){const S=[38,35],F=[34,37];for(let i=0;i<K.n;i++){P.push(accGlyph(K.t==="#"?1:-1,x+5,Y((K.t==="#"?S:F)[i]),g));x+=g*0.95;}x+=g*0.5;}
   if(line===0){P.push(`<text x="${x+g}" y="${Y(36)+g*0.95}" text-anchor="middle" font-size="${g*2.2}" font-weight="800" class="st-ink" style="font-family:var(--f-display)">${c.ts}</text><text x="${x+g}" y="${Y(32)+g*0.95}" text-anchor="middle" font-size="${g*2.2}" font-weight="800" class="st-ink" style="font-family:var(--f-display)">4</text>`);x+=g*2.4;}
-  x+=g*0.6;const BW=150,geo=[];
+  x+=g*0.6;const BW=60+c.ts*29,geo=[];
   for(let k=0;k<4;k++){const i=line*4+k,src=cSrc(i),isCopy=src!==i,ev=c.bars[src],bx=x,sel=CP.bar===src&&!isCopy;
     P.push(`<rect x="${bx}" y="0" width="${BW}" height="${H}" class="cp-hit" data-bar="${i}" style="fill:${sel?"color-mix(in srgb,var(--accent) 7%,transparent)":"transparent"}"/>`);
     const lab=CFORMS[c.form].lab[i]||(i===7?"endir":"");if(lab)P.push(tx(bx+6,14,lab,{a:"start",s:lab==="endir"?10:15,c:lab==="A"?PINK:lab==="B"?BLUE:"var(--muted)",f:lab.length===1?"var(--f-display)":null}));
-    P.push(tx(bx+(lab?24:6),14,i+1,{a:"start",s:9}));
+    P.push(tx(bx+(lab?(lab.length>1?40:24):6),14,i+1,{a:"start",s:9}));
     if(isCopy)P.push(tx(bx+BW/2,Y(25)+6,`eins og taktur ${src+1}`,{s:9}));
-    let beat=0;ev.forEach((e,j)=>{const nx=bx+14+(beat/c.ts)*(BW-28),selN=CP.sel&&CP.sel.bar===src&&CP.sel.i===j&&!isCopy,col=isCopy?"var(--muted)":selN?PINK:"var(--ink)";
+    /* bil eftir lengd (styttri nótur fá hlutfallslega meira pláss) og bjálkar á áttundapartspör */
+    const WT=d=>0.55+d*0.75,rem=Math.max(0,c.ts-barLen(ev)),tot=ev.reduce((a,e)=>a+WT(e.dur),0)+rem*0.75||1;let cw=0;const XS=ev.map(e=>{const v=bx+14+(cw/tot)*(BW-28);cw+=WT(e.dur);return v;});
+    const pair=new Set(),pairs=[];{let bt=0;ev.forEach((e,j)=>{const n=ev[j+1];if(e.dur===0.5&&e.d!=null&&n&&n.dur===0.5&&n.d!=null&&Math.abs(bt-Math.round(bt))<1e-6&&!pair.has(j)){pair.add(j);pair.add(j+1);pairs.push(j);}bt+=e.dur;});}
+    let beat=0;ev.forEach((e,j)=>{const nx=XS[j],selN=CP.sel&&CP.sel.bar===src&&CP.sel.i===j&&!isCopy,col=isCopy?"var(--muted)":selN?PINK:"var(--ink)";
       if(e.d==null){const gl=e.dur>=4?"𝄻":e.dur>=2?"𝄼":e.dur>=1?"𝄽":"𝄾";P.push(mus(nx,e.dur>=2?Y(34)+2:Y(33)+10,gl,30,col));if(e.dur===1.5||e.dur===3)P.push(`<circle cx="${nx+10}" cy="${Y(35)}" r="2" style="fill:${col}"/>`);}
       else{const y=Y(e.d);for(let k2=botD-2;k2>=e.d;k2-=2)P.push(`<line x1="${nx-g}" x2="${nx+g}" y1="${Y(k2)}" y2="${Y(k2)}" class="st-line" style="stroke:var(--ink)"/>`);for(let k2=topD+2;k2<=e.d;k2+=2)P.push(`<line x1="${nx-g}" x2="${nx+g}" y1="${Y(k2)}" y2="${Y(k2)}" class="st-line" style="stroke:var(--ink)"/>`);
         if(e.acc!=null)P.push(`<text x="${nx-15}" y="${y+(e.acc===-1?4:3.3)}" font-size="25" text-anchor="middle" style="font-family:var(--f-music);fill:${col}">${e.acc===1?"♯":e.acc===-1?"♭":"♮"}</text>`);
         const filled=e.dur<2;P.push(`<ellipse cx="${nx}" cy="${y}" rx="6.6" ry="4.6" transform="rotate(-18 ${nx} ${y})" style="${filled?`fill:${col}`:`fill:var(--surface);stroke:${col};stroke-width:1.8`}"/>`);
-        if(e.dur<4){const up=e.d<34,sx=up?nx+6:nx-6,y2=up?y-34:y+34;P.push(`<line x1="${sx}" x2="${sx}" y1="${y}" y2="${y2}" style="stroke:${col};stroke-width:1.4"/>`);
+        if(e.dur<4&&!pair.has(j)){const up=e.d<34,sx=up?nx+6:nx-6,y2=up?y-34:y+34;P.push(`<line x1="${sx}" x2="${sx}" y1="${y}" y2="${y2}" style="stroke:${col};stroke-width:1.4"/>`);
           if(e.dur===0.5)P.push(up?`<path d="M${sx} ${y2} q2 9 10 14 q-3 -5 -10 -6 z" style="fill:${col}"/>`:`<path d="M${sx} ${y2} q2 -9 10 -14 q-3 5 -10 6 z" style="fill:${col}"/>`);}
         if(e.dur===1.5||e.dur===3)P.push(`<circle cx="${nx+11}" cy="${y-(e.d%2===0?3:0)}" r="2" style="fill:${col}"/>`);
         if(selN)P.push(`<circle cx="${nx}" cy="${y}" r="12" style="fill:none;stroke:${PINK};stroke-width:2;opacity:.6"/>`);}
       geo.push({bar:src,i:j,x:nx,copy:isCopy});beat+=e.dur;});
+    pairs.forEach(j=>{const a=ev[j],b=ev[j+1],xa=XS[j],xb=XS[j+1],ya=Y(a.d),yb=Y(b.d),up=(a.d+b.d)/2<34,col=isCopy?"var(--muted)":"var(--ink)";
+      const sa=up?xa+6:xa-6,sb=up?xb+6:xb-6,sl=Math.max(-6,Math.min(6,(yb-ya)/2));
+      const yA=up?Math.min(ya-30,yb-30-sl):Math.max(ya+30,yb+30-sl),yB=yA+sl;
+      const cs=k=>CP.sel&&CP.sel.bar===src&&CP.sel.i===k&&!isCopy?PINK:col;
+      P.push(`<line x1="${sa}" x2="${sa}" y1="${ya}" y2="${yA}" style="stroke:${cs(j)};stroke-width:1.4"/><line x1="${sb}" x2="${sb}" y1="${yb}" y2="${yB}" style="stroke:${cs(j+1)};stroke-width:1.4"/>`);
+      const t=4.5,o=up?0:-t;P.push(`<path d="M${sa-.7} ${yA+o} L${sb+.7} ${yB+o} L${sb+.7} ${yB+o+t} L${sa-.7} ${yA+o+t} Z" style="fill:${col}"/>`);});
     const L=barLen(ev);if(!isCopy&&Math.abs(L-c.ts)>1e-6)P.push(tx(bx+BW/2,H-30,`${fmtNum(L)} af ${c.ts} slögum`,{s:10,c:L>c.ts?"var(--bad)":PINK}));
     const ch=c.chords[src];if(ch)P.push(tx(bx+8,H-12,chordName(ch),{a:"start",s:13,c:BLUE,f:"var(--f-display)"}));
     x+=BW;const last=line===1&&k===3;
