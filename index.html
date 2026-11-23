@@ -1582,9 +1582,16 @@ const FI=(()=>{const K="var(--kick)",S="var(--snare)",T="var(--tone)",G="var(--h
 
 const store={get(k){try{return JSON.parse(localStorage.getItem("tfs:"+k));}catch(e){return null;}},set(k,v){try{localStorage.setItem("tfs:"+k,JSON.stringify(v));}catch(e){}}};
 /* ---- nótuheiti: h/b (sjálfgefið) eða B/B♭ — umbreytt við birtingu, innri heiti haldast h og b ---- */
-const HB={on:store.get("names")==="B"||/^(mr|fr)$/.test(store.get("level")||"")||/^#(mr|fr)-/.test(location.hash)};
+const HB={r:/^(mr|fr)$/.test(store.get("level")||"")||/^#(mr|fr)-/.test(location.hash)};HB.on=store.get("names")==="B"||HB.r;
+/* rytmísk leið: alþjóðleg nótuheiti (C, C♯, D♭ … A♭, B♭, B) */
+const R_NAMES={c:"C",cís:"C♯",ces:"C♭",d:"D",dís:"D♯",des:"D♭",e:"E",eís:"E♯",es:"E♭",f:"F",fís:"F♯",fes:"F♭",g:"G",gís:"G♯",ges:"G♭",a:"A",aís:"A♯",as:"A♭",h:"B",hís:"B♯",b:"B♭",císís:"C𝄪",dísís:"D𝄪",físís:"F𝄪",gísís:"G𝄪",aísís:"A𝄪",eses:"E𝄫",heses:"B𝄫",asas:"A𝄫"};
+const R_RE=/(?<![\p{L}\p{N}])([a-hA-H](?:ísís|ís|eses|es|as|s)?)(?![\p{L}\p{N}\u2060♭♯])/gu;
+const rName=t=>{const k=t.toLowerCase();return R_NAMES[k]||t;};
 const HB_RE=/(?<![\p{L}\p{N}])([hH](?:ísís|ís)?|[bB])(?![\p{L}\p{N}⁠♭])/gu,HB_NOTE=/^[A-Ha-h](?:ísís|ís|es|s)?['’]*$/;
-function hbText(t,nn){if(!HB.on||!t||!/[hHbB]/.test(t))return t;
+function hbText(t,nn){if(HB.r&&t)return t.replace(R_RE,(m,tok,i,str)=>{const k=tok.toLowerCase();if(!R_NAMES[k])return m;
+    /* stór stafur: bara í tóntegundaheitum (As-dúr) eða nótuheitum á nótnastreng; annars t.d. „B. Skriflegt“ eða „B-kafli“ */
+    if(tok[0]!==tok[0].toLowerCase()&&!(nn||/^-(dúr|moll)/.test(str.slice(i+m.length))))return m;return R_NAMES[k];});
+  if(!HB.on||!t||!/[hHbB]/.test(t))return t;
   return t.replace(HB_RE,(m,tok,i,str)=>{const aft=str.slice(i+m.length),bef=str.slice(0,i),key=/^-(dúr|moll)/.test(aft);
     if(tok[0]==="h")return "b"+tok.slice(1)+"\u2060";
     if(tok==="b")return "b♭";
@@ -3366,7 +3373,7 @@ function songSpell(m,s){
   return {d:oct*7+c.li,acc:c.acc};
 }
 function chordSym(ns,s){const P=[...new Set(ns.map(n=>n%12))];const T=[[[0,4,7,10],"7"],[[0,3,7,10],"m7"],[[0,4,7],""],[[0,3,7],"m"],[[0,3,6],"°"]];
-  for(const [tp,suf] of T)for(const r of P){if(tp.every(i=>P.includes((r+i)%12))&&P.every(p=>tp.includes((p-r+12)%12))){const sp=songSpell(60+r,s);let rt=cap(nm(sp.li??((sp.d%7+7)%7),sp.acc));if(HB.on)rt=rt==="H"?"B":rt==="B"?"B♭":rt==="His"||rt==="Hís"?"Bís":rt;return rt+suf;}}
+  for(const [tp,suf] of T)for(const r of P){if(tp.every(i=>P.includes((r+i)%12))&&P.every(p=>tp.includes((p-r+12)%12))){const sp=songSpell(60+r,s);let rt=cap(nm(sp.li??((sp.d%7+7)%7),sp.acc));if(HB.r)rt=rName(rt);else if(HB.on)rt=rt==="H"?"B":rt==="B"?"B♭":rt==="His"||rt==="Hís"?"Bís":rt;return rt+suf;}}
   return "";}
 const NOTEVALS=[4,3,2,1.5,1,0.75,0.5,0.25];
 function songTokens(s){
@@ -4196,21 +4203,21 @@ Object.assign(LVGEN,{
    const [s,l]=pick(Q),pool=[...new Set(Q.map(x=>x[1]))];return {q:`Hvaðan er <b>${s}</b> upprunnið?`,options:opts4(l,pool),answer:l,explain:`${s}: ${l}.`};}},
  rSymRead3:{kind:"Hljómtákn",title:"Hljómtákn: þríhljómar",intro:"C = dúr, Cm = moll, Cdim = minnkaður, C+ = stækkaður, Csus4 = ferund í stað þríundar.",
   gen(){const q=pick(["","m","dim","aug","sus4"]),c=mkR(q);const wr=["","m","dim","aug","sus4"].filter(x=>x!==q).map(x=>rSym(c.li,c.acc,x));
-   return {html:chordSvg([c.notes]),options:shuffle([c.sym,...shuffle(wr).slice(0,3)]).map(x=>({html:rs(x),v:x})),answer:c.sym,explain:`${rs(c.sym)}: ${c.names.join(" – ")} (${RQ[q].n}).`,play:()=>playSeq([...c.ms,c.ms],0.38,0.38)};}},
+   return {html:chordSvg([c.notes]),options:shuffle([c.sym,...shuffle(wr).slice(0,3)]).map(x=>({html:rs(x),v:x})),answer:c.sym,explain:`${c.sym}: ${c.names.join(" – ")} (${RQ[q].n}).`,play:()=>playSeq([...c.ms,c.ms],0.38,0.38)};}},
  rSymRead7:{kind:"Hljómtákn",title:"Hljómtákn: sjöundarhljómar",intro:"Cmaj7 (stór sjöund), C7 (forhljómur), Cm7, Cm7♭5 (hálfminnkaður) og Cdim7 (fullminnkaður).",
   gen(){const Qs=["maj7","7","m7","m7b5","dim7","m6","6"],q=pick(Qs.slice(0,5)),c=mkR(q);const wr=Qs.filter(x=>x!==q).map(x=>rSym(c.li,c.acc,x));
-   return {html:chordSvg([c.notes]),options:shuffle([c.sym,...shuffle(wr).slice(0,3)]).map(x=>({html:rs(x),v:x})),answer:c.sym,explain:`${rs(c.sym)}: ${c.names.join(" – ")} (${RQ[q].n}).`,play:()=>playSeq([...c.ms,c.ms],0.38,0.38)};}},
+   return {html:chordSvg([c.notes]),options:shuffle([c.sym,...shuffle(wr).slice(0,3)]).map(x=>({html:rs(x),v:x})),answer:c.sym,explain:`${c.sym}: ${c.names.join(" – ")} (${RQ[q].n}).`,play:()=>playSeq([...c.ms,c.ms],0.38,0.38)};}},
  rSymNotes:{kind:"Hljómtákn",title:"Hvaða nótur eru í hljómnum?",intro:"Byrjaðu á grunntóninum og staflaðu þríundum. Táknið segir hvort þær eru stórar eða litlar.",
   gen(){const q=pick(["","m","maj7","7","m7","m7b5","dim7","6"]),c=mkR(q),right=c.names.join(" – ");const wr=new Set();
    for(const q2 of shuffle(Object.keys(RQ).filter(x=>x!==q&&RQ[x].iv.length===RQ[q].iv.length))){const n2=[nm(c.li,c.acc)];let ok=true;const r=dMidi(28+c.li,c.acc);RQ[q2].iv.forEach(([st,se])=>{const dd=28+c.li+st,aa=(r+se)-dMidi(dd,0);if(Math.abs(aa)>1)ok=false;n2.push(nm(((dd%7)+7)%7,aa));});const s=n2.join(" – ");if(ok&&s!==right)wr.add(s);if(wr.size>=3)break;}
-   return {q:`Hvaða nótur eru í ${rs(c.sym)}?`,options:shuffle([right,...[...wr].slice(0,3)]).map(x=>({label:x,v:x})),answer:right,explain:`${rs(c.sym)} = ${right}.`,play:()=>playSeq([...c.ms,c.ms],0.38,0.38)};}},
+   return {q:`Hvaða nótur eru í ${rs(c.sym)}?`,options:shuffle([right,...[...wr].slice(0,3)]).map(x=>({label:x,v:x})),answer:right,explain:`${c.sym} = ${right}.`,play:()=>playSeq([...c.ms,c.ms],0.38,0.38)};}},
  rSymEar3:{kind:"Tónheyrn",title:"Þríhljómar eftir heyrn",intro:"Dúr, moll, minnkaður, stækkaður eða sus4?",
   gen(){const q=pick(["","m","dim","aug","sus4"]),r=53+rnd(8),ms=[r,...RQ[q].iv.map(x=>r+x[1])],L=k=>`C${RQ[k].s} · ${RQ[k].n}`;return {q:"Hvaða hljóm heyrir þú?",options:["","m","dim","aug","sus4"].map(k=>({html:rs(L(k)),v:k})),answer:q,explain:`${RQ[q].n}.`,play:()=>playSeq([...ms,ms],0.4,0.4)};}},
  rSymEar7:{kind:"Tónheyrn",title:"Sjöundarhljómar eftir heyrn",intro:"maj7, 7, m7, m7♭5 eða dim7?",
   gen(){const Qs=["maj7","7","m7","m7b5","dim7"],q=pick(Qs),r=50+rnd(8),ms=[r,...RQ[q].iv.map(x=>r+x[1])];return {q:"Hvaða sjöundarhljóm heyrir þú?",options:Qs.map(k=>({html:rs(`C${RQ[k].s} · ${RQ[k].n}`),v:k})),answer:q,explain:`${RQ[q].n}.`,play:()=>playSeq([...ms,ms],0.4,0.4)};}},
  rSystems:{kind:"Hljómtákn",title:"Ólík hljómtáknakerfi",intro:"Sami hljómur er skrifaður á fleiri en einn veg. Lærðu að þekkja þá alla.",
   gen(){const S=[["Cmaj7","CΔ7, CM7 og Cma7"],["Cm7","C–7, Cmi7 og Cmin7"],["Cm7♭5","Cø7 og C–7♭5"],["Cdim7","C°7"],["C+","Caug og C(♯5)"],["Cdim","C° og Cmi(♭5)"],["Cm(maj7)","C–Δ7 og CmiMa7"],["C7sus4","C7sus og Gm7/C"]];
-   const [a,b]=pick(S);return {q:`Hvaða hljómur er skrifaður ${rs(b)}?`,options:opts4(a,S.map(x=>x[0])).map(o=>({html:rs(o.label),v:o.v})),answer:a,explain:`${rs(b)} = ${rs(a)}.`};}},
+   const [a,b]=pick(S);return {q:`Hvaða hljómur er skrifaður ${rs(b)}?`,options:opts4(a,S.map(x=>x[0])).map(o=>({html:rs(o.label),v:o.v})),answer:a,explain:`${b} = ${a}.`};}},
  rModes:{kind:"Tónfræði",title:"Einkenni kirkjutóntegunda",intro:"Berðu kirkjutóntegundirnar saman við dúr og moll.",
   gen(){const Q=[["dúr með lækkaðri sjöund","Mixólýdísk"],["dúr með hækkaðri ferund","Lýdísk"],["moll með hækkaðri sexund","Dórísk"],["moll með lækkaðri tvíund","Frýgísk"],["hreinn moll","Eólísk"],["dúr","Jónísk"],["moll með lækkaðri tvíund og lækkaðri fimmund","Lókrísk"],
     ["tónstiginn sem passar við m7-hljóm (IIm7)","Dórísk"],["tónstiginn sem passar við 7-hljóm (V7)","Mixólýdísk"],["tónstiginn sem passar við m7♭5-hljóm","Lókrísk"]];
@@ -4226,38 +4233,38 @@ Object.assign(LVGEN,{
  rBlues:{kind:"Hljómfræði",title:"12 takta blús",intro:"I7 í 4 takta, IV7 í 2, I7 í 2, V7, IV7, I7 og I7 (eða V7 í síðasta takti).",
   gen(){const K=pick(KEYS_R.filter(k=>["C","F","B","G","Es","A"].includes(k.maj))),bar=pick([1,5,7,9,10,11]),deg=({1:0,5:3,7:0,9:4,10:3,11:0})[bar],c=diaChord(K,deg),right=rRoot(c.li,c.acc)+"7";
    const pool=[0,3,4,1,5].map(i=>{const x=diaChord(K,i);return rRoot(x.li,x.acc)+"7";});
-   return {q:`Hvaða hljómur er í <b>${bar}. takti</b> í 12 takta blús í ${rs(keyR(K))}?`,options:opts4(right,pool).map(o=>({html:rs(o.label),v:o.v})),answer:right,explain:`Taktur ${bar}: ${["I7","","","","IV7","","I7","","V7","IV7","I7"][bar-1]} = ${rs(right)}.`};}},
+   return {q:`Hvaða hljómur er í <b>${bar}. takti</b> í 12 takta blús í ${rs(keyR(K))}?`,options:opts4(right,pool).map(o=>({html:rs(o.label),v:o.v})),answer:right,explain:`Taktur ${bar}: ${["I7","","","","IV7","","I7","","V7","IV7","I7"][bar-1]} = ${right}.`};}},
  rBluesScale:{kind:"Tónfræði",title:"Blússkalinn og pentatónískur",intro:"Moll-pentatónískur: 1 ♭3 4 5 ♭7. Blússkalinn bætir við ♭5 (blúsnótunni).",
   gen(){const S={"Blússkali":[0,3,5,6,7,10,12],"Moll-pentatónískur":[0,3,5,7,10,12],"Dúr-pentatónískur":[0,2,4,7,9,12]},n=pick(Object.keys(S)),r=60+pick([0,5,7,2]);
    return {q:"Hvaða tónstiga heyrir þú?",options:Object.keys(S).map(x=>({label:x,v:x})),answer:n,explain:`${n}: ${S[n].join(", ")} hálftónar.`,play:()=>playSeq(S[n].map(s=>r+s),0.3,0.3)};}},
  rDiatonic:{kind:"Hljómfræði",title:"Heimahljómar (sjöundarhljómar)",intro:"Imaj7 – IIm7 – IIIm7 – IVmaj7 – V7 – VIm7 – VIIm7♭5.",
   gen(){const K=pick(KEYS_R),i=pick([1,2,3,4,5,6,0]),c=diaChord(K,i),right=rRoot(c.li,c.acc)+RQ[DIA_Q[i]].s;
    if(Math.random()<0.5){const pool=[0,1,2,3,4,5,6].map(j=>{const x=diaChord(K,j);return rRoot(x.li,x.acc)+RQ[DIA_Q[j]].s;});
-     return {q:`Hver er <b>${DIA_R[i]}</b> í ${rs(keyR(K)+"-dúr")}?`,options:opts4(right,pool).map(o=>({html:rs(o.label),v:o.v})),answer:right,explain:`Í ${rs(keyR(K))}: ${DIA_R[i]} = ${rs(right)}.`};}
-   return {q:`Hvaða sæti hefur ${rs(right)} í ${rs(keyR(K)+"-dúr")}?`,options:opts4(DIA_R[i],DIA_R),answer:DIA_R[i],explain:`${rs(right)} er ${DIA_R[i]}.`};}},
+     return {q:`Hver er <b>${DIA_R[i]}</b> í ${rs(keyR(K)+"-dúr")}?`,options:opts4(right,pool).map(o=>({html:rs(o.label),v:o.v})),answer:right,explain:`Í ${keyR(K)}: ${DIA_R[i]} = ${right}.`};}
+   return {q:`Hvaða sæti hefur ${rs(right)} í ${rs(keyR(K)+"-dúr")}?`,options:opts4(DIA_R[i],DIA_R),answer:DIA_R[i],explain:`${right} er ${DIA_R[i]}.`};}},
  rIIVI:{kind:"Hljómfræði",title:"II–V–I",intro:"Í dúr: IIm7 – V7 – Imaj7. Í moll: IIm7♭5 – V7 – Im6 (eða Im7).",
   gen(){const K=pick(KEYS_R),minor=Math.random()<0.35;const f=(KK,mi)=>{const a=diaChord(KK,1),b=diaChord(KK,4),c=diaChord(KK,0);
      return mi?`${rRoot(a.li,a.acc)}m7♭5 – ${rRoot(b.li,b.acc)}7 – ${rRoot(c.li,c.acc)}m6`:`${rRoot(a.li,a.acc)}m7 – ${rRoot(b.li,b.acc)}7 – ${rRoot(c.li,c.acc)}maj7`;};
    /* í moll eru grunntónar II, V og I þeir sömu og í samnefndum dúr */
    const right=f(K,minor);const ix=KEYS_R.indexOf(K),nb=[KEYS_R[(ix+1)%KEYS_R.length],KEYS_R[(ix+KEYS_R.length-1)%KEYS_R.length]];
    const pool=[f(nb[0],minor),f(nb[1],minor),f(K,!minor)];
-   return {q:`Hver er II–V–I í ${rs(keyR(K)+(minor?"-moll":"-dúr"))}?`,options:shuffle([right,...pool]).map(x=>({html:rs(x),v:x})),answer:right,explain:`${rs(right)}.`};}},
+   return {q:`Hver er II–V–I í ${rs(keyR(K)+(minor?"-moll":"-dúr"))}?`,options:shuffle([right,...pool]).map(x=>({html:rs(x),v:x})),answer:right,explain:`${right}.`};}},
  rIIVIEar:{kind:"Tónheyrn",title:"II–V–I í dúr eða moll?",intro:"Dúr: IIm7 – V7 – Imaj7. Moll: IIm7♭5 – V7 – Im6. Hlustaðu sérstaklega á síðasta hljóminn.",
   gen(){const k=pick(["Dúr","Moll"]),r=rnd(6),C=k==="Dúr"?[[50,60,65,69],[43,59,62,65],[48,59,64,67]]:[[50,60,65,68],[43,59,65,68],[48,57,63,67]];
    return {q:"Er þetta II–V–I í dúr eða moll?",options:["Dúr","Moll"].map(x=>({label:x,v:x})),answer:k,explain:k==="Dúr"?"Endar á Imaj7: dúr.":"Endar á Im6: moll.",play:()=>{stopAll();const t=now();C.forEach((ch,i)=>ch.forEach((m,j)=>tone(m+r,t+i*1.1,i===2?2:1,j?0.13:0.17)));}};}},
  rSecDom:{kind:"Hljómfræði",title:"Aukaforhljómar",intro:"Aukaforhljómur er V7 hljómsins sem á eftir kemur: grunntónn hans er hrein fimmund ofar. V7/II, V7/V o.s.frv.",
   gen(){let K,i,t,li,acc;do{K=pick(KEYS_R.filter(k=>k.n<=4));i=pick([1,2,3,4,5]);t=diaChord(K,i);li=(t.li+4)%7;acc=(((t.pc+7)%12-OFF[li])+18)%12-6;}while(Math.abs(acc)>1);const right=rRoot(li,acc)+"7",tgt=rRoot(t.li,t.acc)+RQ[DIA_Q[i]].s;const pool=[0,1,2,3,4,5].map(j=>{const x=diaChord(K,j);return rRoot((x.li+4)%7,0)+"7";}).concat([rRoot(t.li,t.acc)+"7",rRoot((t.li+3)%7,0)+"7"]);
-   return {q:`Hver er aukaforhljómurinn (V7/${["I","II","III","IV","V","VI"][i]}) sem leiðir til ${rs(tgt)} í ${rs(keyR(K)+"-dúr")}?`,options:opts4(right,[...new Set(pool)]).map(o=>({html:rs(o.label),v:o.v})),answer:right,explain:`Hrein fimmund fyrir ofan ${rs(rRoot(t.li,t.acc))} er ${rs(rRoot(li,acc))}: ${rs(right)} → ${rs(tgt)}.`};}},
+   return {q:`Hver er aukaforhljómurinn (V7/${["I","II","III","IV","V","VI"][i]}) sem leiðir til ${rs(tgt)} í ${rs(keyR(K)+"-dúr")}?`,options:opts4(right,[...new Set(pool)]).map(o=>({html:rs(o.label),v:o.v})),answer:right,explain:`Hrein fimmund fyrir ofan ${rRoot(t.li,t.acc)} er ${rRoot(li,acc)}: ${right} → ${tgt}.`};}},
  rSymExt:{kind:"Djasshljómfræði",title:"Spennutónar",intro:"Spennutónar eru 9, 11 og 13 ofan á sjöundarhljóminn. Á forhljómi geta þeir verið breyttir: ♭9, ♯9, ♯11, ♭13.",
   gen(){const T=[["♭9",1,1],["9",1,2],["♯9",1,3],["11",3,5],["♯11",3,6],["♭13",5,8],["13",5,9]];for(let k=0;k<50;k++){const [li,acc]=pick(R_ROOTS),r=dMidi(28+li,acc),[lab,st,se]=pick(T),tl=(li+st)%7,ta=((r+se-OFF[tl])%12+18)%12-6;if(Math.abs(ta)>1)continue;
      const note=nm(tl,ta),sym=rRoot(li,acc)+"7";
      if(Math.random()<0.5)return {q:`Í hljómnum ${rs(sym)}: hvaða spennutónn er <b>${note}</b>?`,options:opts4(lab,T.map(x=>x[0])).map(o=>({html:rs(o.label),v:o.v})),answer:lab,explain:`${note} er ${se} hálftónum fyrir ofan grunntóninn. Áttund ofar verður hann ${lab}.`};
      const pool=T.map(([l2,s2,e2])=>{const l=(li+s2)%7,a=((r+e2-OFF[l])%12+18)%12-6;return nm(l,a);});
-     return {q:`Hvaða tónn er <b>${rs(lab)}</b> í ${rs(sym)}?`,options:opts4(note,[...new Set(pool)]),answer:note,explain:`${lab} í ${rs(sym)} er ${note}.`};}}},
+     return {q:`Hvaða tónn er <b>${rs(lab)}</b> í ${rs(sym)}?`,options:opts4(note,[...new Set(pool)]),answer:note,explain:`${lab} í ${sym} er ${note}.`};}}},
  rChordScale:{kind:"Djasshljómfræði",title:"Hljómar og tónstigar",intro:"Hver hljómgerð á sér tónstiga sem passar við hana.",
   gen(){const P=[["m7 (IIm7)","Dórísk"],["7 (V7)","Mixólýdísk"],["maj7 (Imaj7)","Jónísk"],["maj7♯11 (IVmaj7)","Lýdísk"],["m7♭5","Lókrísk"],["7alt","Ólagaður tónstigi (byrjar á 7. tóni djassmolls)"],["7♭9 (á undan dúr)","Hálftóns-heiltóns minnkaður tónstigi"],["7♯5 (7+)","Heiltónatónstigi"],["m(maj7)","Djassmoll"],["dim7","Heiltóns-hálftóns minnkaður tónstigi"],["7♯11","Lýdísk ♭7"],["m7 (VIm7)","Eólísk"],["m7 (IIIm7)","Frýgísk"]];
-   const [c,s]=pick(P),pool=[...new Set(P.map(x=>x[1]))];if(Math.random()<0.6)return {q:`Hvaða tónstigi passar best við ${rs(c)}?`,options:opts4(s,pool),answer:s,explain:`${rs(c)} → ${s}.`};
-   const cs=P.filter(x=>x[1]===s).map(x=>x[0]);return {q:`Við hvaða hljóm passar <b>${s}</b>?`,options:opts4(c,P.map(x=>x[0]).filter(x=>x===c||!cs.includes(x))).map(o=>({html:rs(o.label),v:o.v})),answer:c,explain:`${s} → ${rs(c)}.`};}},
+   const [c,s]=pick(P),pool=[...new Set(P.map(x=>x[1]))];if(Math.random()<0.6)return {q:`Hvaða tónstigi passar best við ${rs(c)}?`,options:opts4(s,pool),answer:s,explain:`${c} → ${s}.`};
+   const cs=P.filter(x=>x[1]===s).map(x=>x[0]);return {q:`Við hvaða hljóm passar <b>${s}</b>?`,options:opts4(c,P.map(x=>x[0]).filter(x=>x===c||!cs.includes(x))).map(o=>({html:rs(o.label),v:o.v})),answer:c,explain:`${s} → ${c}.`};}},
  rAnalyze:{kind:"Djasshljómfræði",title:"Hljómgreining",intro:"Greindu merkta hljóminn í hljómaganginum. Hugsaðu: hvert leysist hann?",
   gen(){const P=[[["Imaj7","VI7","IIm7","V7"],1,"V7/II"],[["IIIm7","VI7","IIm7","V7"],1,"V7/II"],[["Imaj7","II7","IIm7","V7"],1,"V7/V"],[["Imaj7","I7","IVmaj7","IVm6"],1,"V7/IV"],[["IIm7","♭II7","Imaj7","Imaj7"],1,"SubV7 (tritónus-staðgengill)"],
      [["Imaj7","♯Idim7","IIm7","V7"],1,"Minnkaður gegnumgangshljómur"],[["Imaj7","IVmaj7","IVm6","Imaj7"],2,"Lánshljómur úr moll"],[["IVmaj7","♭VII7","Imaj7","Imaj7"],1,"Lánshljómur úr moll"],[["Imaj7","VIm7","IIm7","V7"],3,"V7"],[["IIIm7","VI7","IIm7","V7"],0,"IIIm7"],[["Imaj7","VIm7","IIm7","V7"],2,"IIm7"]];
@@ -4267,13 +4274,13 @@ Object.assign(LVGEN,{
    return {html,q:"Hvað er merkti hljómurinn?",options:opts4(ans,L),answer:ans,explain:`${pr.join(" – ")}: merkti hljómurinn er ${ans}.`,play:()=>rPlayProg(C.map(c=>[c.pc,c.q]))};}},
  rTritone:{kind:"Djasshljómfræði",title:"Tritónus-staðgenglar",intro:"Í stað V7 má nota forhljóm tritónus (6 hálftónum) frá: G7 → D♭7. Þríund og sjöund hljómanna eru sömu tónarnir.",
   gen(){const FL=["C","D♭","D","E♭","E","F","G♭","G","A♭","A","B♭","B"];const pc=rnd(12),r=FL[pc],right=FL[(pc+6)%12]+"7";
-   if(Math.random()<0.6){const pool=[1,5,7,3,9].map(x=>FL[(pc+x)%12]+"7");return {q:`Hver er tritónus-staðgengill ${rs(r+"7")}?`,options:opts4(right,pool).map(o=>({html:rs(o.label),v:o.v})),answer:right,explain:`Tritónus frá ${rs(r)} er ${rs(FL[(pc+6)%12])}: ${rs(right)}.`};}
+   if(Math.random()<0.6){const pool=[1,5,7,3,9].map(x=>FL[(pc+x)%12]+"7");return {q:`Hver er tritónus-staðgengill ${rs(r+"7")}?`,options:opts4(right,pool).map(o=>({html:rs(o.label),v:o.v})),answer:right,explain:`Tritónus frá ${r} er ${FL[(pc+6)%12]}: ${right}.`};}
    const T=["C","D","E","F","G","A","B"];const li=rnd(7),pc2=OFF[li];const g=[[li+2,(pc2+4)%12],[li+6,(pc2+10)%12]].map(([l,p])=>{l%=7;const a=((p-OFF[l])%12+18)%12-6;return nm(l,a);});const right2=g.join(" og ");
    const pool2=[nm((li+4)%7,0)+" og "+nm(li,0),nm(li,0)+" og "+g[0],g[1]+" og "+nm((li+4)%7,0)];
    return {q:`Hvaða tónar eru sameiginlegir ${rs(T[li]+"7")} og tritónus-staðgengli hans?`,options:shuffle([right2,...pool2]).map(x=>({label:x,v:x})),answer:right2,explain:`Þríundin og sjöundin: ${right2}. Þeir skipta um hlutverk í staðgenglinum.`};}},
  rGuide:{kind:"Djasshljómfræði",title:"Leiðsögutónar",intro:"Leiðsögutónar eru þríund og sjöund hljómsins. Þeir segja mest um hljómgerðina.",
   gen(){const q=pick(["maj7","7","m7","m7b5"]),c=mkR(q);const right=`${c.names[1]} og ${c.names[3]}`;const pool=[`${c.names[0]} og ${c.names[2]}`,`${c.names[0]} og ${c.names[3]}`,`${c.names[2]} og ${c.names[3]}`];
-   return {q:`Hverjir eru leiðsögutónar ${rs(c.sym)}?`,options:shuffle([right,...pool]).map(x=>({label:x,v:x})),answer:right,explain:`${rs(c.sym)} = ${c.names.join(" – ")}. Þríundin ${c.names[1]} og sjöundin ${c.names[3]}.`,play:()=>playSeq([c.ms[1],c.ms[3],[c.ms[1],c.ms[3]]],0.5,0.5)};}},
+   return {q:`Hverjir eru leiðsögutónar ${rs(c.sym)}?`,options:shuffle([right,...pool]).map(x=>({label:x,v:x})),answer:right,explain:`${c.sym} = ${c.names.join(" – ")}. Þríundin ${c.names[1]} og sjöundin ${c.names[3]}.`,play:()=>playSeq([c.ms[1],c.ms[3],[c.ms[1],c.ms[3]]],0.5,0.5)};}},
  rProgEar:{kind:"Tónheyrn",title:"Hljómagangar eftir heyrn",intro:"Fjórir algengir hljómagangar. Hlustaðu á bassann.",
   gen(){const G={"IIm7 – V7 – Imaj7":[[2,"m7"],[7,"7"],[0,"maj7"],[0,"maj7"]],"Imaj7 – VIm7 – IIm7 – V7":[[0,"maj7"],[9,"m7"],[2,"m7"],[7,"7"]],"I – IV – V – I":[[0,""],[5,""],[7,""],[0,""]],"I – V – VIm – IV":[[0,""],[7,""],[9,"m"],[5,""]]};
    const k=pick(Object.keys(G)),tr=rnd(7);return {q:"Hvaða hljómagang heyrir þú?",options:Object.keys(G).map(x=>({label:x,v:x})),answer:k,explain:k+".",play:()=>rPlayProg(G[k].map(([p,q])=>[p+tr,q]),1.1)};}},
@@ -4382,7 +4389,7 @@ function mountCR(host){let chord="Dm7",lvl=1,bpm=100,mode="echo",playing=false,t
 Object.assign(LVGEN,{
  rChordTone:{kind:"Snarstefjun",title:"Hljómtónar",intro:"Í spuna er gott að lenda á hljómtónum á sterku slögunum. Þekktu þá hratt.",
   gen(){const q=pick(["maj7","7","m7","m7b5"]),c=mkR(q),k=pick([1,2,3]),lab=["grunntónn","þríund","fimmund","sjöund"][k],right=c.names[k];
-   const pool=[...c.names,nm((c.li+1)%7,0),nm((c.li+5)%7,0)];return {q:`Hver er <b>${lab}</b> í ${rs(c.sym)}?`,options:opts4(right,[...new Set(pool)]),answer:right,explain:`${rs(c.sym)} = ${c.names.join(" – ")}.`,play:()=>playSeq([...c.ms,c.ms],0.3,0.3)};}},
+   const pool=[...c.names,nm((c.li+1)%7,0),nm((c.li+5)%7,0)];return {q:`Hver er <b>${lab}</b> í ${rs(c.sym)}?`,options:opts4(right,[...new Set(pool)]),answer:right,explain:`${c.sym} = ${c.names.join(" – ")}.`,play:()=>playSeq([...c.ms,c.ms],0.3,0.3)};}},
  rApproach:{kind:"Snarstefjun",title:"Nálgunartónar",intro:"Krómatísk nálgun: hálftónn fyrir neðan markið. Tónstigaskref ofan frá. Umkringing: tónn fyrir ofan, hálftónn fyrir neðan og svo markið.",
   gen(){const T=pick([[2,0,"e"],[4,0,"g"],[0,0,"c"],[5,0,"a"],[6,0,"h"],[1,0,"d"],[3,0,"f"]]),li=T[0],m=OFF[li]+60;
    const bel=(()=>{const p=(m-1)%12,l=(li+6)%7,a=((p-OFF[l])%12+18)%12-6;return nm(l,a);})(),abv=nm((li+1)%7,0);
@@ -4400,7 +4407,7 @@ Object.assign(LVGEN,{
    const [q,a,d]=pick(Q);return {q,options:shuffle([a,...d]).map(x=>({label:x,v:x})),answer:a,explain:a+"."};}},
  rPentaOver:{kind:"Snarstefjun",title:"Pentatónískir yfir hljóma",intro:"Hver pentatónískur tónstigi gefur sinn lit. Á Cmaj7 má nota C-, G- og D-dúr-pentatónískan. Á Dm7 má nota d-, g- og a-moll-pentatónískan.",
   gen(){const Q=[["Cmaj7","C-, G- eða D-dúr-pentatónískur"],["Dm7","d-, g- eða a-moll-pentatónískur"],["G7alt","D♭-dúr-pentatónískur (b♭-moll-pentatónískur)"],["F7 (blús)","f-moll-pentatónískur eða f-blússkali"],["Cmaj7♯11","D-dúr-pentatónískur"],["Am7♭5","c-moll-pentatónískur"]];
-   const [c,a]=pick(Q);return {q:`Hvaða pentatóníski tónstigi passar vel yfir ${rs(c)}?`,options:opts4(a,Q.map(x=>x[1])),answer:a,explain:`${rs(c)} → ${a}.`};}},
+   const [c,a]=pick(Q);return {q:`Hvaða pentatóníski tónstigi passar vel yfir ${rs(c)}?`,options:opts4(a,Q.map(x=>x[1])),answer:a,explain:`${c} → ${a}.`};}},
  rImprovTerms:{kind:"Snarstefjun",title:"Hugtök í spuna",intro:"Orð sem djassleikarar nota um spuna.",
   gen(){const T=[["mótíf","stutt hugmynd sem er endurtekin og breytt"],["sekvens","sama hugmyndin endurtekin á annarri tónhæð"],["trading fours","sólistar skiptast á að spila fjóra takta hver"],["lick","stutt, tilbúin lína úr orðaforða djassins"],
     ["að spila úti (outside)","að fara viljandi út fyrir hljóminn og aftur inn"],["að renna sér (sideslipping)","spila sömu línu hálftón ofar eða neðar og koma svo aftur"],["leiðsögutónalína","lína sem fer í gegnum þríundir og sjöundir hljómanna"],["umkringing","tónn fyrir ofan og neðan markið áður en lent er á því"],["transkripsjón","að skrifa niður sóló eftir heyrn og læra það"],["chorus","ein umferð í gegnum formið"]];
@@ -4765,7 +4772,7 @@ function lvProfRender(){const box=document.getElementById("lvProf");if(!box)retu
 function setLevel(lv,init){if(!LV[lv])lv="g";
   /* rytmísk leið notar alltaf B í stað H: endurhlaða ef heitin breytast */
   const needB=store.get("names")==="B"||lv==="mr"||lv==="fr";
-  if(!init&&needB!==HB.on){store.set("level",lv);if(lv!=="g")store.set("track",lv.length>1?"r":"k");const h0=(location.hash||"").slice(1),m0=h0.match(/^(?:(m|f|mr|fr)-)?lota-(\d+)$/);if(m0)location.hash="#"+(lv==="g"?"":lv+"-")+"lota-"+m0[2];location.reload();return;}
+  if(!init&&(needB!==HB.on||(lv==="mr"||lv==="fr")!==HB.r)){store.set("level",lv);if(lv!=="g")store.set("track",lv.length>1?"r":"k");const h0=(location.hash||"").slice(1),m0=h0.match(/^(?:(m|f|mr|fr)-)?lota-(\d+)$/);if(m0)location.hash="#"+(lv==="g"?"":lv+"-")+"lota-"+m0[2];location.reload();return;}
   LEVEL=lv;store.set("level",lv);if(lv!=="g")store.set("track",lv.length>1?"r":"k");document.documentElement.dataset.level=lv;document.documentElement.dataset.track=lv.length>1?"r":"k";
   document.querySelectorAll(".lvl-sw button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.lv===lv[0])));
   document.querySelectorAll(".trk-sw").forEach(w=>{w.hidden=lv==="g";w.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String((b.dataset.trk==="r")===(lv.length>1))));});
