@@ -794,6 +794,28 @@ button.opt[aria-pressed="true"],.opts-rhythm button[aria-pressed="true"]{backgro
 .sm-leg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.85rem;align-items:center}
 .sm-leg span[style]::before{content:"";display:inline-block;width:18px;height:7px;border-radius:4px;background:var(--c);margin-right:6px;vertical-align:middle}
 .sm-tip{font-size:.9rem;margin:0}
+/* djassspilarar */
+.jz-deck{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:16px;padding:14px 18px;border-radius:24px;background:linear-gradient(135deg,color-mix(in srgb,var(--ink) 92%,#000),color-mix(in srgb,var(--ink) 75%,var(--accent)));color:#fff;margin:6px 0 4px}
+.jz-play{width:60px;height:60px;border-radius:50%;border:0;padding:0;display:grid;place-items:center;background:var(--accent);box-shadow:0 6px 18px -6px color-mix(in srgb,var(--accent) 70%,transparent);cursor:pointer;transition:transform .15s}
+.jz-play:hover{transform:scale(1.06)}.jz-play svg{width:28px;height:28px;fill:#fff}
+.jz-now{display:flex;flex-direction:column;min-width:0}.jz-sym{font-size:1.9rem;line-height:1.1;font-weight:800;letter-spacing:.01em}.jz-sub{font-size:.85rem;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jz-beats{display:flex;gap:7px}.jz-beats i{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.22);transition:background .08s,transform .08s}.jz-beats i.on{background:var(--tone);transform:scale(1.25)}.jz-beats i:first-child.on{background:var(--accent)}
+.jz-tempo{display:grid;grid-template-columns:auto auto;align-items:baseline;gap:0 6px;color:#fff}.jz-tempo span{font-size:1.3rem;font-weight:800}.jz-tempo small{font-size:.72rem;opacity:.75}.jz-tempo input{grid-column:1/-1;width:130px;accent-color:var(--accent)}
+.jz-opts{align-items:center;gap:10px}
+.jz-grid{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:8px;margin:10px 0}
+.jz-bar{--p:0;position:relative;border-radius:16px;background:var(--surface);box-shadow:0 1px 0 var(--line),inset 0 0 0 1.5px var(--line);padding:16px 8px 12px;overflow:hidden;transition:box-shadow .15s,transform .15s}
+.jz-bar.on{box-shadow:0 8px 22px -12px color-mix(in srgb,var(--accent) 80%,transparent),inset 0 0 0 2px var(--accent);transform:translateY(-1px)}
+.jz-n{position:absolute;top:5px;left:9px;font-size:.68rem;font-weight:700;color:var(--muted)}
+.jz-chs{display:flex;gap:4px}.jz-ch{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;border-radius:10px;padding:2px 0}
+.jz-ch b{font-size:1.15rem}.jz-ch small{font-size:.72rem;color:var(--muted);line-height:1.2}.jz-ch small.pa-sc{font-style:italic}
+.jz-chs .jz-ch+.jz-ch{border-left:1.5px dashed var(--line)}
+.jz-bar.on .jz-ch.now b{color:var(--accent)}
+.jz-prog{position:absolute;left:0;bottom:0;height:4px;width:calc(var(--p)*100%);background:var(--accent);opacity:0;border-radius:0 4px 4px 0}
+.jz-bar.on .jz-prog{opacity:1}
+.cr-bars span{position:relative;overflow:hidden;--p:0}
+.cr-bars span::after{content:"";position:absolute;left:0;bottom:0;height:4px;width:calc(var(--p)*100%);background:currentColor;opacity:0}
+.cr-bars span.on::after{opacity:.7}
+@media (max-width:600px){.jz-deck{grid-template-columns:auto 1fr;gap:10px 14px}.jz-beats{grid-column:1/-1;justify-content:center}.jz-tempo{grid-column:1/-1;justify-self:center}.jz-grid{--n:2!important}.jz-sym{font-size:1.5rem}}
 </style>
 
 </head>
@@ -3911,6 +3933,157 @@ const MFIG={
  f5_0:()=>chordSvg([{notes:[{d:25},{d:27},{d:29},{d:31}],label:"V7"},{notes:[{d:28},{d:30},{d:32}],label:"I"}],{step:80}),
  f5_1:()=>chordSvg([{notes:[{d:25},{d:27},{d:29},{d:31}],label:"7"},{notes:[{d:27},{d:29},{d:31},{d:32}],label:"6/5"},{notes:[{d:29},{d:31},{d:32},{d:34}],label:"4/3"},{notes:[{d:31},{d:32},{d:34},{d:36}],label:"2"}],{step:62,minW:300})
 };
+/* ---------- myndir fyrir hugtök á mið- og framhaldsstigi (klassískt og rytmískt) ---------- */
+const FGC=[PINK,BLUE,"var(--hat)","var(--perc)","var(--snare)","var(--open)","var(--tone)"];
+/* hljómaspjöld í röð með örvum */
+function fgCards(items,o={}){const w=o.w||58,g=o.arrow===false?8:22,h=40;let x=6,s="";items.forEach((it,i)=>{const c=it.c||FGC[i%FGC.length],on=it.on!==false;
+    s+=`<rect x="${x}" y="8" width="${w}" height="${h}" rx="12" style="fill:${on?c:"var(--tint)"};opacity:${it.dim?0.45:1}"/>`+tx(x+w/2,33,it.t,{s:it.t.length>6?11:13,c:on?"#fff":"var(--ink)",cls:"no-hb"});
+    if(it.s)s+=tx(x+w/2,64,it.s,{s:10,c:it.sc||"var(--muted)",cls:it.hb?"":"no-hb"});
+    if(i<items.length-1&&o.arrow!==false)s+=arrow(x+w+3,28,x+w+g-4,28,"var(--muted)");x+=w+g;});
+  if(o.br)o.br.forEach(([a,b,t])=>{const x1=6+a*(w+g)+6,x2=6+b*(w+g)+w-6;s+=`<path d="M${x1} 74 V80 H${x2} V74" style="fill:none;stroke:${PINK};stroke-width:2"/>`+tx((x1+x2)/2,93,t,{s:10,c:PINK,cls:"no-hb"});});
+  return sv(x-g+12,o.br?100:(items.some(i=>i.s)?72:56),s,o.sc||1.15);}
+/* pör: „A → B“ í röðum */
+function fgPairs(rows,o={}){const lw=o.lw||92,rw=o.rw||130;let s="",y=6;rows.forEach(([a,b],i)=>{const c=FGC[i%FGC.length];
+    s+=`<rect x="6" y="${y}" width="${lw}" height="24" rx="12" style="fill:${c}"/>`+tx(6+lw/2,y+16,a,{s:11,c:"#fff",cls:"no-hb"})+arrow(lw+12,y+12,lw+28,y+12,"var(--muted)")+
+      `<rect x="${lw+32}" y="${y}" width="${rw}" height="24" rx="12" style="fill:var(--tint)"/>`+tx(lw+32+rw/2,y+16,b,{s:11,c:"var(--ink)"});y+=30;});
+  return sv(lw+rw+40,y,s,o.sc||1.1);}
+/* hljómatafla (t.d. 12 takta blús) */
+function fgGrid(rows,o={}){const cw=o.cw||58,ch=30;let s="";rows.forEach((r,ri)=>r.forEach((c,ci)=>{const t=Array.isArray(c)?c[0]:c,col=Array.isArray(c)?c[1]:PALE;
+    s+=`<rect x="${6+ci*(cw+4)}" y="${6+ri*(ch+4)}" width="${cw}" height="${ch}" rx="8" style="fill:${col}"/>`+tx(6+ci*(cw+4)+cw/2,6+ri*(ch+4)+19,t,{s:t.length>7?9.5:11,c:"var(--ink)",cls:"no-hb"});}));
+  return sv(6+rows[0].length*(cw+4)+2,8+rows.length*(ch+4),s,o.sc||1.15);}
+/* tónbilastigi */
+function fgLadder(){const L=["L2","S2","L3","S3","H4","St4","H5","L6","S6","L7","S7","H8"];let s="";L.forEach((l,i)=>{const h=10+i*6.5,x=8+i*21,c=l[0]==="H"?"var(--hat)":l[0]==="L"?BLUE:l==="St4"?"var(--perc)":PINK;
+    s+=`<rect x="${x}" y="${100-h}" width="17" height="${h}" rx="4" style="fill:${c}"/>`+tx(x+8.5,112,l,{s:8.5,c:"var(--ink)"})+tx(x+8.5,96-h,`${i+1}`,{s:8,c:"var(--muted)"});});
+  return sv(8+12*21+4,118,s+tx(140,10,"hálftónar",{s:9,a:"middle"}),1.15);}
+/* tónstigarnir sjö: mynstrið hliðrast */
+function fgModes(){const N=["jónísk","dórísk","frýgísk","lýdísk","mixólýdísk","eólísk","lókrísk"],base=[2,2,1,2,2,2,1];let s="";
+  N.forEach((n,r)=>{const y=6+r*17;s+=tx(62,y+11,n,{a:"end",s:9.5,c:"var(--ink)"});let x=68;for(let k=0;k<7;k++){const st=base[(r+k)%7],w=st===2?22:11;s+=`<rect x="${x}" y="${y}" width="${w-2}" height="12" rx="4" style="fill:${st===1?PINK:PALE}"/>`;x+=w;}});
+  return sv(230,6+7*17,s,1.2);}
+/* stórsveitin */
+function fgBand(){const R=[["Saxófónar",5,"var(--tone)"],["Trompetar",4,"var(--perc)"],["Básúnur",4,PINK],["Ryþmasveit",4,BLUE]];let s="";
+  R.forEach(([n,k,c],r)=>{const y=10+r*24;s+=tx(76,y+5,n,{a:"end",s:10,c:"var(--ink)"});for(let i=0;i<k;i++)s+=`<circle cx="${92+i*22}" cy="${y+1}" r="8.5" style="fill:${c}"/>`;});
+  return sv(210,10+4*24-6,s,1.2);}
+/* áferð: einröddun, hómófónía, pólýfónía */
+function fgTexture(){let s="";const T=[["Einröddun",[[0,PINK]]],["Hómófónía",[[0,PINK],["blk",BLUE]]],["Pólýfónía",[[0,PINK],[1,BLUE],[2,"var(--hat)"]]]];
+  T.forEach(([n,ls],i)=>{const x0=8+i*92,W=80;s+=`<rect x="${x0}" y="4" width="${W}" height="66" rx="12" style="fill:var(--tint)"/>`+tx(x0+W/2,84,n,{s:10,c:"var(--ink)"});
+    ls.forEach(([k,c])=>{if(k==="blk"){for(let j=0;j<4;j++)s+=`<rect x="${x0+10+j*17}" y="40" width="12" height="20" rx="3" style="fill:${c};opacity:.75"/>`;return;}
+      const yb=[22,40,56][k],ph=k*1.7;let d=`M${x0+8} ${yb}`;for(let t=1;t<=8;t++)d+=` L${x0+8+t*8} ${yb+Math.sin(t*1.1+ph)*7}`;s+=`<path d="${d}" style="fill:none;stroke:${c};stroke-width:3;stroke-linecap:round;stroke-linejoin:round"/>`;});});
+  return sv(8+3*92,90,s,1.15);}
+/* swing: skrifað jafnt, leikið langur-stuttur */
+function fgSwing(){let s=tx(6,16,"Skrifað",{a:"start",s:10,c:"var(--ink)"})+tx(6,52,"Leikið",{a:"start",s:10,c:"var(--ink)"});
+  for(let b=0;b<4;b++){const x=62+b*44;s+=`<rect x="${x}" y="6" width="19" height="14" rx="4" style="fill:${PALE}"/><rect x="${x+21}" y="6" width="19" height="14" rx="4" style="fill:${PALE}"/>`;
+    s+=`<rect x="${x}" y="42" width="27" height="14" rx="4" style="fill:${PINK}"/><rect x="${x+29}" y="42" width="11" height="14" rx="4" style="fill:${BLUE}"/>`+tx(x+20,74,"ta-a tí",{s:9});}
+  return sv(62+4*44,80,s,1.2);}
+/* lagablað: laglína með hljómtáknum */
+function fgLead(){let s="";const sy=["C","Am7","Dm7","G7"],top=30,g=8;for(let i=0;i<5;i++)s+=`<line x1="8" x2="232" y1="${top+i*g}" y2="${top+i*g}" style="stroke:var(--ink);stroke-width:1;opacity:.45"/>`;
+  const ns=[[0,4],[1,3],[2,5],[3,4.5],[4,2],[5,3],[6,1.5],[7,2.5]];ns.forEach(([i,p])=>{const x=24+i*27,y=top+4*g-p*g/2;s+=`<ellipse cx="${x}" cy="${y}" rx="5.5" ry="4" transform="rotate(-18 ${x} ${y})" style="fill:var(--ink)"/><line x1="${x+5}" x2="${x+5}" y1="${y}" y2="${y-24}" style="stroke:var(--ink);stroke-width:1.3"/>`;});
+  sy.forEach((t,i)=>s+=tx(24+i*54,18,t,{a:"start",s:13,c:PINK,cls:"no-hb"}));[62,116,170,224].forEach(x=>s+=`<line x1="${x}" x2="${x}" y1="${top}" y2="${top+4*g}" style="stroke:var(--ink);stroke-width:1.2;opacity:.6"/>`);
+  return sv(240,top+4*g+8,s,1.2);}
+/* hljómtákn krufið */
+function fgSymParts(){let s=tx(56,46,"C",{s:38,c:PINK,cls:"no-hb"})+tx(136,46,"m7",{s:38,c:BLUE,cls:"no-hb"});
+  s+=arrow(56,58,56,72,PINK)+tx(56,86,"grunntónn",{s:10,c:PINK})+arrow(136,58,136,72,BLUE)+tx(136,86,"hljómgerð",{s:10,c:BLUE});return sv(190,92,s,1.2);}
+/* spennumælir hljómgerða */
+function fgMood(){let s=`<defs><linearGradient id="fgmd" x1="0" x2="1"><stop offset="0" stop-color="var(--hat)"/><stop offset=".5" stop-color="var(--tone)"/><stop offset="1" stop-color="var(--perc)"/></linearGradient></defs><rect x="10" y="38" width="250" height="10" rx="5" style="fill:url(#fgmd)"/>`;
+  [["maj7",20,"bjart"],["m7",75,"mjúkt"],["7",130,"spennt"],["m7♭5",185,"dimmt"],["dim7",245,"mjög spennt"]].forEach(([t,x,l])=>{s+=`<circle cx="${x}" cy="43" r="9" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/>`+tx(x,26,t,{s:12,c:"var(--ink)",cls:"no-hb"})+tx(x,68,l,{s:9.5});});
+  return sv(270,74,s,1.15);}
+/* línur: inni og úti (að skjóta út fyrir) */
+function fgOutside(){let s=`<rect x="8" y="44" width="244" height="26" rx="10" style="fill:${PALE}"/><rect x="8" y="10" width="244" height="26" rx="10" style="fill:color-mix(in srgb,var(--ink) 10%,transparent)"/>`+tx(248,66,"inni",{a:"end",s:9.5,c:PINK})+tx(248,32,"hálftón ofar",{a:"end",s:9.5,c:"var(--muted)"});
+  s+=`<path d="M24 60 L50 54 L76 58 L96 26 L122 20 L148 24 L168 56 L196 52 L230 58" style="fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round"/>`;
+  [[24,60],[50,54],[76,58],[96,26],[122,20],[148,24],[168,56],[196,52],[230,58]].forEach(([x,y],i)=>s+=`<circle cx="${x}" cy="${y}" r="5" style="fill:${y<40?"var(--muted)":PINK}"/>`);
+  s+=tx(122,86,"út … og sannfærandi aftur inn",{s:9.5});return sv(260,92,s,1.15);}
+/* upprit: heyrn → nótur */
+function fgUpprit(){let s=`<path d="M22 50 Q22 18 50 18 Q78 18 78 50" style="fill:none;stroke:var(--ink);stroke-width:5;stroke-linecap:round"/><rect x="14" y="44" width="14" height="24" rx="6" style="fill:${PINK}"/><rect x="72" y="44" width="14" height="24" rx="6" style="fill:${PINK}"/>`;
+  s+=arrow(98,46,128,46,"var(--muted)");for(let i=0;i<5;i++)s+=`<line x1="140" x2="250" y1="${26+i*8}" y2="${26+i*8}" style="stroke:var(--ink);stroke-width:1;opacity:.45"/>`;
+  [[156,3],[176,2],[196,4],[216,3.5],[236,1.5]].forEach(([x,p])=>{const y=58-p*8;s+=`<ellipse cx="${x}" cy="${y}" rx="5.5" ry="4" transform="rotate(-18 ${x} ${y})" style="fill:${BLUE}"/>`;});
+  s+=tx(50,86,"hlustaðu",{s:10})+tx(195,86,"skrifaðu og spilaðu",{s:10});return sv(260,92,s,1.15);}
+/* mótíf endurtekið og fært */
+function fgMotif(){let s="";const sh=[[0,0],[8,-10],[18,8]];[0,1,2].forEach(k=>{const x0=14+k*84,y0=50-k*12;const pts=[[0,0],[14,-12],[28,-4],[42,-18]].map(([x,y])=>[x0+x,y0+y]);
+    s+=`<path d="M${pts.map(p=>p.join(" ")).join(" L")}" style="fill:none;stroke:${FGC[k]};stroke-width:3;stroke-linecap:round;stroke-linejoin:round"/>`+pts.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="5" style="fill:${FGC[k]}"/>`).join("");
+    s+=tx(x0+21,82,["mótíf","fært upp","breytt"][k],{s:10});});return sv(260,90,s,1.15);}
+/* hraðabreytingar */
+function fgTempo(){let s=`<path d="M10 60 L80 60 Q120 60 150 20 L170 20" style="fill:none;stroke:${PINK};stroke-width:3"/><path d="M170 20 Q200 20 225 58 L260 58" style="fill:none;stroke:${BLUE};stroke-width:3"/>`;
+  s+=tx(120,76,"accelerando",{s:10,c:PINK})+tx(215,76,"ritardando",{s:10,c:BLUE})+tx(40,50,"a tempo",{s:10,c:"var(--ink)"})+tx(10,10,"hraði",{a:"start",s:9});return sv(270,84,s,1.15);}
+/* tímabil */
+function fgEras(){const E=[["Barokk",1600,1750,"var(--tone)"],["Klassík",1750,1820,"var(--hat)"],["Rómantík",1820,1900,PINK],["20. öld →",1900,2000,BLUE]];let s="";const X=y=>10+(y-1600)*0.62;
+  E.forEach(([n,a,b,c])=>{s+=`<rect x="${X(a)}" y="14" width="${X(b)-X(a)-3}" height="26" rx="8" style="fill:${c}"/>`+tx((X(a)+X(b))/2,31,n,{s:10,c:"var(--ink)"})+tx(X(a),54,String(a),{s:8.5,a:"start"});});
+  return sv(X(2000)+10,60,s,1.15);}
+const fgKey=(t,n,lab)=>staffSVG({clef:"g",ks:{t,n},items:[{notes:[],dur:"w",label:lab,w:60}],step:60,minW:150,scale:1.1});
+
+Object.assign(MFIG,{
+ m1_1:()=>FIG.gclef()+FIG.fclef(),
+ m3_2:()=>rhythmSVG([["q","ee"],["h"],["q","ee"],["q","qr"]],{ts:2,syll:false}),
+ m4_1:()=>fgKey("",0,"C-dúr")+fgKey("b",3,"c-moll"),
+ m10_0:fgTempo,m10_1:()=>fgPairs([["molto","mjög"],["poco","dálítið"],["sempre","alltaf"],["subito","skyndilega"]],{lw:72,rw:96}),m10_2:fgTexture,m10_3:fgEras,
+ f1_0:()=>staffSVG({clef:"g",items:[{notes:[{d:28,hl:true}],dur:"w",label:"c'"}],step:50,minW:120,scale:1.05})+staffSVG({clef:"f",items:[{notes:[{d:28,hl:true}],dur:"w",label:"c'"}],step:50,minW:120,scale:1.05})+cClefSVG("alt",[{d:28,hl:true}],{scale:1.05})+cClefSVG("tenór",[{d:28,hl:true}],{scale:1.05}),
+ f2_0:()=>rhythmSVG([["tri","q"],["tri","tri"]],{ts:2}),
+ f3_0:()=>seqSvg([{d:28},{d:31,acc:1},{d:34},{d:31},{d:29,acc:-1},{d:33}].map((n,i)=>({...n,col:i%2?"cur":null})),{step:34,minW:260}),
+ f4_0:()=>chordSvg([{notes:[{d:28},{d:36}],label:"nýund"},{notes:[{d:28},{d:37}],label:"tíund"},{notes:[{d:28},{d:40}],label:"þrettánd"}],{step:72,minW:260}),
+ f6_0:()=>chordSvg([{notes:[{d:29},{d:31,acc:1},{d:33}],label:"V/V"},{notes:[{d:27},{d:29},{d:32}],label:"V"},{notes:[{d:28},{d:30},{d:32}],label:"I"}],{step:72,minW:260}),
+ f7_0:()=>chordSvg([{notes:[{d:31},{d:33,acc:-1},{d:36,acc:-1}],label:"N6"},{notes:[{d:27},{d:29},{d:32}],label:"V"},{notes:[{d:28},{d:30},{d:32}],label:"I"}],{step:72,minW:260}),
+ f8_0:()=>fgCards([{t:"C-dúr",c:BLUE},{t:"a-moll",s:"brúin",c:PINK},{t:"G-dúr",c:"var(--hat)"}],{w:62}),
+ f9_0:()=>seqSvg([{d:28,label:"h"},{d:29,label:"t",col:"cur"},{d:30,label:"h"},{d:31,label:"t",col:"cur"},{d:32,label:"h"}],{step:36,minW:240}),
+ f10_0:()=>staffSVG({clef:"g",items:[{notes:[{d:30},{d:35}],dur:"w",label:"A · S"}],step:60,minW:140,scale:1.05})+staffSVG({clef:"f",items:[{notes:[{d:14},{d:25}],dur:"w",label:"B · T"}],step:60,minW:140,scale:1.05}),
+ /* rytmískt miðnám */
+ mr1_0:()=>MFIG.m1_0(),mr1_1:fgSwing,mr1_2:fgLead,
+ mr2_0:()=>MFIG.m3_0(),mr2_1:()=>MFIG.m3_1(),mr2_2:()=>rhythmSVG([["eee","eee","eee","eee"]],{ts:12,tsd:8,syll:false}),
+ mr3_0:()=>FIG.relative(),mr3_1:()=>fgKey("#",6,"Fís-dúr")+fgKey("b",6,"Ges-dúr"),
+ mr3_2:()=>kbSVG({from:60,to:72,names:true,hi:{71:"p",72:"l"},arcs:[[71,72,"½ upp í frumtóninn",PINK]]}),
+ mr4_0:()=>chordSvg([{notes:[{d:28},{d:30}],label:"S3"},{notes:[{d:28},{d:30,acc:-1}],label:"L3"},{notes:[{d:28},{d:32}],label:"H5"},{notes:[{d:28},{d:35}],label:"H8"}],{step:58,minW:280}),
+ mr4_1:()=>kbSVG({from:65,to:77,names:true,hi:{67:"l",71:"p",74:"l",77:"p"},arcs:[[71,77,"tritónus: 3 og 7 í G7",PINK]]}),
+ mr4_2:fgLadder,mr5_0:fgModes,
+ mr5_1:()=>fgPairs([["stór þríund","jónísk · lýdísk · mixólýdísk"],["lítil þríund","dórísk · frýgísk · eólísk · lókrísk"]],{lw:84,rw:178}),
+ mr5_2:()=>seqSvg([29,30,31,32,33,34,35,36].map((d,i)=>({d,acc:null,col:i===5?"cur":null,label:i===5?"S6":""})),{step:28,minW:290}),
+ mr6_0:()=>kbSVG({from:57,to:72,names:true,hi:{57:"p",60:"l",62:"l",64:"l",67:"l",69:"p"}}),
+ mr6_1:()=>kbSVG({from:60,to:72,names:true,hi:{60:"p",63:"l",65:"l",66:"p",67:"l",70:"l",72:"p"},arcs:[[65,66,"♭5",PINK]]}),
+ mr6_2:()=>fgGrid([[["I7",PALE],["I7",PALE],["I7",PALE],["I7",PALE]],[["IV7","color-mix(in srgb,var(--kick) 25%,#fff)"],["IV7","color-mix(in srgb,var(--kick) 25%,#fff)"],["I7",PALE],["I7",PALE]],[["V7","color-mix(in srgb,var(--hat) 35%,#fff)"],["IV7","color-mix(in srgb,var(--kick) 25%,#fff)"],["I7",PALE],["I7 / V7",PALE]]]),
+ mr7_0:fgSymParts,
+ mr7_1:()=>chordSvg([{notes:[{d:28},{d:30},{d:32}],label:"C"},{notes:[{d:28},{d:31},{d:32}],label:"Csus4"}],{step:90,minW:230}),
+ mr7_2:()=>chordSvg([{notes:[{d:28},{d:30},{d:32}],label:"C"},{notes:[{d:30},{d:32},{d:35}],label:"C/E"},{notes:[{d:32},{d:35},{d:37}],label:"C/G"}],{step:72,minW:260}),
+ mr8_0:()=>chordSvg([{notes:[{d:28},{d:30},{d:32},{d:34}],label:"Cmaj7"},{notes:[{d:28},{d:30},{d:32},{d:34,acc:-1}],label:"C7"}],{step:90,minW:230}),
+ mr8_1:()=>chordSvg([{notes:[{d:28},{d:30,acc:-1},{d:32},{d:34,acc:-1}],label:"Cm7"},{notes:[{d:28},{d:30,acc:-1},{d:32,acc:-1},{d:34,acc:-1}],label:"Cm7♭5"}],{step:90,minW:230}),
+ mr8_2:()=>kbSVG({from:60,to:72,names:true,hi:{60:"p",63:"p",66:"p",69:"p",72:"p"},arcs:[[60,63,"L3",BLUE],[63,66,"L3",PINK],[66,69,"L3",BLUE],[69,72,"L3",PINK]]}),
+ mr9_0:()=>chordSvg([28,29,30,31,32,33,34].map((d,i)=>({notes:[{d},{d:d+2},{d:d+4},{d:d+6}],label:["I","II","III","IV","V","VI","VII"][i]})),{step:40,minW:330}),
+ mr9_1:()=>fgCards([{t:"Dm7",s:"IIm7"},{t:"G7",s:"V7"},{t:"Cmaj7",s:"Imaj7"}],{w:62}),
+ mr9_2:()=>fgCards([{t:"A7",s:"V7/II",c:"var(--perc)"},{t:"Dm7",s:"IIm7",c:BLUE},{t:"D7",s:"V7/V",c:"var(--perc)"},{t:"G7",s:"V7",c:PINK}],{w:52}),
+ mr10_0:()=>fgCards([{t:"Intro"},{t:"Head"},{t:"Sóló"},{t:"Head"},{t:"Coda"}],{w:46}),mr10_1:fgBand,mr10_2:fgTexture,
+ /* rytmískt framhaldsnám */
+ fr1_0:()=>chordSvg([["maj7",[34]],["7",[34,-1]],["m7",[34,-1],1],["m7♭5",[34,-1],1,1],["dim7",[33],1,1]].map(([l,[d7,a7],m3,b5])=>({notes:[{d:28},{d:30,acc:m3?-1:null},{d:32,acc:b5?-1:null},{d:d7,acc:a7||null}],label:"C"+l})),{step:52,minW:300}),
+ fr1_1:()=>fgPairs([["maj7","Δ7 · M7 · ma7"],["m7","–7 · mi7"],["m7♭5","ø7"],["dim7","°7"]],{lw:70,rw:110}),
+ fr1_2:()=>chordSvg([{notes:[{d:30},{d:32},{d:35}],label:"C/E"},{notes:[{d:28},{d:32},{d:34,acc:-1},{d:36},{d:38}],label:"Gm7/C"}],{step:90,minW:240}),
+ fr2_0:()=>seqSvg([{d:28,label:"1"},{d:30,label:"3"},{d:32,label:"5"},{d:34,acc:-1,label:"7"},{d:36,label:"9",col:"cur"},{d:38,label:"11",col:"cur"},{d:40,label:"13",col:"cur"}],{step:34,minW:280}),
+ fr2_1:()=>seqSvg([{d:28,label:"1"},{d:30,label:"3"},{d:32,label:"5"},{d:34,label:"7"},{d:36,label:"9",col:"cur"},{d:38,acc:1,label:"♯11",col:"cur"},{d:40,label:"13",col:"cur"}],{step:34,minW:280}),
+ fr2_2:()=>seqSvg([{d:28,label:"1"},{d:30,label:"3"},{d:34,acc:-1,label:"♭7"},{d:36,acc:-1,label:"♭9",col:"cur"},{d:36,acc:1,label:"♯9",col:"cur"},{d:38,acc:1,label:"♯11",col:"cur"},{d:40,acc:-1,label:"♭13",col:"cur"}],{step:34,minW:280}),
+ fr3_0:()=>fgPairs([["IIm7","dórísk"],["V7","mixólýdísk"],["Imaj7","jónísk"],["IVmaj7","lýdísk"],["VIIm7♭5","lókrísk"]],{lw:78,rw:96}),
+ fr3_1:()=>fgPairs([["m(maj7)","djassmoll"],["7♯11","lýdísk ♭7"],["7alt","ólagaður tónstigi"]],{lw:78,rw:120}),
+ fr3_2:()=>kbSVG({from:60,to:72,names:true,hi:{60:"b",62:"b",64:"b",66:"b",68:"b",70:"b",72:"b"}})+kbSVG({from:60,to:72,names:true,hi:{60:"p",61:"p",63:"p",64:"p",66:"p",67:"p",69:"p",70:"p",72:"p"}}),
+ fr4_0:()=>MFIG.mr9_0(),
+ fr4_1:()=>fgCards([{t:"Dm7♭5",s:"IIm7♭5"},{t:"G7♭9",s:"V7♭9"},{t:"Cm6",s:"Im6"}],{w:62}),
+ fr4_2:()=>fgCards([{t:"Em7",c:BLUE},{t:"A7",c:PINK},{t:"Dm7",c:BLUE},{t:"G7",c:PINK},{t:"Cmaj7",c:"var(--hat)"}],{w:48,br:[[0,1,"II–V til Dm"],[2,3,"II–V til C"]]}),
+ fr5_0:()=>fgCards([{t:"Cmaj7",c:"var(--hat)"},{t:"A7",s:"V7/II",c:"var(--perc)"},{t:"Dm7",c:BLUE},{t:"G7",c:PINK}],{w:52}),
+ fr5_1:()=>kbSVG({from:65,to:79,names:true,hi:{67:"l",71:"p",74:"l",77:"p",73:"b",68:"b"},arcs:[[71,77,"sameiginlegir: h og f",PINK]]}),
+ fr5_2:()=>fgCards([{t:"Cmaj7",s:"c",c:"var(--hat)"},{t:"C♯dim7",s:"cís",c:"var(--perc)"},{t:"Dm7",s:"d",c:BLUE}],{w:62}),
+ fr6_0:()=>chordSvg([{notes:[{d:31},{d:35}],label:"Dm7"},{notes:[{d:31},{d:34}],label:"G7"},{notes:[{d:30},{d:34}],label:"Cmaj7"}],{step:80,minW:260}),
+ fr6_1:()=>fgCards([{t:"G7",c:PINK},{t:"Cmaj7",c:"var(--hat)"}],{w:56})+fgCards([{t:"Dm7",c:BLUE},{t:"D♭7",c:"var(--perc)"},{t:"Cmaj7",c:"var(--hat)"}],{w:56}),
+ fr6_2:()=>fgCards([{t:"Dm7",s:"16 taktar"},{t:"E♭m7",s:"8 taktar"},{t:"Dm7",s:"8 taktar"}],{w:62,arrow:false}),
+ fr7_0:()=>MFIG.f4_0(),
+ fr7_1:()=>fgCards([{t:"1",s:"grunntónn"},{t:"2",s:"taktur"},{t:"3",s:"hrynur"},{t:"4",s:"tónhæð"}],{w:40}),
+ fr7_2:()=>MFIG.f3_0(),
+ fr8_0:fgMood,
+ fr8_1:()=>staffSVG({clef:"f",items:[{notes:[{d:22}],dur:"w",label:"Dm7"},{notes:[{d:18}],dur:"w",label:"G7"},{notes:[{d:21}],dur:"w",label:"Cmaj7"}],step:62,minW:240,scale:1.15}),
+ fr8_2:()=>rhythmSVG([["tri","q"],["tri","tri"]],{ts:2}),
+ fr9_0:()=>{let s="";for(let i=0;i<8;i++){const strong=i%2===0,x=8+i*30;s+=`<rect x="${x}" y="${strong?14:30}" width="26" height="${strong?30:14}" rx="6" style="fill:${strong?PINK:BLUE};opacity:${strong?1:0.55}"/>`+(strong?tx(x+13,58,["3","7","5","3"][i/2],{s:11,c:PINK}):"");}return sv(250,64,s+tx(8,8,"slög 1 og 3 = hljómtónar",{a:"start",s:9}),1.15);},
+ fr9_1:()=>seqSvg([{d:31,label:"3"},{d:33,label:"5"},{d:35,label:"7"},{d:37,label:"9",col:"cur"}],{step:40,minW:220}),
+ fr9_2:()=>MFIG.fr6_0(),
+ fr10_0:()=>seqSvg([{d:29,acc:1,label:"kr.",col:"cur"},{d:30,label:"mark"},{d:31,label:"skref",col:"cur"},{d:30,label:"mark"}],{step:42,minW:230}),
+ fr10_1:()=>seqSvg([{d:31,label:"ofan",col:"cur"},{d:29,acc:1,label:"neðan",col:"cur"},{d:30,label:"mark"}],{step:46,minW:210}),
+ fr10_2:()=>seqSvg([32,33,34,35,36,37,38,38,39].map((d,i)=>({d,acc:i===7?1:null,col:i===7?"cur":null,label:i===7?"+":""})),{step:28,minW:300}),
+ fr11_0:()=>kbSVG({from:60,to:72,names:true,hi:{62:"p",64:"p",66:"p",69:"p",71:"p"}}),
+ fr11_1:()=>fgGrid([["F7","B♭7","F7","Cm7 F7"],["B♭7","B°7","F7","Am7 D7"],["Gm7","C7","F7 D7","Gm7 C7"]],{cw:62}),
+ fr11_2:fgMotif,
+ fr12_0:()=>kbSVG({from:62,to:74,names:true,hi:{62:"p",64:"l",65:"l",67:"l",69:"l",71:"p",72:"l",74:"p"},arcs:[[62,71,"S6: litur dórísku",PINK]]}),
+ fr12_1:fgOutside,fr12_2:fgUpprit
+});
+
 /* ---------- nótnaskrift á mið- og framhaldsstigi ---------- */
 const nmD=(d,a)=>nm(((d%7)+7)%7,a||0);
 const wCheck=(st,exp,slotOff=0)=>{let ok=0;const marks=st.notes.map((s,i)=>i<slotOff?[]:s.map(n=>s.length===1&&n.d===exp[i-slotOff].d&&effAcc(n,st.ks)===exp[i-slotOff].acc));marks.forEach((m,i)=>{if(i>=slotOff&&m.length===1&&m[0])ok++;});return {ok,marks};};
@@ -4306,6 +4479,47 @@ Object.assign(LVGEN,{
    const [q,a,d]=pick(Q);return {q,options:shuffle([a,...d]).map(x=>({label:x,v:x})),answer:a,explain:a+"."};}}
 });
 
+/* ============ DJASSUNDIRLEIKUR: sameiginleg spilunarvél ============ */
+/* raddsetning með raddfærslu (minnsta hreyfing), gangandi bassi, burstar á ride og hi-hat.
+   Óháð hraðastillingu æfinganna (SPEED) svo takturinn haldist jafn. */
+const JZ_V={maj7:[4,7,11,14],"7":[4,9,10,14],m7:[3,7,10,14],m7b5:[3,6,10,12],m6:[3,7,9,14],dim7:[0,3,6,9],"":[0,4,7],m:[0,3,7],"6":[4,7,9,14],mMaj7:[3,7,11,14],"7sus4":[5,7,10,14],sus4:[0,5,7],aug:[0,4,8],dim:[0,3,6]};
+let JZ_NOISE=null;
+function jzNoise(){if(JZ_NOISE)return JZ_NOISE;const c=ac(),b=c.createBuffer(1,c.sampleRate*1.2,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;return JZ_NOISE=b;}
+function jzCym(t,vol,decay,freq){const c=ac(),s=c.createBufferSource();s.buffer=jzNoise();const f=c.createBiquadFilter();f.type="highpass";f.frequency.value=freq;const f2=c.createBiquadFilter();f2.type="peaking";f2.frequency.value=freq*1.4;f2.gain.value=6;
+  const g=c.createGain();g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+0.004);g.gain.exponentialRampToValueAtTime(0.0001,t+decay);s.connect(f);f.connect(f2);f2.connect(g);g.connect(MASTER);s.start(t,Math.random()*0.5);s.stop(t+decay+0.05);ACTIVE.push(s);}
+function jzT(m,t,d,v){if(PIANO.ready){ac();pianoTone(m,t,d,v);}else{const s0=SCAL;SCAL=false;tone(m,t,d,v);SCAL=s0;}}
+/* raddsetning sem fer sem styst frá þeirri síðustu */
+function jzVoice(pc,q,prev){const iv=JZ_V[q]||JZ_V[""],pcs=iv.map(x=>(pc+x)%12);let best=null,bs=1e9;
+  for(let lo=50;lo<=60;lo++){/* raða tónunum upp frá lo */const v=pcs.map(p=>{let m=lo+((p-lo)%12+12)%12;return m;}).sort((a,b)=>a-b);if(v[v.length-1]>72)continue;
+    const sc=prev?v.reduce((a,m,i)=>a+Math.abs(m-(prev[i]??prev[prev.length-1])),0):Math.abs(v[0]-55)*2;if(sc<bs){bs=sc;best=v;}}
+  return best;}
+/* chords: [{pc,q,beats}] í röð; skilar lengd í sekúndum */
+function jzSched(t,chords,bpm,st,o={}){const b=60/bpm,sw=b*0.62;let beat=0;const s0=SCAL;SCAL=false;
+  chords.forEach((ch,i)=>{const nx=chords[(i+1)%chords.length],ct=t+beat*b,n=ch.beats,iv=JZ_V[ch.q]||JZ_V[""];
+    /* hljómar */const v=jzVoice(ch.pc,ch.q,st.v);st.v=v;
+    const hits=n>=4?[[0,1.55],[1.62,2.35]]:n>=2?[[0,n-0.05]]:[[0,0.95]];
+    if(!o.noComp)hits.forEach(([h,l],k)=>v.forEach(m=>jzT(m,ct+(h>1?1*b+sw:h*b),l*b,k?0.075:0.09)));
+    /* bassi */if(!o.noBass){const near=p=>{let m=36+((p%12)+12)%12;if(st.bass!=null){while(m-st.bass>6)m-=12;while(st.bass-m>6)m+=12;}while(m<33)m+=12;while(m>52)m-=12;return m;};
+      const r=near(ch.pc),nr=near(nx.pc);let line;
+      if(n>=4){const third=r+(iv.includes(3)?3:4),fifth=r+(ch.q==="m7b5"||ch.q==="dim7"?6:7),up=Math.random()<0.5,c2=up?third:fifth,c3=up?fifth:third;line=[r,c2,c3,nr+(nr>c3?-1:1)];}
+      else if(n>=2)line=[r,nr+(Math.random()<0.5?-1:1)];else line=[r];
+      line.forEach((m,k)=>jzT(m,ct+k*b,b*0.97,0.2));st.bass=line[line.length-1];}
+    /* trommur */if(!o.noDrums)for(let k=0;k<n;k++){const bt=ct+k*b,gb=Math.round(beat+k)%2;jzCym(bt,gb?0.05:0.04,0.45,6500);if(gb){jzCym(bt+sw,0.03,0.25,6500);jzCym(bt,0.035,0.05,9000);}}
+    beat+=n;});
+  SCAL=s0;return beat*b;}
+/* lítill spilari: lykkja sem tímasetur heilan hring í einu */
+function jzLoop(getChords,bpmFn,onBeat,o={}){const st={v:null,bass:null};let playing=false,timer=null,iv=null,t0=0,len=0;
+  const api={get playing(){return playing;},start(){stopAll();playing=true;t0=now()+0.12;let next=t0;st.v=null;st.bass=null;
+      const loop=()=>{if(!playing)return;const ch=getChords(),L=jzSched(next,ch,bpmFn(),st,o);if(o.extra)o.extra(next,bpmFn());len=L;next+=L;timer=setTimeout(loop,Math.max(150,(next-now()-1.2)*1000));};loop();
+      iv=setInterval(()=>{if(!playing)return;if(o.host&&!o.host.isConnected){api.stop();return;}const b=60/bpmFn(),el=now()-t0;if(el<0)return;onBeat(el/b);},60);},
+    stop(){playing=false;clearTimeout(timer);clearInterval(iv);stopAll();}};
+  return api;}
+/* sameiginlegt útlit spilaranna */
+function jzDeck(o){return `<div class="jz-deck"><button class="jz-play" aria-label="${o.playing?"Stöðva":"Spila"}">${o.playing?`<svg viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1.5"/><rect x="14" y="5" width="4" height="14" rx="1.5"/></svg>`:`<svg viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>`}</button>
+   <div class="jz-now"><b class="no-hb jz-sym">${o.sym||""}</b><span class="jz-sub">${o.sub||""}</span></div>
+   <div class="jz-beats">${[0,1,2,3].map(i=>`<i data-b="${i}"></i>`).join("")}</div>
+   <label class="jz-tempo"><span>${o.bpm}</span><small>slög/mín</small><input type="range" min="${o.min||60}" max="${o.max||200}" value="${o.bpm}"></label></div>`;}
+
 /* ---------- undirleikur til að spinna yfir ---------- */
 /* taktur: [grunntónn, gerð] eða [[g,gerð],[g,gerð]] (tveir hljómar í takti) */
 const PA_PROG={blues:{t:"12 takta blús",keys:{F:5,"B♭":10,C:0,G:7},bars:[[0,"7"],[0,"7"],[0,"7"],[0,"7"],[5,"7"],[5,"7"],[0,"7"],[0,"7"],[7,"7"],[5,"7"],[0,"7"],[7,"7"]]},
@@ -4318,32 +4532,26 @@ const PA_FL=["C","D♭","D","E♭","E","F","G♭","G","A♭","A","B♭","B"],PA_
 const PA_SC={maj7:["Jónísk",[0,2,4,5,7,9,11]],"7":["Mixólýdísk",[0,2,4,5,7,9,10]],m7:["Dórísk",[0,2,3,5,7,9,10]],m7b5:["Lókrísk",[0,1,3,5,6,8,10]],m6:["Djassmoll",[0,2,3,5,7,9,11]],dim7:["Heiltóns-hálftóns minnkaður",[0,2,3,5,6,8,9,11]]};
 function paSpell(pc,q){/* nótuheiti hljómtóna, stafsett út frá grunntóni */const li=[0,1,1,2,2,3,3,4,5,5,6,6][pc];
   const iv=[[0,0],...RQ[q].iv];return iv.map(([st,se])=>{const l=(li+st)%7,a=(((pc+se)-OFF[l])%12+18)%12-6;return nm(l,a);});}
-function mountPA(host,{prog,title}){const P=PA_PROG[prog];let key=Object.keys(P.keys)[0],bpm=110,timer=null,t0=0,playing=false,info=store.get("paInfo")!==false;
+function mountPA(host,{prog,title}){const P=PA_PROG[prog];let key=Object.keys(P.keys)[0],bpm=store.get("paBpm")||110,info=store.get("paInfo")!==false;
   const chs=b=>Array.isArray(b[0])?b:[b];
   const sym=([p,q])=>PA_FL[(p+P.keys[key])%12]+RQ[q].s;
-  const tip=([p,q])=>{const pc=(p+P.keys[key])%12,S=PA_SC[q];return `<small>${paSpell(pc,q).join(" ")}</small>${S?`<small class="pa-sc">${S[0]}</small>`:""}`;};
-  const draw=()=>{host.innerHTML=`<div class="ex-head"><div><span class="ex-kind">Spuni</span><h3>${title||P.t}: spilaðu með</h3></div></div>
-     <p>Undirleikurinn spilar ${P.t.toLowerCase()} aftur og aftur. Spinndu laglínu yfir hann á hljóðfærið þitt. Byrjaðu á hljómtónunum og bættu svo tónstiganum við.</p>
-     <div class="row"><div class="seg pa-key">${Object.keys(P.keys).map(k=>`<button data-k="${k}" aria-pressed="${k===key}"><span class="no-hb">${k}</span></button>`).join("")}</div>
-       <label class="spd"><span class="spd-l">Hraði</span><input type="range" class="pa-bpm" min="60" max="200" value="${bpm}"><span class="spd-v">${bpm}</span></label>
+  const tones=([p,q])=>paSpell((p+P.keys[key])%12,q).join(" ");
+  const flat=()=>{const out=[];P.bars.forEach(b=>{const C=chs(b);C.forEach(c=>out.push({pc:(c[0]+P.keys[key])%12,q:c[1],beats:4/C.length}));});return out;};
+  const L=jzLoop(flat,()=>bpm,bp=>{const tot=P.bars.length*4,x=bp%tot,bar=Math.floor(x/4),inb=x-bar*4,C=chs(P.bars[bar]),ci=Math.min(C.length-1,Math.floor(inb/(4/C.length))),c=C[ci];
+    host.querySelectorAll(".jz-bar").forEach((el,i)=>{el.classList.toggle("on",i===bar);if(i===bar)el.style.setProperty("--p",(inb/4).toFixed(3));});
+    host.querySelectorAll(".jz-bar.on .jz-ch").forEach((el,i)=>el.classList.toggle("now",i===ci));
+    host.querySelectorAll(".jz-beats i").forEach((el,i)=>el.classList.toggle("on",i===Math.floor(inb)));
+    const sy=host.querySelector(".jz-sym");if(sy&&sy.textContent!==sym(c)){sy.textContent=sym(c);const S=PA_SC[c[1]];host.querySelector(".jz-sub").textContent=tones(c)+(S?" · "+S[0]:"");}},{host});
+  const draw=()=>{const c0=chs(P.bars[0])[0],S0=PA_SC[c0[1]];host.innerHTML=`<div class="ex-head"><div><span class="ex-kind">Spuni</span><h3>${title||P.t}: spilaðu með</h3></div></div>
+     <p>Undirleikurinn spilar ${P.t.toLowerCase()} aftur og aftur: píanó, bassi og trommur. Spinndu laglínu yfir hann á hljóðfærið þitt. Byrjaðu á hljómtónunum og bættu svo tónstiganum við.</p>
+     ${jzDeck({playing:L.playing,bpm,sym:sym(c0),sub:tones(c0)+(S0?" · "+S0[0]:"")})}
+     <div class="row jz-opts"><div class="seg pa-key" aria-label="Tóntegund">${Object.keys(P.keys).map(k=>`<button data-k="${k}" aria-pressed="${k===key}"><span class="no-hb">${k}</span></button>`).join("")}</div>
        <label class="chk"><input type="checkbox" class="pa-info" ${info?"checked":""}> Sýna hljómtóna og tónstiga</label></div>
-     <div class="pa-grid${info?" info":""}" style="--n:${Math.min(4,P.bars.length)}">${P.bars.map((b,i)=>`<span data-i="${i}">${chs(b).map(c=>`<span class="pa-ch"><b class="no-hb">${sym(c)}</b>${info?tip(c):""}</span>`).join("")}</span>`).join("")}</div>
-     <div class="row"><button class="primary pa-go">${playing?"■ Stöðva":"▶ Spila undirleik"}</button></div>`;
-    host.querySelectorAll(".pa-key button").forEach(b=>b.onclick=()=>{key=b.dataset.k;const was=playing;stop();draw();if(was){start();draw();}});
-    const rg=host.querySelector(".pa-bpm");rg.oninput=()=>{bpm=+rg.value;rg.nextElementSibling.textContent=bpm;};rg.onchange=()=>{if(playing){stop();start();draw();}};
-    host.querySelector(".pa-info").onchange=e=>{info=e.target.checked;store.set("paInfo",info);draw();};
-    host.querySelector(".pa-go").onclick=()=>{if(playing){stop();draw();}else{start();draw();}};};
-  const sched=(t)=>{const b=60/bpm,sw=b*2/3;P.bars.forEach((bar,i)=>{const C=chs(bar),bt=t+i*4*b,per=4/C.length;
-      C.forEach((c,j)=>{const pc=(c[0]+P.keys[key])%12,v=rVoice(pc,c[1]),iv=[0,...RQ[c[1]].iv.map(x=>x[1])],ct=bt+j*per*b;
-        const nb=j+1<C.length?C[j+1]:chs(P.bars[(i+1)%P.bars.length])[0],npc=(nb[0]+P.keys[key])%12,root=36+pc;
-        const walk=per===4?[root,root+iv[1],root+iv[2],36+npc+(Math.random()<0.5?1:-1)]:[root,36+npc+(Math.random()<0.5?1:-1)];
-        walk.forEach((m,k)=>tone(m,ct+k*b,b*0.85,0.2));
-        (per===4?[[0,1],[1.5+0.17,0.6]]:[[0,0.9],[1+0.17,0.5]]).forEach(([o,l])=>v.slice(1).forEach(m=>tone(m,ct+o*b,b*l,0.09)));});
-      for(let k=0;k<4;k++){knock(bt+k*b,false,k%2?0.22:0.14);if(k%2)knock(bt+k*b+sw,false,0.1);}});
-    return P.bars.length*4*b;};
-  function hl(){if(!playing||!host.isConnected){stop();return;}const b=60/bpm,el=now()-t0,i=Math.floor((el/(4*b))%P.bars.length);host.querySelectorAll(".pa-grid>span").forEach(s=>s.classList.toggle("on",+s.dataset.i===i&&el>=0));}
-  function start(){stopAll();playing=true;t0=now()+0.1;let next=t0;const loop=()=>{if(!playing)return;const L=sched(next);next+=L;timer=setTimeout(loop,Math.max(200,(next-now()-1.5)*1000));};loop();hl._i=setInterval(hl,80);}
-  function stop(){playing=false;clearTimeout(timer);clearInterval(hl._i);stopAll();}
+     <div class="jz-grid${info?" info":""}" style="--n:${Math.min(4,P.bars.length)}">${P.bars.map((b,i)=>`<div class="jz-bar" data-i="${i}"><span class="jz-n">${i+1}</span><div class="jz-chs">${chs(b).map(c=>`<div class="jz-ch"><b class="no-hb">${sym(c)}</b>${info?`<small>${tones(c)}</small>${PA_SC[c[1]]?`<small class="pa-sc">${PA_SC[c[1]][0]}</small>`:""}`:""}</div>`).join("")}</div><i class="jz-prog"></i></div>`).join("")}</div>`;
+    host.querySelector(".jz-play").onclick=()=>{if(L.playing)L.stop();else L.start();draw();};
+    const rg=host.querySelector(".jz-tempo input");rg.oninput=()=>{bpm=+rg.value;rg.parentNode.querySelector("span").textContent=bpm;};rg.onchange=()=>{store.set("paBpm",bpm);if(L.playing){L.stop();L.start();}};
+    host.querySelectorAll(".pa-key button").forEach(b=>b.onclick=()=>{key=b.dataset.k;const w=L.playing;if(w)L.stop();draw();if(w){L.start();draw();}});
+    host.querySelector(".pa-info").onchange=e=>{info=e.target.checked;store.set("paInfo",info);draw();};};
   draw();}
 
 /* ---------- Bergmál og svar: tölvan spilar tveggja takta línu, nemandinn svarar ---------- */
@@ -4358,32 +4566,26 @@ function crLick(C,lvl){const ct=[0,...RQ[C.q].iv.map(x=>x[1])].map(s=>(C.pc+s)%1
     if(lvl===2&&k>0&&pos%2===0&&Math.random()<0.45&&notes.length&&notes[notes.length-1].d===1){notes[notes.length-1].m=m+(Math.random()<0.5?-1:1);}
     notes.push({p:pos,d:Math.min(dur,14-pos),m});pos+=dur;}
   return notes;}
-function mountCR(host){let chord="Dm7",lvl=1,bpm=100,mode="echo",playing=false,timer=null,t0=0,lick=null,show=false;
-  const draw=()=>{const C=CR_CH[chord];host.innerHTML=`<div class="ex-head"><div><span class="ex-kind">Snarstefjun</span><h3>Bergmál og svar</h3></div></div>
+function mountCR(host){let chord="Dm7",lvl=1,bpm=store.get("crBpm")||100,mode="echo",lick=null,show=false;const C=()=>CR_CH[chord];
+  const L=jzLoop(()=>[0,1,2,3].map(()=>({pc:C().pc,q:C().q,beats:4})),()=>bpm,bp=>{const bar=Math.floor(bp/4)%4,inb=bp%4;
+      host.querySelectorAll(".cr-bars span").forEach(s=>{const i=+s.dataset.b;s.classList.toggle("on",i===bar);if(i===bar)s.style.setProperty("--p",(inb/4).toFixed(3));});
+      host.querySelectorAll(".jz-beats i").forEach((el,i)=>el.classList.toggle("on",i===Math.floor(inb)));},
+    {host,extra:(t,bp)=>{lick=crLick(C(),lvl);const b=60/bp,sw=b*0.62,s0=SCAL;SCAL=false;lick.forEach(x=>{const tt=t+Math.floor(x.p/2)*b+(x.p%2?sw:0),dd=x.d===1?(x.p%2?b-sw:sw)*0.95:x.d*b/2*0.95;jzT(x.m,tt,dd,0.27);});SCAL=s0;
+      const L2=lick.slice();setTimeout(()=>{const el=host.querySelector(".cr-notes");if(el)el.textContent=L2.map(x=>PA_FLN[x.m%12]).join(" – ");},Math.max(0,(t-now())*1000));}});
+  const draw=()=>{const c=C();host.innerHTML=`<div class="ex-head"><div><span class="ex-kind">Snarstefjun</span><h3>Bergmál og svar</h3></div></div>
      <p>${mode==="echo"?"Tölvan spilar stutta línu í tvo takta. Í næstu tveimur töktum endurtekur þú hana á hljóðfærið eða syngur. Þannig þjálfar þú eyrað og lærir tungumál djassins.":"Tölvan spilar „spurningu“ í tvo takta. Þú svarar með þinni eigin línu í næstu tveimur töktum. Reyndu að nota hugmynd úr spurningunni."}</p>
-     <div class="row"><div class="seg cr-mode"><button data-m="echo" aria-pressed="${mode==="echo"}">Bergmál</button><button data-m="qa" aria-pressed="${mode==="qa"}">Spurning og svar</button></div>
-       <div class="seg cr-ch">${Object.keys(CR_CH).map(k=>`<button data-c="${k}" aria-pressed="${k===chord}"><span class="no-hb">${k}</span></button>`).join("")}</div></div>
-     <div class="row"><div class="seg cr-lv">${["Hljómtónar","Tónstigi","Krómatík"].map((t,i)=>`<button data-l="${i}" aria-pressed="${i===lvl}">${t}</button>`).join("")}</div>
-       <label class="spd"><span class="spd-l">Hraði</span><input type="range" class="cr-bpm" min="60" max="160" value="${bpm}"><span class="spd-v">${bpm}</span></label></div>
-     <p class="muted" style="margin:0">Tónstigi: <b>${C.n}</b> · hljómtónar: <b>${paSpell(C.pc,C.q).join(" ")}</b></p>
+     ${jzDeck({playing:L.playing,bpm,min:60,max:160,sym:chord.replace(" (blús)",""),sub:`${c.n} · ${paSpell(c.pc,c.q).join(" ")}`})}
+     <div class="row jz-opts"><div class="seg cr-mode"><button data-m="echo" aria-pressed="${mode==="echo"}">Bergmál</button><button data-m="qa" aria-pressed="${mode==="qa"}">Spurning og svar</button></div>
+       <div class="seg cr-ch">${Object.keys(CR_CH).map(k=>`<button data-c="${k}" aria-pressed="${k===chord}"><span class="no-hb">${k}</span></button>`).join("")}</div>
+       <div class="seg cr-lv">${["Hljómtónar","Tónstigi","Krómatík"].map((t,i)=>`<button data-l="${i}" aria-pressed="${i===lvl}">${t}</button>`).join("")}</div></div>
      <div class="cr-bars"><span data-b="0">Hlustaðu</span><span data-b="1">Hlustaðu</span><span data-b="2">Þú</span><span data-b="3">Þú</span></div>
-     <div class="row"><button class="primary cr-go">${playing?"■ Stöðva":"▶ Byrja"}</button><button class="cr-show">${show?"Fela nóturnar":"Sýna nóturnar"}</button></div>
-     <p class="cr-notes no-hb-x" ${show&&lick?"":"hidden"}>${lick?lick.map(x=>PA_FLN[x.m%12]).join(" – "):""}</p>`;
+     <div class="row"><button class="cr-show">${show?"Fela nóturnar":"Sýna nóturnar"}</button><span class="cr-notes" ${show?"":"hidden"}>${lick?lick.map(x=>PA_FLN[x.m%12]).join(" – "):""}</span></div>`;
+    host.querySelector(".jz-play").onclick=()=>{if(L.playing)L.stop();else L.start();draw();};
+    const rg=host.querySelector(".jz-tempo input");rg.oninput=()=>{bpm=+rg.value;rg.parentNode.querySelector("span").textContent=bpm;};rg.onchange=()=>{store.set("crBpm",bpm);if(L.playing){L.stop();L.start();}};
     host.querySelectorAll(".cr-mode button").forEach(b=>b.onclick=()=>{mode=b.dataset.m;draw();});
-    host.querySelectorAll(".cr-ch button").forEach(b=>b.onclick=()=>{chord=b.dataset.c;const w=playing;stop();draw();if(w){start();draw();}});
+    host.querySelectorAll(".cr-ch button").forEach(b=>b.onclick=()=>{chord=b.dataset.c;const w=L.playing;if(w)L.stop();draw();if(w){L.start();draw();}});
     host.querySelectorAll(".cr-lv button").forEach(b=>b.onclick=()=>{lvl=+b.dataset.l;draw();});
-    const rg=host.querySelector(".cr-bpm");rg.oninput=()=>{bpm=+rg.value;rg.nextElementSibling.textContent=bpm;};rg.onchange=()=>{if(playing){stop();start();draw();}};
-    host.querySelector(".cr-go").onclick=()=>{if(playing){stop();draw();}else{start();draw();}};
     host.querySelector(".cr-show").onclick=()=>{show=!show;draw();};};
-  const cycle=t=>{const C=CR_CH[chord],b=60/bpm,sw=b*2/3,v=rVoice(C.pc,C.q);lick=crLick(C,lvl);
-    for(let bar=0;bar<4;bar++){const bt=t+bar*4*b,root=36+C.pc,iv=[0,...RQ[C.q].iv.map(x=>x[1])];[root,root+iv[1],root+iv[2],root+(Math.random()<0.5?iv[3]||12:7)].forEach((m,k)=>tone(m,bt+k*b,b*0.85,0.18));
-      [[0,1],[1.5+0.17,0.6]].forEach(([o,l])=>v.slice(1).forEach(m=>tone(m,bt+o*b,b*l,0.07)));for(let k=0;k<4;k++){knock(bt+k*b,false,k%2?0.22:0.14);if(k%2)knock(bt+k*b+sw,false,0.1);}}
-    lick.forEach(x=>{const tt=t+Math.floor(x.p/2)*b+(x.p%2?sw:0),dd=x.d===1?(x.p%2?b-sw:sw)*0.95:x.d*b/2*0.95;tone(x.m,tt,dd,0.26);});
-    setTimeout(()=>{const el=host.querySelector(".cr-notes");if(el&&lick){el.textContent=lick.map(x=>PA_FLN[x.m%12]).join(" – ");}},Math.max(0,(t-now())*1000));
-    return 16*b;};
-  function hl(){if(!playing||!host.isConnected){stop();return;}const b=60/bpm,el=now()-t0,i=Math.floor((el/(4*b))%4);host.querySelectorAll(".cr-bars span").forEach(s=>s.classList.toggle("on",+s.dataset.b===i&&el>=0));}
-  function start(){stopAll();playing=true;t0=now()+0.15;let next=t0;const loop=()=>{if(!playing)return;const L=cycle(next);next+=L;timer=setTimeout(loop,Math.max(200,(next-now()-1.2)*1000));};loop();hl._i=setInterval(hl,80);}
-  function stop(){playing=false;clearTimeout(timer);clearInterval(hl._i);stopAll();}
   draw();}
 
 Object.assign(LVGEN,{
@@ -4409,8 +4611,8 @@ Object.assign(LVGEN,{
   gen(){const Q=[["Cmaj7","C-, G- eða D-dúr-pentatónískur"],["Dm7","d-, g- eða a-moll-pentatónískur"],["G7alt","D♭-dúr-pentatónískur (b♭-moll-pentatónískur)"],["F7 (blús)","f-moll-pentatónískur eða f-blússkali"],["Cmaj7♯11","D-dúr-pentatónískur"],["Am7♭5","c-moll-pentatónískur"]];
    const [c,a]=pick(Q);return {q:`Hvaða pentatóníski tónstigi passar vel yfir ${rs(c)}?`,options:opts4(a,Q.map(x=>x[1])),answer:a,explain:`${c} → ${a}.`};}},
  rImprovTerms:{kind:"Snarstefjun",title:"Hugtök í spuna",intro:"Orð sem djassleikarar nota um spuna.",
-  gen(){const T=[["mótíf","stutt hugmynd sem er endurtekin og breytt"],["sekvens","sama hugmyndin endurtekin á annarri tónhæð"],["trading fours","sólistar skiptast á að spila fjóra takta hver"],["lick","stutt, tilbúin lína úr orðaforða djassins"],
-    ["að spila úti (outside)","að fara viljandi út fyrir hljóminn og aftur inn"],["að renna sér (sideslipping)","spila sömu línu hálftón ofar eða neðar og koma svo aftur"],["leiðsögutónalína","lína sem fer í gegnum þríundir og sjöundir hljómanna"],["umkringing","tónn fyrir ofan og neðan markið áður en lent er á því"],["transkripsjón","að skrifa niður sóló eftir heyrn og læra það"],["chorus","ein umferð í gegnum formið"]];
+  gen(){const T=[["mótíf","stutt hugmynd sem er endurtekin og breytt"],["að færa hugmynd","sama hugmyndin endurtekin á annarri tónhæð"],["trading fours","sólistar skiptast á að spila fjóra takta hver"],["lick","stutt, tilbúin lína úr orðaforða djassins"],
+    ["að skjóta út fyrir (outside)","að fara viljandi út fyrir hljóminn og aftur inn"],["að renna sér (sideslipping)","spila sömu línu hálftón ofar eða neðar og koma svo aftur"],["leiðsögutónalína","lína sem fer í gegnum þríundir og sjöundir hljómanna"],["umkringing","tónn fyrir ofan og neðan markið áður en lent er á því"],["upprit","að skrifa niður sóló eftir heyrn og læra það"],["chorus","ein umferð í gegnum formið"]];
    const [w,mn]=pick(T);return {q:`Hvað merkir <b><i>${w}</i></b>?`,options:opts4(mn,T.map(x=>x[1])),answer:mn,explain:`${w}: ${mn}.`};}}
 });
 
@@ -4425,7 +4627,7 @@ const SM_STEPS=[
  {n:"Hrynur",h:"Gefðu línunni líf",p:"Sömu hljómtónarnir, en með fjölbreyttari hrynjanda: þögn á fyrsta slagi, punkteraðar nótur og áttundapartar. Tónar úr tónstiganum (bláir) tengja hljómtónana saman."},
  {n:"Spennutónar",h:"Litur ofan á hljóminn",p:"Sumir hljómtónar víkja fyrir spennutónum (gulir): 9 og 13 á dúr- og mollhljómum, ♭9, ♯9 og ♭13 á D7. Þeir gera línuna nútímalegri en eiga samt heima í hljómnum."},
  {n:"Orðaforði",h:"Nálganir og umkringing",p:"Áttundapartalínur með krómatískum nálgunum (gráir) og umkringingu: tónn fyrir ofan, hálftónn fyrir neðan og svo markið. Þannig hljómar tungumál bebopsins."},
- {n:"Saga",h:"Byggðu sóló sem segir sögu",p:"Stutt mótíf í byrjun, endurtekið á nýjum hljómum (sekvens), svo tilbrigði, og loks þéttari lína sem nær hápunkti og leysist niður á g."}];
+ {n:"Saga",h:"Byggðu sóló sem segir sögu",p:"Stutt mótíf í byrjun, endurtekið og fært á nýja hljóma, svo tilbrigði, og loks þéttari lína sem nær hápunkti og leysist niður á g."}];
 function smPools(bar){const [pc,q]=SM_BARS[bar],sc=SM_SC[bar<4?0:1],ct=[0,...RQ[q].iv.map(x=>x[1])].map(s=>(pc+s)%12),tn=(bar===5?SM_TEN_D7:SM_TEN[q]).map(s=>(pc+s)%12);
   const R=[];for(let m=57;m<=81;m++)R.push(m);return {pc,q,ct:R.filter(m=>ct.includes(m%12)),sc:R.filter(m=>sc.includes(m%12)),tn:R.filter(m=>tn.includes(m%12)),ctp:ct,scp:sc,tnp:tn};}
 function smCat(bar,m){const P=smPools(bar),x=m%12;return P.ctp.includes(x)?"ct":P.tnp.includes(x)?"tn":P.scp.includes(x)?"sc":"ch";}
@@ -4487,14 +4689,11 @@ function mountSolo(host,start=1){let lvl=start,notes=smGen(lvl),deg=true,playing
     host.querySelector(".sm-comp").onclick=()=>{if(playing){stop();draw();}else play(false);};
     host.querySelector(".sm-deg").onchange=e=>{deg=e.target.checked;draw();};
     const rg=host.querySelector(".sm-bpm");rg.oninput=()=>{bpm=+rg.value;rg.nextElementSibling.textContent=bpm;};};
-  function play(mel){stopAll();playing=true;draw();const b=60/bpm,sw=b*2/3;t0=now()+0.15;
-    const sched=(t)=>{SM_BARS.forEach(([pc,q],i)=>{const bt=t+i*4*b,v=rVoice(pc,q),ivs=[0,...RQ[q].iv.map(x=>x[1])],root=36+pc,npc=SM_BARS[(i+1)%8][0];
-        [root,root+ivs[1],root+ivs[2],36+npc+(Math.random()<0.5?1:-1)].forEach((m,k)=>tone(m,bt+k*b,b*0.85,0.18));
-        [[0,1],[1.5+0.17,0.6]].forEach(([o,l])=>v.slice(1).forEach(m=>tone(m,bt+o*b,b*l,0.08)));for(let k=0;k<4;k++){knock(bt+k*b,false,k%2?0.2:0.12);if(k%2)knock(bt+k*b+sw,false,0.09);}});
-      if(mel)notes.forEach(n=>{const tt=t+Math.floor(n.t/2)*b+(n.t%2?sw:0),dd=n.d===1?(n.t%2?b-sw:sw)*0.95:(n.d/2)*b*0.95;tone(n.m,tt,dd,0.25);});return 32*b;};
-    let next=t0;const loop=()=>{if(!playing)return;next+=sched(next);timer=setTimeout(loop,Math.max(200,(next-now()-1.5)*1000));};loop();
-    const ph=()=>host.querySelector(".sm-ph");iv=setInterval(()=>{if(!playing||!host.isConnected){stop();return;}const el=((now()-t0)/(32*b))%1,p=ph();if(p&&now()>=t0){const x=34+el*64*13;p.setAttribute("x1",x);p.setAttribute("x2",x);p.style.opacity=.7;}},50);}
-  function stop(){playing=false;clearTimeout(timer);clearInterval(iv);stopAll();}
+  let melOn=true;const SMC=SM_BARS.map(([pc,q])=>({pc,q,beats:4}));
+  const LP=jzLoop(()=>SMC,()=>bpm,bp=>{const p=host.querySelector(".sm-ph");if(p){const x=34+((bp%32)/32)*64*13;p.setAttribute("x1",x);p.setAttribute("x2",x);p.style.opacity=.75;}},
+    {host,extra:(t,bp)=>{if(!melOn)return;const b=60/bp,sw=b*0.62,s0=SCAL;SCAL=false;notes.forEach(n=>{const tt=t+Math.floor(n.t/2)*b+(n.t%2?sw:0),dd=n.d===1?(n.t%2?b-sw:sw)*0.95:(n.d/2)*b*0.95;jzT(n.m,tt,dd,0.26);});SCAL=s0;}});
+  function play(mel){melOn=mel;playing=true;LP.start();draw();}
+  function stop(){playing=false;LP.stop();}
   draw();}
 
 /* ---------- loturnar ---------- */
@@ -4583,19 +4782,12 @@ LVL_LOTUR.fr=[
  {t:"Tónheyrn: hljómar og hrynur",d:"Hljómgerðir · hljómagangar · þríólur · 5/4, 9/8 og 12/8",c:"--kick",lead:"Að heyra hljómgerðir og hljómaganga og lesa flóknari hryn.",
   cc:[["Hljómgerðir","maj7 bjart, 7 spennt, m7 mjúkt, m7♭5 dimmt, dim7 mjög spennt."],["Hljómagangar","Hlustaðu á bassann fyrst: hann segir hvert hljómurinn fer."],["Þríólur","Þrjár nótur á tíma tveggja: ta-ta-ta á einu slagi."]],
   ex:["rSymEar7","rProgEar","fTripEar",{tap:"read",t:"Klappaðu þríólurnar af blaði",trip:1},{tap:"ear",t:"Endurtaktu hryninn eftir heyrn",trip:1}],sb:["Skrifaðu hljómagang úr lagi sem þú heyrir.","Skrifaðu hryndæmi í 12/8 og 5/4."],
-  ck:["Ég greini sjöundarhljóma eftir heyrn.","Ég les hryn með þríólum og synkópum."]},
- {t:"Djasssaga",d:"Ragtime og New Orleans · swing · bebop · cool og hard bop · módal · free · bræðingur",c:"--perc",lead:"Helstu stílar djassins, flytjendur og upptökur, frá New Orleans til nútímans.",
-  cc:[["Upphafið","Ragtime og blús → New Orleans-djass (Louis Armstrong). Swing-stórsveitir á fjórða áratugnum (Duke Ellington, Count Basie)."],["Nútímadjass","Bebop (Charlie Parker, Dizzy Gillespie), cool, hard bop, módal (Kind of Blue) og free (Ornette Coleman)."],["Bræðingur","Djass mætir rokki og fönki um 1970: Bitches Brew, Weather Report, Herbie Hancock."]],
-  ex:["rHist",{todo:"Íslensk djasssaga"},{todo:"Hlustunardæmi: þekktu stílinn"}],sb:["Gerðu tímalínu djassins með einum flytjanda og einni plötu fyrir hvern stíl.","Skrifaðu stutta ritgerð um einn djasstónlistarmann."],
-  ck:["Ég þekki helstu stíla djassins í réttri röð.","Ég þekki helstu flytjendur og upptökur."]},
- {t:"Rokk- og dægurtónlistarsaga",d:"Rokk og ról · bítlatímabilið · pönk og grönn · íslensk dægurtónlist",c:"--perc",lead:"Saga rokks og dægurtónlistar og tengslin við djass og blús.",
-  cc:[["Rætur","Blús, rhythm and blues og kántrí → rokk og ról á sjötta áratugnum."],["Sjöundi og áttundi áratugurinn","Bítlarnir, Rolling Stones, Jimi Hendrix, Motown, fönk, pönk."],["Íslenskt","Hljómar, Trúbrot, Stuðmenn, Sykurmolarnir, Sigur Rós og margt fleira."]],
-  ex:["rRock",{todo:"Hlustun og greining á óþekktu efni"}],sb:["Veldu eina íslenska hljómsveit og skrifaðu um sögu hennar.","Berðu saman tvö lög úr ólíkum stílum."],
-  ck:["Ég þekki helstu tímabil rokks og dægurtónlistar.","Ég þekki sögu íslenskrar dægurtónlistar."]}];
+  ck:["Ég greini sjöundarhljóma eftir heyrn.","Ég les hryn með þríólum og synkópum."]}];
+
 LVL_PROF.mr={h:"Miðpróf í tónfræðagreinum (rytmískt)",src:"Samkvæmt aðalnámskrá tónlistarskóla, rytmísk tónlist (2010).",parts:[["A. Munnlegt","Hryndæmi eftir heyrn og af blaði, laglína eftir heyrn og af blaði (4 × 5 einingar). Allt að 10 mínútur.","20"],["B. Skriflegt","Skriflegt próf (20), hlustun og greining (20) og tónfræðileg þekkingaratriði (20). Allt að 1,5 klst.","60"],["C. Verklegt á hljóðfæri","Brotnir hljómar og tónstigar yfir hljómagang (10), laglína og spuni yfir hljómagang (10).","20"]],
   notes:["Meðaleinkunn 6,0 þarf til að standast.","Prófanefnd semur prófið og það er haldið að vori.","Grunnprófi í tónfræðagreinum þarf að vera lokið."]};
-LVL_PROF.fr={h:"Framhaldspróf í tónfræðagreinum (rytmískt)",src:"Samkvæmt aðalnámskrá tónlistarskóla, rytmísk tónlist (2010).",parts:[["Djasshljómfræði","Skriflegt (80): hljómgreining 40, tónstigar 20, endurhljómsetning 10, hugtök 10. Verklegt á hljóðfæri (20).","6,0"],["Tónheyrn","Munnlegt (40) og skriflegt (60): tónbil, laglína, hryn, hljómar, hljómaröð, utan tóntegundar og tveggja radda laglína.","6,0"],["Djass- og rokksaga","Skriflegt: hlustun (40) og saga (60).","6,0"],["Valgrein","Skólinn ákveður námsmat.","6,0"]],
-  notes:["Lágmarkseinkunn 6,0 í hverri grein.","Skriflegt próf allt að 2 klst., munnlegt og verklegt allt að 10 mínútur.","Skólinn semur og metur prófin."]};
+LVL_PROF.fr={h:"Framhaldspróf í tónfræðagreinum (rytmískt)",src:"Samkvæmt aðalnámskrá tónlistarskóla, rytmísk tónlist (2010).",parts:[["Djasshljómfræði","Skriflegt (80): hljómgreining 40, tónstigar 20, endurhljómsetning 10, hugtök 10. Verklegt á hljóðfæri (20).","6,0"],["Tónheyrn","Munnlegt (40) og skriflegt (60): tónbil, laglína, hryn, hljómar, hljómaröð, utan tóntegundar og tveggja radda laglína.","6,0"],["Djass- og rokksaga","Skriflegt: hlustun (40) og saga (60). Kennd á tónlistarsöguvefnum.","6,0"],["Valgrein","Skólinn ákveður námsmat.","6,0"]],
+  notes:["Lágmarkseinkunn 6,0 í hverri grein.","Skriflegt próf allt að 2 klst., munnlegt og verklegt allt að 10 mínútur.","Skólinn semur og metur prófin.","Djass- og rokksaga er kennd á <a href=\"https://bjagri.github.io/tonlistarsaga/\" target=\"_blank\" rel=\"noopener\">söguvefnum</a>."]};
 LVL_LOTUR.fr.push(
  {t:"Snarstefjun I: hljómtónar",d:"Hljómtónar á sterkum slögum · brotnir hljómar · leiðsögutónalínur",c:"--open",lead:"Góður spuni heyrist í hljómunum. Fyrsta skrefið er að lenda á hljómtónum á réttum stöðum og tengja hljómana saman.",
   cc:[["Hljómtónarnir eru akkerið","Lentu á grunntóni, þríund, fimmund eða sjöund á slögum 1 og 3. Þá heyrist hljómurinn í línunni þinni, jafnvel án undirleiks."],["Brotnir hljómar","Spilaðu 1-3-5-7 og 3-5-7-9 upp og niður yfir hvern hljóm. 3-5-7-9 á m7-hljómi er sami tónn og maj7-hljómur þríund ofar."],["Leiðsögutónalína","Tengdu þríundir og sjöundir hljómanna með minnstu hreyfingu. Í II–V–I fer sjöundin niður um hálftón í þríund næsta hljóms."]],
@@ -4605,13 +4797,13 @@ LVL_LOTUR.fr.push(
   cc:[["Nálgunartónar","Krómatísk nálgun: hálftónn fyrir neðan markið. Tónstigaskref: næsti tónn ofan frá. Báðir leysast í hljómtón á slagi."],["Umkringing","Tónn fyrir ofan, svo hálftónn fyrir neðan og loks markið: f – dís – e. Algengt í bebop."],["Bebop-tónstigar","Mixólýdísk + stór sjöund (g a h c d e f fís g). Með aukatóninum lenda hljómtónarnir á slögunum þegar leikið er niður í áttundapörtum."]],
   ex:[{solo:5},"rApproach","rBebop",{cr:1},{pa:"turn"}],sb:["Skrifaðu krómatíska nálgun og umkringingu að hverjum hljómtóni í Cmaj7.","Skrifaðu bebop-forhljómstónstiga frá G, C og F."],
   ck:["Ég nota krómatískar nálganir og umkringingu.","Ég kann bebop-forhljómstónstigann."]},
- {t:"Snarstefjun III: pentatónískir og blús",d:"Pentatónískir yfir hljóma · djassblús · mótíf og sekvens",c:"--open",lead:"Pentatónískir tónstigar gefa opinn, nútímalegan hljóm. Í djassblús reynir á að fylgja fleiri hljómum en í venjulegum blús.",
-  cc:[["Pentatónískir yfir hljóma","Á Cmaj7 má nota C-, G- og D-dúr-pentatónískan. Því lengra frá grunntóninum, þeim mun meiri litur."],["Djassblús","Sami 12 takta grunnur, en með II–V og aukaforhljómum: F7 B♭7 F7 Cm7–F7 B♭7 B°7 F7 Am7–D7 Gm7 C7 F7–D7 Gm7–C7."],["Mótíf og sekvens","Byrjaðu á stuttri hugmynd og endurtaktu hana, breyttu henni og færðu á aðra tónhæð. Þá segir sólóið sögu."]],
+ {t:"Snarstefjun III: pentatónískir og blús",d:"Pentatónískir yfir hljóma · djassblús · mótíf og hugmyndir",c:"--open",lead:"Pentatónískir tónstigar gefa opinn, nútímalegan hljóm. Í djassblús reynir á að fylgja fleiri hljómum en í venjulegum blús.",
+  cc:[["Pentatónískir yfir hljóma","Á Cmaj7 má nota C-, G- og D-dúr-pentatónískan. Því lengra frá grunntóninum, þeim mun meiri litur."],["Djassblús","Sami 12 takta grunnur, en með II–V og aukaforhljómum: F7 B♭7 F7 Cm7–F7 B♭7 B°7 F7 Am7–D7 Gm7 C7 F7–D7 Gm7–C7."],["Mótíf og hugmyndir","Byrjaðu á stuttri hugmynd og endurtaktu hana, breyttu henni og færðu á aðra tónhæð. Þá segir sólóið sögu."]],
   ex:[{solo:4},"rPentaOver","rImprovTerms",{pa:"jazzblues"},{cr:1}],sb:["Skrifaðu hljómagang djassblúss í F og B♭.","Semdu tveggja takta mótíf og skrifaðu þrjú tilbrigði við það."],
   ck:["Ég nota pentatóníska tónstiga yfir ólíka hljóma.","Ég spila yfir djassblús.","Ég byggi sóló á mótífi."]},
- {t:"Snarstefjun IV: módal, úti og sóló",d:"Módal spuni · að spila úti · transkripsjón · trading fours",c:"--open",lead:"Í módal djassi standa hljómarnir lengi og liturinn kemur úr tónstiganum. Hér lærir þú líka að fara út fyrir hljóminn og koma aftur, og að læra sóló eftir heyrn.",
-  cc:[["Módal spuni","Einn hljómur í marga takta, t.d. Dm7 í dórískri. Einkennistónninn (stóra sexundin) gefur litinn. Hugsaðu í mótífum frekar en hljómum."],["Að spila úti","Spilaðu línu hálftón ofar en hljómurinn (sideslipping) og leystu hana aftur inn. Spennan virkar ef þú kemur sannfærandi til baka."],["Transkripsjón","Skrifaðu niður sóló eftir heyrn og lærðu að spila það. Svona hafa djassleikarar alltaf lært tungumálið. Í framhaldsprófi er fluttur skriflegur sóló."]],
-  ex:[{solo:6},{pa:"dorian"},"rImprovTerms",{cr:1},{todo:"Transkripsjón: skrifaðu niður sóló eftir heyrn og spilaðu það með upptökunni"},{todo:"Skrifaðu eigið sóló yfir djassblús og fluttu það"}],sb:["Veldu sóló sem þú vilt læra og skrifaðu niður fyrstu 12 taktana.","Spinndu yfir dórískt vamp og prófaðu að fara út hálftón ofar og koma aftur."],
+ {t:"Snarstefjun IV: módal, út fyrir og upprit",d:"Módal spuni · að skjóta út fyrir · upprit · trading fours",c:"--open",lead:"Í módal djassi standa hljómarnir lengi og liturinn kemur úr tónstiganum. Hér lærir þú líka að fara út fyrir hljóminn og koma aftur, og að læra sóló eftir heyrn.",
+  cc:[["Módal spuni","Einn hljómur í marga takta, t.d. Dm7 í dórískri. Einkennistónninn (stóra sexundin) gefur litinn. Hugsaðu í mótífum frekar en hljómum."],["Að skjóta út fyrir","Spilaðu línu hálftón ofar en hljómurinn (sideslipping) og leystu hana aftur inn. Spennan virkar ef þú kemur sannfærandi til baka."],["Upprit","Skrifaðu niður sóló eftir heyrn og lærðu að spila það. Svona hafa djassleikarar alltaf lært tungumálið. Í framhaldsprófi er fluttur skriflegur sóló."]],
+  ex:[{solo:6},{pa:"dorian"},"rImprovTerms",{cr:1},{todo:"Upprit: skrifaðu niður sóló eftir heyrn og spilaðu það með upptökunni"},{todo:"Skrifaðu eigið sóló yfir djassblús og fluttu það"}],sb:["Veldu sóló sem þú vilt læra og skrifaðu niður fyrstu 12 taktana.","Spinndu yfir dórískt vamp og prófaðu að fara út hálftón ofar og koma aftur."],
   ck:["Ég spinn yfir módal vamp.","Ég get farið út fyrir hljóminn og komið aftur.","Ég hef skrifað niður og lært sóló eftir heyrn."]});
 /* ---------- sýnipróf fyrir rytmísku leiðina ---------- */
 const EXAM_PLAN_MR=[
@@ -4620,10 +4812,9 @@ const EXAM_PLAN_MR=[
  {id:"h",name:"B2. Hlustun og greining",sub:"Orð á lagablöðum, stórsveitin, stílar og áferð",pts:20,c:"--hat",items:[["rTerms",4],["rBigBand",2],["rStyles",2],["mTexture",1]]},
  {id:"k",name:"B3. Tónfræðileg þekkingaratriði",sub:"Hljómtákn, heimahljómar, II–V–I, aukaforhljómar, kirkjutóntegundir, blús og tóntegundir",pts:20,c:"--snare",items:[["rSymRead3",1],["rSymRead7",2],["rSystems",1],["rDiatonic",2],["rIIVI",1],["rSecDom",1],["rModes",1],["rJazzScales",1],["rBlues",1],["mInt",1],["mRel",1],["w_mWTriad",1]]}];
 const EXAM_PLAN_FR=[
- {id:"k",name:"A. Djasshljómfræði",sub:"Hljómgreining, tónstigar, spennutónar, staðgenglar, leiðsögutónar og hugtök",pts:35,c:"--snare",items:[["rAnalyze",4],["rChordScale",3],["rSymExt",2],["rTritone",1],["rGuide",1],["rSystems",1],["rDiatonic",1],["rPentaOver",1],["rBebop",1],["rApproach",1]]},
+ {id:"k",name:"A. Djasshljómfræði",sub:"Hljómgreining, tónstigar, spennutónar, staðgenglar, leiðsögutónar og hugtök",pts:45,c:"--snare",items:[["rAnalyze",4],["rChordScale",3],["rSymExt",2],["rTritone",1],["rGuide",1],["rSystems",1],["rDiatonic",1],["rPentaOver",1],["rBebop",1],["rApproach",1]]},
  {id:"m",name:"B. Tónheyrn, munnleg",sub:"Hryndæmi með þríólum og synkópum, eftir heyrn og af blaði",pts:15,c:"--perc",items:[["fTapEar",2],["fTapRead",2]]},
- {id:"t",name:"C. Tónheyrn, skrifleg",sub:"Tónbil innan tveggja áttunda, hljómgerðir, hljómagangar, þríólur og laglína",pts:25,c:"--kick",items:[["fIntEar2",2],["rSymEar7",2],["rProgEar",2],["rIIVIEar",1],["fTripEar",1],["w_songDict",1]]},
- {id:"h",name:"D. Djass- og rokksaga",sub:"Stílar, flytjendur og upptökur",pts:25,c:"--hat",items:[["rHist",5],["rRock",3]]}];
+ {id:"t",name:"C. Tónheyrn, skrifleg",sub:"Tónbil innan tveggja áttunda, hljómgerðir, hljómagangar, þríólur og laglína",pts:40,c:"--kick",items:[["fIntEar2",2],["rSymEar7",2],["rProgEar",2],["rIIVIEar",1],["fTripEar",1],["w_songDict",1]]}];
 const EXAM_INTRO_MR=`<div class="summary" style="--c:var(--accent)"><h3>Svona er sýniprófið</h3><ul>
      <li><b>A. Munnlegt próf (20):</b> hryndæmi með synkópum, eftir heyrn og af blaði. Með hljóðnema syngur þú líka laglínu eftir heyrn og af blaði.</li>
      <li><b>B1. Skriflegt (20):</b> tónbil, hljómgerðir, swing, kirkjutóntegundir og II–V–I eftir heyrn.</li>
@@ -4637,11 +4828,10 @@ const EXAM_INTRO_FR=`<div class="summary" style="--c:var(--accent)"><h3>Svona er
      <li><b>A. Djasshljómfræði:</b> hljómgreining, tónstigar, spennutónar, staðgenglar og leiðsögutónar.</li>
      <li><b>B. Tónheyrn, munnleg:</b> hryndæmi með þríólum og synkópum.</li>
      <li><b>C. Tónheyrn, skrifleg:</b> tónbil innan tveggja áttunda, hljómgerðir, hljómagangar og laglína eftir heyrn.</li>
-     <li><b>D. Djass- og rokksaga:</b> stílar, flytjendur og upptökur.</li>
      <li>Þú mátt hlusta <b>eins oft og þú vilt</b>. Niðurstöður og útskýringar koma í lokin.</li></ul></div>
    <div class="summary" style="--c:var(--snare)"><h3>Það sem vantar upp á alvöru framhaldsprófið</h3><ul>
      <li>Í alvöru prófinu fær hver grein sína einkunn (lágmark 6,0). Hér eru greinarnar saman í einu prófi.</li>
-     <li>Verklegi hlutinn í djasshljómfræði, endurhljómsetning, tveggja radda laglína og hlustun á upptökur bætast við síðar.</li></ul></div></div>`;
+     <li>Verklegi hlutinn í djasshljómfræði, endurhljómsetning og tveggja radda laglína bætast við síðar. Djass- og rokksaga er á <a href="https://bjagri.github.io/tonlistarsaga/" target="_blank" rel="noopener">söguvefnum</a>.</li></ul></div></div>`;
 
 /* ============ KAFAÐ DÝPRA: tónstigakönnuður ============ */
 const SCX={
@@ -4728,7 +4918,7 @@ function lvSingInt(card,dir,title){const S={ok:0,t:0};
 /* ---------- birting ---------- */
 function lvPhases(lv){const L=LVL_LOTUR[lv];
   if(lv==="mr")return [{name:"Lestur og hrynur",c:"--kick",art:"staff",from:1,to:2},{name:"Tóntegundir, tónbil og tónstigar",c:"--snare",art:"circle",from:3,to:6},{name:"Hljómtákn og hljómagangar",c:"--hat",art:"chord",from:7,to:9},{name:"Orð, tákn og hlustun",c:"--perc",art:"form",from:10,to:10}];
-  if(lv==="fr")return [{name:"Hljómar og tónstigar",c:"--hat",art:"chord",from:1,to:3},{name:"Hljómagreining",c:"--snare",art:"circle",from:4,to:6},{name:"Tónheyrn",c:"--kick",art:"staff",from:7,to:8},{name:"Djass- og rokksaga",c:"--perc",art:"form",from:9,to:10},{name:"Snarstefjun",c:"--open",art:"chord",from:11,to:14}];
+  if(lv==="fr")return [{name:"Hljómar og tónstigar",c:"--hat",art:"chord",from:1,to:3},{name:"Hljómagreining",c:"--snare",art:"circle",from:4,to:6},{name:"Tónheyrn",c:"--kick",art:"staff",from:7,to:8},{name:"Snarstefjun",c:"--open",art:"chord",from:9,to:12}];
   return lv==="m"?[{name:"Nótur og hrynur",c:"--kick",art:"staff",from:1,to:3},{name:"Tóntegundir og tónstigar",c:"--snare",art:"circle",from:4,to:6},{name:"Tónbil og hljómar",c:"--hat",art:"chord",from:7,to:9},{name:"Orð, tákn og hlustun",c:"--perc",art:"form",from:10,to:10}]
   :[{name:"Lestur og hrynur",c:"--kick",art:"staff",from:1,to:2},{name:"Tónheyrn",c:"--snare",art:"circle",from:3,to:4},{name:"Hljómfræði",c:"--hat",art:"chord",from:5,to:8},{name:"Greining",c:"--perc",art:"form",from:9,to:10}];}
 function lvLoturRender(){const ps=document.getElementById("phaseStack");if(!ps)return;const head=document.querySelector('section[data-view="lotur"] .vm-head');
@@ -4790,7 +4980,7 @@ function lvHomeRender(){const E=document.getElementById("heroEyebrow"),Ld=docume
   if(LEVEL==="g"){Ld.textContent=HERO_G.l;St.href="#lota-1";PM.innerHTML=HERO_G.pm;TC.innerHTML=HERO_G.tc;const hx=document.getElementById("heroTrk");if(hx)hx.innerHTML="";return;}
   const PH=lvPhases(LEVEL),LL=LVL_LOTUR[LEVEL];
   {const hx=document.getElementById("heroTrk");if(hx)hx.innerHTML=LEVEL==="g"?"":trkHTML();else Ld.insertAdjacentHTML("afterend",`<div id="heroTrk">${LEVEL==="g"?"":trkHTML()}</div>`);}
-  Ld.textContent=LEVEL==="mr"?"Hljómtákn, kirkjutóntegundir, blús, II–V–I, swing og hlustun. Allt fyrir rytmískt miðpróf í tónfræðagreinum, með æfingum og undirleik til að spinna yfir.":LEVEL==="fr"?"Djasshljómfræði, tónheyrn og djass- og rokksaga. Undirbúningur fyrir rytmískt framhaldspróf í tónfræðagreinum.":LEVEL==="m"?"Tónstigar í öllum tóntegundum, tónbil, hljómar, ítalskur orðaforði og hlustun. Allt sem þú þarft fyrir miðpróf í tónfræði, með æfingum sem þú getur hlustað á.":"Sjöundarhljómar, hljómfræði, tónheyrn og greining. Undirbúningur fyrir framhaldspróf í tónfræði, með æfingum sem þú getur hlustað á.";
+  Ld.textContent=LEVEL==="mr"?"Hljómtákn, kirkjutóntegundir, blús, II–V–I, swing og hlustun. Allt fyrir rytmískt miðpróf í tónfræðagreinum, með æfingum og undirleik til að spinna yfir.":LEVEL==="fr"?"Djasshljómfræði, tónheyrn og snarstefjun. Undirbúningur fyrir rytmískt framhaldspróf í tónfræðagreinum.":LEVEL==="m"?"Tónstigar í öllum tóntegundum, tónbil, hljómar, ítalskur orðaforði og hlustun. Allt sem þú þarft fyrir miðpróf í tónfræði, með æfingum sem þú getur hlustað á.":"Sjöundarhljómar, hljómfræði, tónheyrn og greining. Undirbúningur fyrir framhaldspróf í tónfræði, með æfingum sem þú getur hlustað á.";
   St.href=`#${LEVEL}-lota-1`;
   PM.innerHTML=PH.map(ph=>`<a class="pm-card" href="#lotur" style="--c:var(${ph.c})"><div class="pm-art" aria-hidden="true">${ART[ph.art]()}</div><b>${ph.name}</b><small>${ph.from===ph.to?`Lota ${ph.from}`:`Lotur ${ph.from}–${ph.to}`}</small></a>`).join("");
   TC.innerHTML=LL.map((L,i)=>{const ph=PH.find(p=>i+1>=p.from&&i+1<=p.to);return `<a href="#${LEVEL}-lota-${i+1}" style="--c:var(${ph.c})"><i></i>${L.s||L.t}</a>`;}).join("");}
