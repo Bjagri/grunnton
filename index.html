@@ -756,6 +756,24 @@ button.opt[aria-pressed="true"],.opts-rhythm button[aria-pressed="true"]{backgro
 .pa-grid{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:6px;margin:12px 0}
 .pa-grid span{padding:14px 8px;border-radius:14px;background:var(--tint);font-weight:700;font-size:1.05rem;text-align:center;transition:background .15s,color .15s,transform .15s}
 .pa-grid span.on{background:var(--accent);color:#fff;transform:scale(1.04)}
+/* tónstigakönnuður */
+.scx-tabs{flex-wrap:wrap}
+.scx-opts{align-items:center;gap:12px}
+.scx-ring{display:flex;flex-direction:column;gap:6px}.scx-ring p{margin:0;font-size:.9rem}
+.scx-strip{display:flex;gap:3px;overflow-x:auto;padding:4px 14px 2px 2px}
+.scx-strip .st{flex:var(--d) 0 calc(var(--d)*24px);min-width:calc(var(--d)*22px);position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:3px;opacity:.38;transition:opacity .35s}
+.scx-strip .st b{display:block;width:100%;text-align:center;padding:6px 0;border-radius:10px;background:color-mix(in srgb,var(--hat) 30%,var(--surface));font-size:.9rem}
+.scx-strip .st.s1 b{background:color-mix(in srgb,var(--accent) 40%,var(--surface))}
+.scx-strip .st.s3 b{background:color-mix(in srgb,var(--perc) 35%,var(--surface))}
+.scx-strip .st i{font-style:normal;font-size:.78rem;color:var(--muted);transform:translateX(-35%)}
+.scx-strip .st.in{opacity:1}.scx-strip .st.in b{box-shadow:inset 0 0 0 2px var(--ink)}
+.scx-strip .st.end{flex:0 0 0;min-width:0;opacity:1}
+.scx-main{display:flex;flex-direction:column;align-items:center;gap:8px}
+.scx-steps{display:flex;gap:4px;flex-wrap:wrap;justify-content:center}
+.scx-steps .sp{display:flex;flex-direction:column;align-items:center;padding:4px 8px;border-radius:10px;background:color-mix(in srgb,var(--hat) 22%,var(--surface));min-width:40px}
+.scx-steps .sp.s1{background:color-mix(in srgb,var(--accent) 30%,var(--surface))}.scx-steps .sp.s3{background:color-mix(in srgb,var(--perc) 30%,var(--surface))}
+.scx-steps .sp em{font-style:normal;font-size:.7rem;color:var(--muted)}.scx-steps .sp b{font-size:1rem}
+.scx-kb{width:100%;max-width:380px;height:auto}
 </style>
 
 </head>
@@ -4009,7 +4027,7 @@ const LVGEN={
    const st={t:K.t,n:K.n},sc=Array.from({length:7},(_,i)=>{const li=(K.l+i)%7,d=28+li;return nm(li,ksAccOf(d,st)||0);});const right=sc[deg[0]];
    return {q:`Hver er <b>${deg[1]}</b> í ${K.maj}-dúr?`,options:opts4(right,sc),answer:right,explain:`${K.maj}-dúr: ${sc.join(" ")}. ${cap(deg[1])} er ${["1.","","","4.","5.","","7."][deg[0]]} tónninn.`};}},
  mRel:{kind:"Tónfræði",title:"Skyldar tóntegundir",intro:"Sammarka tóntegundir hafa sömu formerki (C-dúr og a-moll). Samnefndar tóntegundir hafa sama frumtón (C-dúr og c-moll).",
-  gen(){const K=pick(KEYS.slice(0,6).concat(KEYS.slice(7))),SM=LEVEL.length>1?"samhljóða":"sammarka",kind=pick([SM,"samnefnd"]);const right=kind===SM?K.min+"-moll":K.maj.toLowerCase()+"-moll";
+  gen(){const K=pick(KEYS.slice(0,6).concat(KEYS.slice(7))),SM="sammarka",kind=pick([SM,"samnefnd"]);const right=kind===SM?K.min+"-moll":K.maj.toLowerCase()+"-moll";
    const pool=[...new Set(KEYS.map(x=>x.min+"-moll").concat(KEYS.map(x=>x.maj.toLowerCase()+"-moll")))];
    return {q:`Hver er <b>${kind}</b> molltóntegund ${K.maj}-dúrs?`,options:opts4(right,pool),answer:right,explain:kind===SM?`Sömu formerki og ${K.maj}-dúr: ${right}.`:`Sami frumtónn: ${right}.`};}},
  mCad:{kind:"Tónheyrn",title:"Niðurlög eftir heyrn",intro:"Hlustaðu á endinn. Aðalendi: V → I. Hálfendi: endar á V. Kirkjuendi: IV → I. Gabbendi: V → VI.",
@@ -4060,12 +4078,12 @@ const LVL_LOTUR={
    ck:["Ég kann fimmundahringinn og allar dúr- og molltóntegundir.","Ég veit hvað sammarka og samnefndar tóntegundir eru.","Ég kann heitin frumtónn, undirfortónn, fortónn og leiðsögutónn."]},
   {t:"Þrenns konar moll",d:"Hreinn · hljómhæfur · laghæfur",c:"--snare",lead:"Moll er til í þremur útgáfum. Munurinn liggur í 6. og 7. tóni.",
    cc:[["Hreinn moll","Fylgir formerkjunum alla leið, t.d. a h c d e f g a."],["Hljómhæfur moll","7. tónn hækkaður um hálftón (gís í a-moll). Þá verður til leiðsögutónn."],["Laghæfur moll","6. og 7. tónn hækkaðir á leiðinni upp (fís, gís), en á leiðinni niður er hann eins og hreinn moll."]],
-   ex:["mMinor","mScaleEar",{w:"mWMinor"}],
+   ex:["mMinor","mScaleEar",{w:"mWMinor"}],deep:"moll",
    sb:["Skrifaðu e-moll og d-moll í öllum þremur útgáfunum."],
    ck:["Ég veit hvernig hreinn, hljómhæfur og laghæfur moll eru byggðir.","Ég þekki þá í sundur á blaði og eftir heyrn."]},
   {t:"Fleiri tónstigar",d:"Kirkjutóntegundir · pentatónískur · heiltóna · krómatískur",c:"--snare",lead:"Kirkjutóntegundir, pentatónískur, heiltóna og krómatískur tónstigi.",
    cc:[["Kirkjutóntegundir","Hvítu nóturnar frá ólíkum byrjunartóni: dórísk (d), frýgísk (e), lýdísk (f), mixólýdísk (g), eólísk (a), lókrísk (h) og jónísk (c)."],["Pentatónískur","Fimm tónar, engir hálftónar: c d e g a."],["Heiltóna og krómatískur","Heiltóna: bara heiltónar (c d e fís gís aís). Krómatískur: allir tólf hálftónarnir."]],
-   ex:["mMode","mScaleEar"],
+   ex:["mMode","mScaleEar"],deep:"modes",
    sb:["Skrifaðu dóríska tóntegund frá d og lýdíska frá f. Merktu hálftónana."],
    ck:["Ég þekki dóríska og lýdíska tóntegund og veit hvernig kirkjutóntegundir eru byggðar.","Ég þekki pentatónískan, heiltóna og krómatískan tónstiga á blaði og eftir heyrn."]},
   {t:"Öll tónbil innan áttundar",d:"Hrein · stór · lítil · stækkuð · minnkuð",c:"--hat",lead:"Þú þekkir nú öll tónbil innan áttundar, á blaði og eftir heyrn, og getur sungið þau.",
@@ -4302,7 +4320,7 @@ LVL_LOTUR.mr=[
   sb:["Skrifaðu tveggja takta hryndæmi í 4/4 með tveimur synkópum og einni bindingu yfir taktstrik.","Útskýrðu muninn á 3/4 og 6/8."],
   ck:["Ég les og klappa hryndæmi með synkópum og bindingum.","Ég þekki 2/4, 3/4, 4/4 og 6/8 eftir heyrn.","Ég hef kynnst 5/4, 7/8 og 12/8."]},
  {t:"Tóntegundir",d:"Fimmundahringurinn · samnefndar og samhljóða · grunntónn og leiðsögutónn · tónflutningur",c:"--snare",lead:"Allur fimmundahringurinn í dúr og moll. Þú lærir líka að tónflytja laglínu í aðra tóntegund.",
-  cc:[["Samhljóða tóntegundir","Sömu formerki, ólíkur frumtónn: C-dúr og a-moll. (Í klassísku námi: sammarka.)"],["Samnefndar tóntegundir","Sami frumtónn, ólík formerki: C-dúr og c-moll."],["Leiðsögutónn","7. tónninn, hálftón undir grunntóninum. Hann togar upp í grunntóninn."]],
+  cc:[["Sammarka og samnefndar","Sammarka: sömu formerki, ólíkur frumtónn (C-dúr og a-moll). Samnefndar: sami frumtónn, ólík formerki (C-dúr og c-moll)."],["Samhljóða tóntegundir","Hljóma eins en eru skrifaðar á ólíkan hátt: Fís-dúr (6 krossar) og Ges-dúr (6 bé)."],["Leiðsögutónn","7. tónninn, hálftón undir grunntóninum. Hann togar upp í grunntóninn."]],
   ex:["mKeyRead","mRel","mDegree","mTranspose"],
   sb:["Teiknaðu fimmundahringinn með öllum dúr- og molltóntegundum.","Tónflyttu stutta laglínu úr C-dúr í F-dúr og G-dúr."],
   ck:["Ég þekki allar dúr- og molltóntegundir af formerkjum.","Ég veit hvað samnefndar og samhljóða tóntegundir eru.","Ég get tónflutt einfalda laglínu."]},
@@ -4313,12 +4331,12 @@ LVL_LOTUR.mr=[
   ck:["Ég greini öll tónbil innan áttundar á blaði.","Ég greini tónbil eftir heyrn.","Ég syng tónbil upp og niður."]},
  {t:"Kirkjutóntegundir",d:"Jónísk, dórísk, frýgísk, lýdísk, mixólýdísk, eólísk og lókrísk",c:"--snare",lead:"Kirkjutóntegundirnar eru grunnurinn að spuna í djassi og rokki. Hver hljómgerð á sér tóntegund sem passar við hana.",
   cc:[["Sjö tónstigar","Spilaðu hvítu nóturnar frá c: jónísk. Frá d: dórísk. Frá e: frýgísk. Frá f: lýdísk. Frá g: mixólýdísk. Frá a: eólísk. Frá h: lókrísk."],["Dúr eða moll?","Jónísk, lýdísk og mixólýdísk hafa stóra þríund. Dórísk, frýgísk, eólísk og lókrísk hafa litla þríund."],["Einkennistónninn","Dórísk = moll með stórri sexund. Mixólýdísk = dúr með lítilli sjöund. Lýdísk = dúr með stækkaðri ferund."]],
-  ex:["mMode","rModes","rModeEar"],
+  ex:["mMode","rModes","rModeEar"],deep:"modes",
   sb:["Skrifaðu alla sjö tónstigana frá c og merktu hálftónaskrefin.","Skrifaðu hvaða einkennistónn greinir hvern tónstiga frá dúr eða moll."],
   ck:["Ég þekki alla sjö tónstigana.","Ég þekki einkennistón hvers tónstiga.","Ég heyri muninn á dórískri, mixólýdískri og lýdískri tóntegund."]},
  {t:"Pentatónískur og blús",d:"Dúr- og moll-pentatónískur · blússkalinn · 12 takta blús · spuni",c:"--snare",lead:"Blúsinn er undirstaða djass, rokks og popps. Þú lærir formið, skalana og byrjar að spinna.",
   cc:[["Moll-pentatónískur","Fimm tónar: 1 ♭3 4 5 ♭7. Í a: a c d e g."],["Blússkalinn","Moll-pentatónískur með ♭5 (blúsnótunni). Í c: c es f fís g b."],["12 takta blús","I7 (4 taktar) – IV7 (2) – I7 (2) – V7 – IV7 – I7 – I7 (eða V7). Allir hljómarnir eru forhljómar."]],
-  ex:["rBluesScale","rBlues",{pa:"blues"}],
+  ex:["rBluesScale","rBlues",{pa:"blues"}],deep:"penta",
   sb:["Skrifaðu 12 takta blús í F með hljómtáknum.","Skrifaðu blússkalann frá c og frá f."],
   ck:["Ég kann 12 takta blús utanað.","Ég þekki moll-pentatónískan og blússkalann.","Ég hef spunnið yfir blús."]},
  {t:"Hljómtákn og þríhljómar",d:"C, Cm, Cdim, C+, Csus4 · ólík kerfi · hljómhvörf",c:"--hat",lead:"Hljómtákn segja hvaða hljómur er spilaður. Í rytmísku námi notum við alþjóðleg heiti: <span class='no-hb'>h heitir B og b heitir B♭</span>.",
@@ -4352,7 +4370,7 @@ LVL_LOTUR.fr=[
   ck:["Ég finn alla spennutóna á sjöundarhljómi.","Ég veit hvaða spennutónar eiga við hverja hljómgerð."]},
  {t:"Tónstigar og hljómar",d:"Kirkjutóntegundir · djassmoll og tónstigar sem byggja á honum · minnkaðir og heiltóna",c:"--hat",lead:"Hver hljómur á sér tónstiga. Að kunna tengslin er grunnurinn að spuna.",
   cc:[["Úr dúr","IIm7 → dórísk, V7 → mixólýdísk, Imaj7 → jónísk, IVmaj7 → lýdísk, VIIm7♭5 → lókrísk."],["Úr djassmoll","m(maj7) → djassmoll, 7♯11 → lýdísk ♭7, 7alt → ólagaður tónstigi (byrjar á 7. tóni)."],["Samhverfir tónstigar","Heiltóna (7♯5) og minnkaðir: hálftóns-heiltóns (7♭9) og heiltóns-hálftóns (dim7)."]],
-  ex:["rChordScale","rJazzScales","rModeEar"],sb:["Skrifaðu tónstigann sem passar við hvern hljóm í II–V–I í C.","Skrifaðu djassmoll frá c og ólagaðan tónstiga frá h."],
+  ex:["rChordScale","rJazzScales","rModeEar"],deep:"djassmoll",sb:["Skrifaðu tónstigann sem passar við hvern hljóm í II–V–I í C.","Skrifaðu djassmoll frá c og ólagaðan tónstiga frá h."],
   ck:["Ég veit hvaða tónstigi passar við hverja hljómgerð.","Ég kann tónstigana sem byggja á djassmoll."]},
  {t:"Hljómagreining I",d:"Heimahljómar · II–V–I í dúr og moll · rómverskar tölur",c:"--snare",lead:"Að greina hljómagang: hvaða tóntegund, hvaða sæti, og hvar II–V-in eru.",
   cc:[["Heimahljómar","Í dúr: Imaj7 IIm7 IIIm7 IVmaj7 V7 VIm7 VIIm7♭5."],["II–V í moll","IIm7♭5 – V7(♭9) – Im6 eða Im(maj7)."],["Að finna II–V","Leitaðu að m7 sem fer upp um ferund í 7-hljóm. Þá ertu með II–V, oft í annarri tóntegund."]],
@@ -4416,6 +4434,73 @@ const EXAM_INTRO_FR=`<div class="summary" style="--c:var(--accent)"><h3>Svona er
      <li>Í alvöru prófinu fær hver grein sína einkunn (lágmark 6,0). Hér eru greinarnar saman í einu prófi.</li>
      <li>Verklegi hlutinn í djasshljómfræði, endurhljómsetning, tveggja radda laglína og hlustun á upptökur bætast við síðar.</li></ul></div></div>`;
 
+/* ============ KAFAÐ DÝPRA: tónstigakönnuður ============ */
+const SCX={
+ modes:{title:"Sjö tónstigar úr sömu nótunum",base:{li:0,semis:[0,2,4,5,7,9,11]},
+  lead:"Allir sjö tónstigarnir nota hvítu nóturnar. Mynstrið af heiltónum og hálftónum er alltaf það sama: 1 1 ½ 1 1 1 ½, aftur og aftur. Það eina sem breytist er hvar í mynstrinu þú byrjar. Þess vegna lenda hálftónarnir (bleikir) á nýjum stöðum í hverjum tónstiga.",
+  items:[{n:"Jónísk",deg:0,t:"dúr",d:"Dúr. Hálftónarnir eru á milli 3.–4. og 7.–8. tóns."},
+   {n:"Dórísk",deg:1,t:"moll",d:"Moll með stórri sexund. Hálftónar á milli 2.–3. og 6.–7. tóns. Dæmi: So What (Miles Davis) og Scarborough Fair.",ch:[5]},
+   {n:"Frýgísk",deg:2,t:"moll",d:"Moll með lítilli tvíund. Hálftónn strax á milli 1. og 2. tóns gefur spænskan blæ.",ch:[1]},
+   {n:"Lýdísk",deg:3,t:"dúr",d:"Dúr með stækkaðri ferund. Hálftónar á milli 4.–5. og 7.–8. tóns. Dæmi: stefið úr The Simpsons.",ch:[3]},
+   {n:"Mixólýdísk",deg:4,t:"dúr",d:"Dúr með lítilli sjöund. Hálftónar á milli 3.–4. og 6.–7. tóns. Passar við 7-hljóma. Dæmi: Norwegian Wood (Bítlarnir).",ch:[6]},
+   {n:"Eólísk",deg:5,t:"moll",d:"Hreinn moll. Hálftónar á milli 2.–3. og 5.–6. tóns."},
+   {n:"Lókrísk",deg:6,t:"moll",d:"Lítil tvíund og minnkuð fimmund. Hálftónar á milli 1.–2. og 4.–5. tóns. Passar við m7♭5.",ch:[1,4]}]},
+ penta:{title:"Pentatónískir tónstigar og blússkalinn",base:{li:0,semis:[0,2,4,7,9]},
+  lead:"Pentatónískur tónstigi hefur fimm tóna og enga hálftóna. Dúr- og moll-pentatónískur nota sömu nóturnar, rétt eins og kirkjutóntegundirnar: munurinn er hvar þú byrjar. Blússkalinn bætir einum tóni við moll-pentatónískan.",
+  items:[{n:"Dúr-pentatónískur",deg:0,t:"dúr",d:"Dúr án 4. og 7. tóns: 1 2 3 5 6. Engir hálftónar, svo nær ekkert getur hljómað rangt."},
+   {n:"Moll-pentatónískur",deg:4,t:"moll",d:"Sömu nótur, byrjað á 6. tóni dúrsins (a í C): 1 ♭3 4 5 ♭7. Algengasti spunaskalinn í blús og rokki."},
+   {n:"Blússkali",li:5,acc:0,semis:[0,3,5,6,7,10],t:"moll",d:"Moll-pentatónískur með ♭5, blúsnótunni, á milli 4. og 5. tóns. Þar koma tveir hálftónar í röð.",ch:[3]}]},
+ moll:{title:"Þrenns konar moll",v0:"Frá a",base:{li:5,semis:[0,2,3,5,7,8,10]},
+  lead:"Allir þrír molltónstigarnir byrja eins: 1 ½ 1 1. Munurinn er í 6. og 7. tóni. Fylgstu með því hvernig bleiku hálftónarnir og stóra 1½-skrefið færast til.",
+  items:[{n:"Hreinn moll",li:5,acc:0,semis:[0,2,3,5,7,8,10],t:"moll",d:"Fylgir formerkjunum: a h c d e f g a. Hálftónar á milli 2.–3. og 5.–6. tóns."},
+   {n:"Hljómhæfur moll",li:5,acc:0,semis:[0,2,3,5,7,8,11],t:"moll",d:"7. tónninn hækkaður (gís í a-moll). Þá verður til leiðsögutónn, en á milli 6. og 7. tóns kemur stórt 1½-skref.",ch:[6]},
+   {n:"Laghæfur moll",li:5,acc:0,semis:[0,2,3,5,7,9,11],down:[0,2,3,5,7,8,10,12],t:"moll",d:"6. og 7. tónn hækkaðir á leiðinni upp (fís og gís í a-moll). Á leiðinni niður er oftast leikinn hreinn moll.",ch:[5,6]}]},
+ djassmoll:{title:"Tónstigar sem byggja á djassmoll",base:{li:0,semis:[0,2,3,5,7,9,11]},
+  lead:"Djassmoll er dúr með lækkaðri þríund. Eins og með kirkjutóntegundirnar má byrja á hverjum tóni hans og fá nýjan tónstiga. Mynstrið 1 ½ 1 1 1 1 ½ helst það sama.",
+  items:[{n:"Djassmoll",deg:0,t:"moll",d:"Melódískur moll: 1 2 ♭3 4 5 6 7. Passar við m(maj7) og m6.",ch:[2]},
+   {n:"Dórísk ♭2",deg:1,t:"moll",d:"Byrjar á 2. tóni. Passar við sus(♭9)-hljóma."},
+   {n:"Lýdísk ♭7",deg:3,t:"dúr",d:"Byrjar á 4. tóni: lýdísk með lítilli sjöund. Passar við 7♯11.",ch:[3,6]},
+   {n:"Lókrísk ♮2",deg:5,t:"moll",d:"Byrjar á 6. tóni: lókrísk með stórri tvíund. Passar við m7♭5."},
+   {n:"Ólagaður tónstigi",deg:6,t:"moll",d:"Byrjar á 7. tóni. Allir spennutónar breyttir: passar við 7alt.",ch:[1,2,4,5]}]}};
+const scxRot=(semis,k)=>{const r=semis.slice(k).concat(semis.slice(0,k).map(x=>x+12));return r.map(x=>x-r[0]).concat([12]);};
+const scxStep=d=>d===1?"½":d===2?"1":d===3?"1½":String(d/2);
+function scxKb(ms,root){const W=22,lo=60,whites=[];let m=lo;while(whites.length<15){if(![1,3,6,8,10].includes(m%12))whites.push(m);m++;}const X={};let s="";
+  whites.forEach((w,i)=>{X[w]=8+i*W;const on=ms.includes(w);s+=`<rect data-m="${w}" x="${8+i*W}" y="4" width="${W-2}" height="70" rx="4" style="fill:${on?(w===root?PINK:"color-mix(in srgb,var(--accent) 30%,var(--surface))"):"var(--surface)"};stroke:color-mix(in srgb,var(--ink) 30%,transparent);cursor:pointer"/>`;});
+  whites.forEach(w=>{const b=w+1;if([1,3,6,8,10].includes(b%12)&&b<whites[whites.length-1]){const on=ms.includes(b);s+=`<rect data-m="${b}" x="${X[w]+W-8}" y="4" width="13" height="42" rx="3" style="fill:${on?(b===root?PINK:"color-mix(in srgb,var(--accent) 75%,var(--ink))"):"var(--ink)"};cursor:pointer"/>`;}});
+  return `<svg viewBox="0 0 ${16+15*W} 80" class="scx-kb" role="img" aria-label="Hljómborð">${s}</svg>`;}
+function mountScx(host,key){const F=SCX[key];let sel=0,par=false,drone=true;const baseRoot=dMidi(28+F.base.li,0);
+  const scaleOf=it=>{if(it.semis){const li=par?0:it.li,acc=par?0:it.acc;return {li,acc,semis:it.semis.concat([12])};}
+    const semis=scxRot(F.base.semis,it.deg);if(par)return {li:0,acc:0,semis};const li=(F.base.li+(F.base.semis.length===7?it.deg:[0,1,2,4,5][it.deg]))%7;return {li,acc:0,semis};};
+  const SPELL={"0,2,4,7,9,12":[0,1,2,4,5,7],"0,3,5,7,10,12":[0,2,3,4,6,7],"0,3,5,6,7,10,12":[0,2,3,3,4,6,7]};
+  const draw=()=>{const it=F.items[sel],S=scaleOf(it),root=dMidi(28+S.li,S.acc),ms=S.semis.map(x=>root+x);
+    /* nótur: stafsettar eftir stigum þegar sjö tónar, annars eftir hálftónum */
+    let ns;if(S.semis.length===8)ns=mkScaleR(S.li,S.acc,S.semis);else{const sp=SPELL[S.semis.join(",")];ns=S.semis.map((x,i)=>{const d=28+S.li+sp[i],a=(root+x)-dMidi(d,0);return {d,acc:a||null};});}
+    if(par&&it.ch)it.ch.forEach(k=>{if(ns[k])ns[k].col="hl";});
+    const steps=S.semis.slice(1).map((x,i)=>x-S.semis[i]);
+    /* hringmynstur: grunnstiginn tvisvar, gluggi yfir valinn tónstiga */
+    const bs=F.base.semis.concat([12]),bsteps=bs.slice(1).map((x,i)=>x-bs[i]),two=bsteps.concat(bsteps),blet=[...F.base.semis,...F.base.semis.map(x=>x+12),24].map(x=>baseRoot+x);
+    const nameOf=m=>{const pc=((m%12)+12)%12;const map={0:"c",2:"d",3:"es",4:"e",5:"f",7:"g",9:"a",11:"h",6:"fís",10:"b",1:"des",8:"as"};return map[pc];};
+    const inFam=it.deg!=null&&!par,win=inFam?it.deg:-1,nW=bsteps.length;
+    host.innerHTML=`<div class="ex-head"><div><span class="ex-kind">Kanna</span><h3>${F.title}</h3></div></div><p>${F.lead}</p>
+     <div class="seg scx-tabs" role="tablist">${F.items.map((x,i)=>`<button role="tab" data-i="${i}" aria-pressed="${i===sel}">${x.n}</button>`).join("")}</div>
+     <div class="row scx-opts"><div class="seg scx-view"><button data-p="0" aria-pressed="${!par}">${F.v0||(key==="modes"?"Á hvítu nótunum":"Úr sömu nótum")}</button><button data-p="1" aria-pressed="${par}">Allir frá c</button></div>
+       <label class="chk"><input type="checkbox" class="scx-dr" ${drone?"checked":""}> Grunntónn undir</label></div>
+     ${it.deg!=null?`<div class="scx-ring"><p class="muted">Mynstrið endurtekur sig. ${par?"Hér byrja allir tónstigarnir á c, svo formerkin breytast í stað byrjunartónsins.":"Glugginn sýnir hvaða hluti mynstursins er notaður."}</p><div class="scx-strip" style="--n:${nW}">${two.map((d,i)=>`<span class="st s${d}${i>=win&&i<win+nW&&inFam?" in":""}" style="--d:${d}"><b>${scxStep(d)}</b><i>${nameOf(blet[i])}</i></span>`).join("")}<span class="st end"><i>${nameOf(blet[two.length])}</i></span></div></div>`:""}
+     <div class="scx-main"><div class="scx-staff">${seqSvg(ns,{step:34,minW:320})}</div>
+       <div class="scx-steps">${steps.map((d,i)=>`<span class="sp s${d}"><em>${i+1}–${i+2}</em><b>${scxStep(d)}</b></span>`).join("")}</div>
+       ${scxKb(ms,root)}</div>
+     <div class="deepbox" style="--c:var(${it.t==="dúr"?"--hat":"--snare"})"><h3>${it.n} <span class="muted" style="font-weight:500">· ${it.t==="dúr"?"stór þríund":"lítil þríund"}</span></h3><p>${it.d}</p>${par&&it.ch?`<p>Einkennistónn${it.ch.length>1?"ar":""}: ${it.ch.map(k=>`<b>${nm(((ns[k].d%7)+7)%7,ns[k].acc||0)}</b>`).join(", ")} (bleikt á nótnastrengnum).</p>`:""}</div>
+     <div class="row"><button class="primary scx-play">▶ Hlusta</button><button class="scx-cmp">${it.t==="dúr"?"Bera saman við dúr":"Bera saman við hreinan moll"}</button></div>`;
+    host.querySelectorAll(".scx-tabs button").forEach(b=>b.onclick=()=>{sel=+b.dataset.i;draw();play();});
+    host.querySelectorAll(".scx-view button").forEach(b=>b.onclick=()=>{par=b.dataset.p==="1";draw();});
+    host.querySelector(".scx-dr").onchange=e=>{drone=e.target.checked;};
+    host.querySelectorAll(".scx-kb rect").forEach(r=>r.onclick=()=>{stopAll();tone(+r.dataset.m,now(),0.6,0.22);});
+    host.querySelector(".scx-play").onclick=play;
+    host.querySelector(".scx-cmp").onclick=()=>{const ref=it.t==="dúr"?[0,2,4,5,7,9,11,12]:[0,2,3,5,7,8,10,12];stopAll();const t=now();ref.forEach((x,i)=>tone(root+x,t+i*0.28,0.26,0.2));S.semis.forEach((x,i)=>tone(root+x,t+2.6+i*0.28,0.26,0.22));};
+    function play(){stopAll();const t=now(),sp=0.3,seq=ms.concat((it.down?it.down.map(x=>root+x):ms).slice(0,-1).reverse());if(drone){tone(root-12,t,seq.length*sp+0.6,0.09);tone(root-5,t,seq.length*sp+0.6,0.05);}seq.forEach((m,i)=>tone(m,t+i*sp,sp*0.92,0.22));}
+    host._play=play;};
+  draw();}
+
 /* ---------- framvinda (gátlistar) ---------- */
 const lvChecks=()=>store.get("lvChecks")||{};
 function lvProg(lv,n){const L=LVL_LOTUR[lv][n-1],c=lvChecks();const d=L.ck.filter((_,i)=>c[`${lv}${n}_${i}`]).length;return [d,L.ck.length];}
@@ -4451,6 +4536,7 @@ function lvLotaRender(lv,n){const box=document.getElementById("lvLota"),LL=LVL_L
     ["Lestu, hlustaðu og svaraðu","Æfingar","--snare",exHtml],
     ["Glósur","Í stílabókina","--open",`<ul class="lv-sb">${L.sb.map(x=>`<li>${x}</li>`).join("")}</ul>`],
     ["Sjálfsmat","Hvað kann ég?","--perc",`<ul class="checklist">${L.ck.map((x,i)=>`<li><label for="lvc${lv}${n}_${i}"><input type="checkbox" id="lvc${lv}${n}_${i}" data-k="${lv}${n}_${i}" ${c[`${lv}${n}_${i}`]?"checked":""}><span>${x}</span></label></li>`).join("")}</ul>`]];
+  if(L.deep)bands.push(["Skoðaðu og hlustaðu","Kafað dýpra","--amb",`<div class="ex scx" id="${lv}${n}_deep"></div>`]);
   box.innerHTML=`<div class="lesson"><header class="lhero" style="--c:var(${ph.c})"><div class="lhero-art" aria-hidden="true">${ART[ph.art]()}</div><div class="lhero-num" aria-hidden="true">${n}</div>
     <div class="lhero-txt"><p class="eyebrow">${LV[lv].n} · Lota ${n} af ${LL.length} · ${ph.name}</p><h1>${L.t}</h1><p class="lead2">${L.lead}</p></div></header>
     <nav class="stoc" aria-label="Hlutar lotunnar">${bands.map((b,i)=>`<button type="button" data-go="lvb${i}" style="--c:var(${b[2]})"><i>${i+1}</i>${b[1]}</button>`).join("")}</nav>
@@ -4460,6 +4546,7 @@ function lvLotaRender(lv,n){const box=document.getElementById("lvLota"),LL=LVL_L
   box.querySelectorAll(".stoc button").forEach(b=>b.onclick=()=>document.getElementById(b.dataset.go).scrollIntoView({behavior:"smooth"}));
   L.ex.forEach((e,i)=>{if(e&&e.tap){const host=document.getElementById(`${lv}${n}_tap${i}`);if(host)mountTap(host,{mode:e.tap,title:e.t,gen:e.g68?()=>({n:3,bars:[bar68(),bar68()],c68:1}):e.trip?()=>({n:2,bars:genTrip(2)}):()=>{const k=pick([2,4]);return {n:k,bars:genSync(k)};}});}});
   L.ex.forEach(e=>{if(e&&e.w){const W=LVW[e.w],host=document.getElementById(`${lv}${n}_${e.w}`);if(W&&host)wex(host,{key:`${lv}${n}_${e.w}`,kind:"Nótnaskrift",title:W.title,intro:W.intro,gen:W.gen});}});
+  if(L.deep){const host=document.getElementById(`${lv}${n}_deep`);if(host)mountScx(host,L.deep);}
   L.ex.forEach((e,i)=>{if(e&&e.pa){const host=document.getElementById(`${lv}${n}_pa${i}`);if(host)mountPA(host,{prog:e.pa});}});
   L.ex.forEach((e,i)=>{if(e&&e.sing){const host=document.getElementById(`${lv}${n}_sing${i}`);if(host)lvSingInt(host,e.sing,e.t);}});
   L.ex.forEach(e=>{if(typeof e!=="string")return;const g=LVGEN[e],host=document.getElementById(`${lv}${n}_${e}`);if(g&&host)quiz(host,{kind:g.kind,title:g.title,intro:g.intro,gen:g.gen});});
